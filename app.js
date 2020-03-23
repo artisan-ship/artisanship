@@ -15,7 +15,7 @@ var indexRoutes = require('./routes/index')
 var adminRoutes = require('./routes/admin')
 var merchantRoutes = require('./routes/merchants')
 var collectionRoutes = require('./routes/collections')
-
+var UserInfo = require('./models/user_info');
 
 
 
@@ -65,7 +65,6 @@ function isLoggedIn(req, res, next){
 	
 	res.redirect("/login");
 }
-
 
 
 
