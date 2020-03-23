@@ -1,70 +1,71 @@
 <%- include('../../partials/header') %>
 
     <div class="pusher">
-        <div class="ui centered text container">
+        <div class="ui centered container">
+            <div class="ui centered raised segment" id="productPageSegment">
+                <div class="ui centered grid">
+                    <div class="ten wide column">
+                        <div class="container" style="">
+                     
 
-            <div class="ui centered grid">
-                <div class="eight wide column">
-                    <div class="container" style="margin-top: 100px;">
-						<br>
+                            <img class="ui fluid  image" src="<%= product.image %>">
 
-                            <img class="ui fluid bordered image" src="<%= product.image %>">
-                   
+                        </div>
 
                     </div>
+                    <div class="six wide column">
+                        <div class="container">
 
-                </div>
-                <div class="eight wide column">
-                    <div class="container">
+                            <div class="ui  segment">
+                                <h1 class="ui header">
+                                    <%= product.title %>
+                                </h1>
 
-                        <div class="ui raised segment">
-                            <h1 class="ui header">
-                                <%= product.title %>
-                            </h1>
-							
-							    <form action="/collections/<%- product._id %>/products" method="POST">
-									<input type="hidden" name="id" value="<%= product._id %>" >
+                                <form action="/collections/<%- product._id %>/products" method="POST">
+                                    <input type="hidden" name="id" value="<%= product._id %>">
                                     <button class="ui button blue" href="#">
                                         Add product
                                     </button>
                                 </form>
 
-                            <h4 class="ui header">
-                                $
-                                <%= product.price %>
-                            </h4>
+                                <h4 class="ui header">
+                                    $
+                                    <%= product.price %>
+                                </h4>
 
-                            <h4 class="ui horizontal divider header">
-                                <i class="bar chart icon"></i>
-                                Specifications
-                            </h4>
-                            <table class="ui definition table">
-                                <tbody>
-                                    <tr>
-                                        <td class="two wide column">Size</td>
-                                        <td>1" x 2"</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Weight</td>
-                                        <td>6 ounces</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Color</td>
-                                        <td>Yellowish</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Odor</td>
-                                        <td>Not Much Usually</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <h4 class="ui horizontal divider header">
+                                    <i class="bar chart icon"></i>
+                                    Specifications
+                                </h4>
+                                <table class="ui definition table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="two wide column">Size</td>
+                                            <td>1" x 2"</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weight</td>
+                                            <td>6 ounces</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Color</td>
+                                            <td>Yellowish</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Odor</td>
+                                            <td>Not Much Usually</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
 
                         </div>
 
                     </div>
 
                 </div>
-
+                <%- include('../../partials/comments') %>
             </div>
         </div>
     </div>

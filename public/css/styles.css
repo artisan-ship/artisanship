@@ -8,11 +8,18 @@
 	display:inline;
 }
 
+
+#productPageSegment{
+	
+	height: 100%;
+	margin: 50px 0;
+}
+
 .container{
 	margin-top: 50px;
 }
 
 .card{
-	margin-top: 150px !important;
+margin-top: 10px;
 
 }
