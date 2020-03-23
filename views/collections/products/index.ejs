@@ -1,0 +1,75 @@
+<%- include('../../partials/header') %>
+
+    <div class="ui center aligned container">
+		<img src="<%= creator.company.logo %>" width="100px">
+
+        <h2 class="ui center aligned icon header">
+          
+            <%= creator.company.title %>
+        </h2>
+
+        <h4 class="ui center aligned icon header">
+            Our Creators
+        </h4>
+        <div class="ui horizontal list">
+			
+			<% creator.creators.forEach(function(creator){ %>
+				         <div class="item">
+                <img class="ui mini circular image" src="/images/avatar2/small/molly.png">
+                <div class="content">
+                    <div class="ui sub header"><%= creator.username %> </div>
+           
+                </div>
+				
+			<% }) %>
+           
+        </div>
+
+        <div class="ui vertical stripe segment ">
+            <div class="ui grid container">
+                <% for( var i = 0; i < creator.Products.length; i++) { %>
+                    <div class="four wide column centered ">
+                        <div class="ui card">
+                            <div class="image">
+                                <img src="<%= creator.Products[i].image %>">
+                            </div>
+                            <div class="content">
+                                <a class="header">
+                                   <a href="/collections/<%= creator._id %>/products/<%= creator.Products[i].id %>">
+									   <%= creator.Products[i].title %>
+									   </a> 
+                                </a>
+                                <div class="meta">
+                                    <span class="date">Joined in 2013</span>
+                                </div>
+                                <div class="description">
+
+                                    <h4 class="header">
+                                        <%= creator.Products[i].body.substring(0,50)%>...</h4>
+                                </div>
+                                <div class="item">
+
+                                    <p class="text">
+                                        <%= creator.Products[i].created.toDateString().substring(3) %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                <form action="/collections/<%- creator._id %>/products" method="POST">
+									<input type="hidden" name="id" value="<%= creator.Products[i]._id %>" >
+                                    <button class="ui button blue" href="#">
+                                        Add product
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <% }; %>
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('../../partials/footer') %>

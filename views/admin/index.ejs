@@ -1,0 +1,146 @@
+<%- include('../partials/header') %>
+
+    <div class="ui center aligned container">
+
+        <h2 class="ui center aligned icon header">
+            <i class="circular users icon"></i>
+            <%= creator[0].company.title %>
+        </h2>
+
+        <h4 class="ui center aligned icon header">
+            Our Creators
+        </h4>
+        <div class="ui horizontal list">
+            <div class="item">
+                <img class="ui mini circular image" src="/images/avatar2/small/molly.png">
+                <div class="content">
+                    <div class="ui sub header">Molly</div>
+                    Woodworker
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui mini circular image" src="/images/avatar2/small/elyse.png">
+                <div class="content">
+                    <div class="ui sub header">Elyse</div>
+                    Leatherworker
+                </div>
+            </div>
+            <div class="item">
+                <img src="/images/avatar2/small/eve.png" class="ui mini circular image">
+                <div class="content">
+                    <div class="ui sub header">Eve</div>
+                    CNC operator
+                </div>
+            </div>
+        </div>
+
+        <div class="ui raised segment">
+
+            <div class="ui four statistics">
+                <div class="statistic">
+                    <div class="value">
+               3
+                    </div>
+                    <div class="label">
+                  [products]
+						
+                    </div>
+                </div>
+                <div class="statistic">
+                    <div class="text value">
+                        two
+                        <br> hundered
+                    </div>
+                    <div class="label">
+                        Completed orders
+                    </div>
+                </div>
+                <div class="statistic">
+                    <div class="value">
+                       5
+                    </div>
+                    <div class="label">
+                        Pending orders
+                    </div>
+                </div>
+                <div class="statistic">
+                    <div class="value">
+                        <i class="users icon"></i>  42
+                    </div>
+                    <div class="label">
+                        Connected Merchants
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui horizontal segments">
+            <div class="ui segment">
+                <p>
+                    <h2 class="ui header">
+                        <i class="home icon"></i>
+                        <div class="content">
+                            Company Settings
+                            <div class="sub header">Manage your company and team</div>
+                        </div>
+                    </h2>
+
+                </p>
+            </div>
+            <div class="ui segment">
+                <p>
+
+                    <h2 class="ui header">
+                        <i class="tags icon"></i>
+                        <div class="content">
+                           <a href="/admin/products">  Products
+                            <div class="sub header">Create, update and remove products</div>
+							   </a>
+                        </div>
+                    </h2>
+
+                </p>
+            </div>
+            <div class="ui segment">
+                <p>
+                    <h2 class="ui header">
+                        <i class="truck icon"></i>
+                        <div class="content">
+                            Orders
+                            <div class="sub header">Manage your orders</div>
+                        </div>
+                    </h2>
+
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ui container centered">
+        <div class="ui horizontal segments">
+            <div class="ui segment">
+                <h4>Total Products</h4>
+                <p>
+        
+                </p>
+            </div>
+            <div class="ui segment">
+                <h4>Collections</h4>
+                <select class="ui dropdown">
+                    <option value="">Collections</option>
+                    <option value="1">Shoes</option>
+                    <option value="0">Hats</option>
+                </select>
+            </div>
+            <div class="ui segment">
+                <a href="admin/<%= creator[0]._id %>/products/new" class="ui primary basic button">Add new product</a>
+            </div>
+        </div>
+
+ 
+
+        </div>
+
+        <%- include('../partials/footer') %>

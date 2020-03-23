@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,500,600,700&display=swap');
+
+#indexContainer {
+	margin: 50px;
+}
+
+#ProductDeleteFormBtn{
+	display:inline;
+}
+
+.container{
+	margin-top: 50px;
+}
+
+.card{
+	margin-top: 150px !important;
+
+}

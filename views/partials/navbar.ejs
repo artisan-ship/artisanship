@@ -1,0 +1,31 @@
+<div class="ui container borderless ">
+    <div class="ui borderless large secondary inverted pointing  menu">
+        <a class="toc item">
+            <i class="sidebar icon"></i>
+        </a>
+        <div class="left item">
+            <a href="/" class="header item">ARTISANSHIP</a>
+            <a class="item"></a>
+        </div>
+
+        <div class="right item">
+            <a class="active item">Home</a>
+            <a class="item">Work</a>
+            <a class="item">Company</a>
+            <a class="item">About</a>
+			<% if(!currentUser){ %>
+		    <a href="/login" class="ui inverted button">Login</a>
+            <a href="/register" class="ui inverted button">Sign Up</a>
+				
+			<%} else { %>
+		    <a class="item">
+				<strong>
+				  <i class="user  icon"></i>
+				<%= currentUser.username %> </strong>
+				  </a> 
+			<a href="/logout" class="item"><strong><i class="sign-out  icon"></i></strong></a>
+			<% } %>
+         
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="ui vertical stripe segment ">
+  <div class="ui grid container">
+    <% for( var i = 0; i < 3; i++) { %>
+    <div class="four wide column centered ">
+      <div class="ui card">
+        <div class="image">
+          <img src="/images/avatar2/large/kristy.png">
+        </div>
+        <div class="content">
+          <a class="header"><%= products[i].title %></a>
+          <div class="meta">
+            <span class="date">Joined in 2013</span>
+          </div>
+          <div class="description">
+            <%= " $" + products[i].price + " " + products[i].department%>
+          </div>
+        </div>
+        <div class="extra content">
+          <a>
+            <i class="user icon"></i>
+            <%=  products[i].company %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <% }; %>
+  </div>
+</div>

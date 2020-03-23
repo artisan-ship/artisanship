@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+
+    <div class="ui center aligned container">
+
+        <div class="ui vertical stripe segment ">
+            <div class="ui grid container">
+                <% for( var i = 0; i < creators.length; i++) { %>
+                    <div class="four wide column centered ">
+                        <div class="ui card">
+                            <div class="image">
+                                <img src="<%= creators[i].company.logo %>">
+                            </div>
+                            <div class="content">
+                                <a class="header">
+                                    <%= creators[i].company.title %>
+                                </a>
+                                <div class="meta">
+                                    <span class="date">Joined in 2013</span>
+                                </div>
+                                <div class="description">
+                           
+                                </div>
+								<a class="ui blue button" href="/collections/<%= creators[i]._id %>/products"class="item">
+								  Show Products
+								</a>
+                            </div>
+                            <div class="extra content">
+                                <a>
+                                    <i class="user icon"></i>
+                                
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% }; %>
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('../partials/footer') %>
