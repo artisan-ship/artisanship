@@ -29,6 +29,58 @@
                             <input type="password" name="password" placeholder="Password">
                         </div>
                     </div>
+
+                    <div class="ui form">
+                        <div class="fields">
+                            <div class="field">
+                                <input type="text" name="register[first_name]" placeholder="First Name">
+                            </div>
+                            <div class="field">
+                                <input type="text" name="register[middle_name]" placeholder="Middle Name">
+                            </div>
+                            <div class="field">
+                                <input type="text" name="register[last_name]" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="inline fields">
+                            <label for="fruit">I am a:</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="register[type]" value="creator" checked="" tabindex="0" class="hidden">
+
+                                    <label>Creator</label>
+                                </div>
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="register[type]" value="merchant" tabindex="0" class="hidden">
+
+                                    <label>Merchant</label>
+                                </div>
+                            </div>
+                        </div>
+                               <div class="fields">
+                            <div class="field">
+                                <input type="text" name="register[role]" placeholder="Role">
+                            </div>
+                     
+                            <div class="field">
+                                <input type="text" name="register[motto]" placeholder="motto">
+                            </div>
+                        </div>
+                    </div>
+			
+
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="mail icon"></i>
+                            <input type="text" name="register[email]" placeholder="email">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="camera icon"></i>
+                            <input type="password" name="register[avatar]" placeholder="user image">
+                        </div>
+                    </div>
                     <button class="ui fluid large grey submit button" type="submit">Sign up</button>
                 </div>
 
@@ -42,3 +94,8 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('.ui.radio.checkbox')
+            .checkbox();
+    </script>

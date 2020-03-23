@@ -21,7 +21,7 @@ var collectionRoutes = require('./routes/collections')
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/products', {useNewUrlParser: true,  useUnifiedTopology : true});
+mongoose.connect('mongodb://localhost/artisanship', {useNewUrlParser: true,  useUnifiedTopology : true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs")
 
