@@ -1,12 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,500,600,700&display=swap');
+
 body {
-    background-color: #DADADA !important;
-  }
-  body > .grid {
+    font-family: 'Josefin Sans', sans-serif;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+        86deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(199, 186, 217, 1) 52%,
+        rgba(95, 176, 201, 1) 100%
+    );
+}
+body > .grid {
     height: 100%;
-  }
-  .image {
+}
+.image {
     margin-top: -100px;
-  }
-  .column {
+}
+.column {
     max-width: 450px;
-  }
+}
+
+.segment h2 .content{
+	font-family: 'Josefin Sans', sans-serif !important;
+	font-size :35px !important;
+	color: #414241 !important;
+	padding: 20px;
+}
