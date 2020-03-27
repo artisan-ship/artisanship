@@ -1,10 +1,31 @@
 <%- include('../partials/header') %>
 
-    <div class="ui center aligned container">
 
+
+<% if(! creator[0]){ %>
+<div class="ui container">
+	<div class="ui raised segment">
+		<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="rocket icon"></i>
+    You have not yet created a company..
+  </div>
+  <a href="/admin/company/new" class="ui primary button">Create Company</a>
+</div>
+	</div>
+</div>
+
+
+<% }else{ %>
+	<div class="ui center aligned container">
+
+			        <img class="ui centered small rounded image" src="<%= creator[0].company.logo %>">
+	
+    
         <h2 class="ui center aligned icon header">
-            <i class="circular users icon"></i>
-            <%= creator[0].company.title %>
+
+
+          <%= creator[0].company.title %>
         </h2>
 
         <h4 class="ui center aligned icon header">
@@ -143,4 +164,8 @@
 
         </div>
 
+	
+	
+<% } %>
+    
         <%- include('../partials/footer') %>

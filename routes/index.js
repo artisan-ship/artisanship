@@ -40,20 +40,15 @@ router.post('/register', function(req, res) {
             console.log(err);
             return res.render('register');
         }
-        passport.authenticate('local')(req, res, function() {
+      
             UserInfo.create(req.body.register, function(err, newUser) {
                 if (err) {
                     console.log('break down');
                 } else {
-              
-                    newUser.user.id = req.user._id;
-                    newUser.user.username = req.user.username;
-                    newUser.save();
-
                     res.redirect('/');
                 }
             });
-        });
+    
     });
 });
 

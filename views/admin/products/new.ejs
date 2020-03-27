@@ -1,36 +1,69 @@
 <%- include('../../partials/header') %>
 
-    <div class="ui main text container segment">
-        <div class="ui huge header"> Create New a Product</div>
-        <form class="ui form" action="/admin/<%= creator[0]._id %>/products" method="POST">
-            <div class="field">
-                <label>Title</label>
-                <input type="text" name="title" placeholder="title">
-            </div>
-            <div class="field">
-                <label>price</label>
-                <input type="text" name="price" placeholder="price">
-            </div>
-            <div class="field">
-                <label>Vendor</label>
-                <input type="text" name="vendor" placeholder="vendor">
-            </div>
-            <div class="field">
-                <label>Image</label>
-                <input type="text" name="image" placeholder="image url">
-            </div>
-            <div class="field">
-                <label>Tags</label>
-                <input type="text" name="tags" placeholder="tags">
-            </div>
-            <div class="field">
-                <label></label>
-                <textarea name="body" required></textarea>
-            </div>
+	<div class="ui main text container segment">
 
-            <button class="ui basic button" type="submit">
-                <i class="edit icon"></i> Add Product </button>
-        </form>
-    </div>
+		<div class="ui huge header"> Create A New Product</div>
+		<form class="ui form" action="/admin/<%= creator[0]._id %>/products" method="POST">
+			<div class="field">
+				<label>Title</label>
+				<input type="text" name="title" placeholder="title">
+			</div>
+			<div class="field">
+				<label>Price</label>
+				<input type="text" name="price" placeholder="price">
+			</div>
+			<div class="field">
+				<label>Recommended Retail Price</label>
+				<input type="text" name="retail_price" placeholder="retail price">
+			</div>
+			<div class="field">
+				<label>Vendor</label>
+				<input type="text" name="vendor" placeholder="<%= creator[0].company.title %>">
+			</div>
 
-    <%- include('../../partials/footer') %>
+			<div class="field">
+				<label>Collection</label>
+				<select class="ui fluid dropdown">
+					<% collections.collections.forEach(function(collection){ %>
+						<option value="<%= collection %>">
+							<%= collection %>
+						</option>
+						<% }) %>
+
+				</select>
+			</div>
+			<div class="field">
+				<label>Image</label>
+				<input type="text" name="image" placeholder="image url">
+			</div>
+			<div class="field">
+				<label>Tags</label>
+				<input type="text" name="tags" placeholder="Tags">
+			</div>
+			<div class="field">
+				<label>Weight</label>
+				<input type="text" name="weight" placeholder="Weight in lbs">
+			</div>
+			<div class="field">
+				<label>Shipping Cost</label>
+				<input type="text" name="shipping" placeholder="Shipping Cost">
+			</div>
+			<div class="field">
+				<label>Estimated Delivery Time</label>
+				<input type="text" name="delivery_time" placeholder="Estimated Delivery Time">
+			</div>
+			<div class="field">
+				<label>Production Time</label>
+				<input type="text" name="production_time" placeholder="Production Time">
+			</div>
+			<div class="field">
+				<label></label>
+				<textarea name="body" required></textarea>
+			</div>
+
+			<button class="ui basic button" type="submit">
+				<i class="edit icon"></i> Add Product </button>
+		</form>
+	</div>
+
+	<%- include('../../partials/footer') %>
