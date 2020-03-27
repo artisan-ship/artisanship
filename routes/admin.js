@@ -164,6 +164,13 @@ router.post('/admin/:id/products', function(req, res) {
 	var price = req.body.price;
 	var vendor = req.body.vendor;
 	var tags = req.body.tags;
+	var collection = req.body.collection;
+	var retailPrice = req.body.retail_price;
+	var inventory = req.body.inventory;
+	var shipping = req.body.shipping;
+	var deliveryTime = req.body.delivery_time;
+	var productionTime = req.body.production_time;
+	var weight = req.body.weight;
 	var image = req.body.image;
 	// to do var handle = title.
 	var body = req.body.body;
@@ -175,11 +182,19 @@ router.post('/admin/:id/products', function(req, res) {
 	var newProduct = {
 		title: title,
 		price: price,
+		retail_price: retailPrice,
 		vendor: vendor,
 		tags: tags,
 		image: image,
 		body: body,
-		creator: creator
+		creator: creator,
+		weight: weight,
+		collections: collection,
+		weight: weight,
+		production_time: productionTime,
+		inventory: inventory,
+		delivery_time: deliveryTime,
+		shipping: shipping
 	};
 
 	var companyId = req.params.id;

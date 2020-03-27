@@ -25,7 +25,7 @@
 				<label>Collection</label>
 				<select class="ui fluid dropdown">
 					<% collections.collections.forEach(function(collection){ %>
-						<option value="<%= collection %>">
+						<option name="collection" value="<%= collection %>">
 							<%= collection %>
 						</option>
 						<% }) %>
@@ -55,6 +55,10 @@
 			<div class="field">
 				<label>Production Time</label>
 				<input type="text" name="production_time" placeholder="Production Time">
+			</div>
+				<div class="field">
+				<label>Inventory</label>
+				<input type="text" name="inventory" placeholder="Inventory">
 			</div>
 			<div class="field">
 				<label></label>

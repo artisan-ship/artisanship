@@ -1,32 +1,35 @@
-var mongoose =require('mongoose');
+var mongoose = require('mongoose');
 
 // create new random product
 var productSchema = new mongoose.Schema({
 	handle: String,
-    title: String,
-    price: String,
+	title: String,
+	price: String,
+	retail_price: String,
 	body: String,
-    vendor: String,
-    image: String,
+	vendor: String,
+	image: String,
 	tags: String,
-	created: {type: Date, default: Date.now},
+	collections: String,
+	weight: String,
+	production_time: String,
+	inventory: String,
+	delivery_time: String,
+	shipping: String,
+	created: { type: Date, default: Date.now },
 	creator: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
-		 ref: "User"
-			
+			ref: 'User'
 		},
 		username: String
-		
 	},
 	comments: [
-		{type: mongoose.Schema.Types.ObjectId,
-		 ref: "Comment"
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment'
 		}
-		
 	]
-	
-
 });
 
-module.exports = mongoose.model('Product', productSchema) ;
+module.exports = mongoose.model('Product', productSchema);
