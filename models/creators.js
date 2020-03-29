@@ -21,6 +21,12 @@ var creatorSchema = new mongoose.Schema({
             username: String
         }
     ],
+	 orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Order'
+        }
+    ],
 
     comments: [
         {
@@ -28,7 +34,7 @@ var creatorSchema = new mongoose.Schema({
             ref: 'Comment'
         }
     ],
-	Products: [
+	products: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'

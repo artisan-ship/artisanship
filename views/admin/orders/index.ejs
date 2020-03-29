@@ -1,0 +1,91 @@
+<%- include('../../partials/header') %>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<div class="ui container">
+		<div class="ui raised segment">
+			
+
+			<h2>
+				Orders
+			</h2>
+			<table class="ui very padded table">
+				<thead>
+					<tr>
+						<th>Order Number</th>
+						<th>Line Items</th>
+						<th>Order size</th>
+						<th>Iventory</th>
+						<th>Production Time</th>
+						<th>Status</th>
+						<th>ETA</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<% creator.orders.forEach(function (order){ %>
+						<tr>
+							<td>
+								<%= order.orders[0].order_number %>
+							</td>
+							<td>
+								<%= order.orders[0].line_items.length %>
+							</td>
+							<td>22</td>
+							<td>1</td>
+							<td>4 hours</td>
+							<td>
+								
+									<div class="label">10% waiting for order</div>
+								
+							</td>
+							<td>March 30</td>
+							<td>
+						
+									<button class="ui blue button">
+									Details
+									</button>
+						
+							</td>
+						</tr>
+
+						<table id="orderDetails" class="ui striped table" style="display:none;">
+							<thead>
+								<tr>
+									<th>Product Title</th>
+									<th>Vendor</th>
+									<th class="right aligned">Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% order.orders[0].line_items.forEach(function(item){ %>
+								<tr class="">
+									<td><%= item.title %></td>
+									<td><%= item.vendor %></td>
+									<td class="right aligned"><form action="/orders" method="POST">
+										<input type="hidden" name="vendor" value="<%= item.vendor %> ">
+										<input type="hidden" name="order_number" value="<%= order.order_number %> ">
+										<button>
+											Place Order
+										</button>
+										</form></td>
+								</tr>
+								<% }) %>
+							
+							
+							</tbody>
+						</table>
+
+						<% }) %>
+
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+<script>
+$("button").click(function() {
+			$("#orderDetails").slideToggle();
+		});
+</script>

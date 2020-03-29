@@ -8,6 +8,7 @@ var Merchant = require('../models/merchants');
 var Collection = require('../models/collections');
 var CollectionList = require('../models/collectionslist');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
+var Order = require('../models/orders');
 
 router.get('/admin', isLoggedIn, function(req, res) {
 	var userId = req.user._id;
@@ -84,6 +85,29 @@ router.post('/admin/company', isLoggedIn, function(req, res) {
 	});
 });
 
+
+
+router.get('/admin/orders', (req, res) => {
+	var userId = req.user._id;
+	Creator.find({'creators.id': userId })
+		.populate('orders')
+		.exec(function(err, foundCreator) {
+			if (err) {
+				console.log(err);
+			
+				res.redirect('/admin');
+			} else {
+				
+				
+			
+				console.log(foundCreator[0].orders[0].orders);
+				var orders = foundCreator[0].orders;
+				res.render('admin/orders/index', {creator:foundCreator[0]});
+			}
+		});
+});
+
+
 router.get('/admin/merchants/new', function(req, res) {
 	res.render('admin/merchants/new');
 });
@@ -102,6 +126,7 @@ router.post('/admin/merchants', function(req, res) {
 	var newCompany = {
 		company: company,
 		price: price,
+		vendor: vendor,
 		tags: tags,
 		image: image,
 		body: body,
@@ -207,11 +232,11 @@ router.post('/admin/:id/products', function(req, res) {
 				if (err) {
 					console.log(err);
 				} else {
-					foundCompany.Products.push(newlyCreated);
+					foundCompany.products.push(newlyCreated);
 					foundCompany.save();
 
 					console.log('Added a new product');
-					console.log(foundCompany.Products);
+					console.log(foundCompany.products);
 					res.redirect('/admin');
 				}
 			});

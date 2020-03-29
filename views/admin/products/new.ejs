@@ -18,14 +18,14 @@
 			</div>
 			<div class="field">
 				<label>Vendor</label>
-				<input type="text" name="vendor" placeholder="<%= creator[0].company.title %>">
+				<input type="hidden" name="vendor" value="<%= creator[0].company.title %>">
 			</div>
 
 			<div class="field">
 				<label>Collection</label>
-				<select class="ui fluid dropdown">
+				<select name="collection" class="ui fluid dropdown">
 					<% collections.collections.forEach(function(collection){ %>
-						<option name="collection" value="<%= collection %>">
+						<option value="<%= collection %>">
 							<%= collection %>
 						</option>
 						<% }) %>
