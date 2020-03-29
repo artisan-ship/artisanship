@@ -53,7 +53,7 @@
 							<thead>
 								<tr>
 									<th>Product Title</th>
-									<th>Vendor</th>
+									<th>Merchant</th>
 									<th class="right aligned">Notes</th>
 								</tr>
 							</thead>
@@ -65,8 +65,8 @@
 									<td class="right aligned"><form action="/orders" method="POST">
 										<input type="hidden" name="vendor" value="<%= item.vendor %> ">
 										<input type="hidden" name="order_number" value="<%= order.order_number %> ">
-										<button>
-											Place Order
+										<button class="ui blue button">
+											Fulfill Order
 										</button>
 										</form></td>
 								</tr>
