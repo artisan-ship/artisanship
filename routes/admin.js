@@ -95,7 +95,7 @@ router.get('/admin/orders', (req, res) => {
 
 				res.redirect('/admin');
 			} else {
-				console.log(foundCreator[0].orders[0].orders);
+				console.log(foundCreator[0].orders);
 				var orders = foundCreator[0].orders;
 				res.render('admin/orders/index', { creator: foundCreator[0] });
 			}

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+
 // create new random product
 var creatorSchema = new mongoose.Schema({
     company: {
@@ -21,12 +22,13 @@ var creatorSchema = new mongoose.Schema({
             username: String
         }
     ],
-	 orders: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ],
+	 orders: [  {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Order'
+            },
+         
+        }],
 
     comments: [
         {
