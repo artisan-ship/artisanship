@@ -1,13 +1,17 @@
 <%- include('../../partials/header') %>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<div class="ui container">
 		<div class="ui raised segment">
-			
-
-			<h2>
+				<h2>
 				Orders
 			</h2>
+			
+		</div>
+
+		
+					<% creator.orders.forEach(function (orderFirst,i){ %>
+					<% orderFirst.orders.forEach(function (order,) { %>
+		<div class="ui raised segment" >
 			<table class="ui very padded table">
 				<thead>
 					<tr>
@@ -23,69 +27,88 @@
 				</thead>
 				<tbody>
 
-					<% creator.orders.forEach(function (order){ %>
+						
+					
 						<tr>
 							<td>
 								<%= order.order_number %>
 							</td>
 							<td>
-								<%= order.orders[0].line_items.length %>
+							
 							</td>
 							<td>22</td>
 							<td>1</td>
 							<td>4 hours</td>
 							<td>
 								
-									<div class="label">10% waiting for order</div>
+									<div class="label"><%= orderFirst.order_status.status %></div>
 								
 							</td>
 							<td>March 30</td>
 							<td>
 						
-									<button class="ui blue button">
+									<button #id="detailButton" class="ui blue button detailButton">
 									Details
 									</button>
 						
 							</td>
 						</tr>
 
-						<table id="orderDetails" class="ui striped table" style="display:none;">
+						<table id="orderDetails<%= i %>" index class="ui striped table" style="display:none;">
 							<thead>
 								<tr>
 									<th>Product Title</th>
-									<th>Merchant</th>
+									<th>Vendor</th>
 									<th class="right aligned">Notes</th>
 								</tr>
 							</thead>
 							<tbody>
-								<% order.orders[0].line_items.forEach(function(item){ %>
-								<tr class="">
+								<% order.line_items.forEach(function(item,j){%>
+								<% creator.products.forEach(function (product){ %>
+								      <% if(item.title == product.title){%>
+									<tr class="">
 									<td><%= item.title %></td>
 									<td><%= item.vendor %></td>
 									<td class="right aligned"><form action="/orders" method="POST">
+										<input type="hidden" name="orderIndex" value="<%= i %>">
+											<input type="hidden" name="itemIndex" value="<%= j %>">
 										<input type="hidden" name="vendor" value="<%= item.vendor %> ">
 										<input type="hidden" name="order_number" value="<%= order.order_number %> ">
-										<button class="ui blue button">
+										<button class="ui blue button ">
 											Fulfill Order
 										</button>
 										</form></td>
 								</tr>
+								
+								
+								<% } else{%>
+								<% } %>
+								<% } )%>
+							
 								<% }) %>
 							
 							
 							</tbody>
 						</table>
 
-						<% }) %>
+					
 
 				</tbody>
 			</table>
-
-
 		</div>
-	</div>
+<% }) %>
+						<% }) %>
+			
+		</div>
+
 <script>
-$("button").click(function() {
-			$("#orderDetails").slideToggle();
+	
+		var allButtonsOnPage = document.querySelectorAll('.detailButton');
+		allButtonsOnPage.forEach(function(button, index) {
+			button.addEventListener('click', function() {
+				$("#orderDetails" + index ).slideToggle();
+			});
 		});
+
 </script>
+

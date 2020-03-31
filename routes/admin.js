@@ -88,7 +88,7 @@ router.post('/admin/company', isLoggedIn, function(req, res) {
 router.get('/admin/orders', (req, res) => {
 	var userId = req.user._id;
 	Creator.find({ 'creators.id': userId })
-		.populate('orders')
+		.populate('products')
 		.exec(function(err, foundCreator) {
 			if (err) {
 				console.log(err);
