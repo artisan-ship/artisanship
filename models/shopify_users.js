@@ -1,13 +1,15 @@
 var mongoose = require('mongoose');
 
-var OrdersSchema = new mongoose.Schema({
-	orders: [
-		{
-			order_status: {
+
+
+var PendingOrdersSchema = new mongoose.Schema({
+		order_status: {
 				status: {type: 'String'},
 				code: { type: 'String' },
 				body: { type: 'String' }
 			},
+	orders: [
+		{
 			
 			id: {
 				type: 'Number'
@@ -543,6 +545,12 @@ var OrdersSchema = new mongoose.Schema({
 					}
 				}
 			},
+			
+			order_status: {
+				status: {type: 'String'},
+				code: { type: 'String' },
+				body: { type: 'String' }
+			},
 			line_items: [
 				{
 					id: Number,
@@ -572,51 +580,44 @@ var OrdersSchema = new mongoose.Schema({
 				}
 			]
 		}
-	],
-	order_status: {
-				status: {type: 'String'},
-				code: { type: 'String' },
-				body: { type: 'String' }
-			},
-	shop: String,
+	]
 });
-var orderData = mongoose.model('CreatorOrder', OrdersSchema);
+var PendingOrder = mongoose.model('PendingOrders', PendingOrdersSchema);
 
-// create new random product
-var creatorSchema = new mongoose.Schema({
-    company: {
-        title: String,
-        logo: String,
-        location: String,
-        motto: String
-    },
-    body: String,
-    image: String,
-    tags: String,
-    created: { type: Date, default: Date.now },
-    creators: [
-        {
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            username: String
-        }
-    ],
-	 orders: [OrdersSchema],
 
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comment'
-        }
-    ],
+var CreatorSchema = new mongoose.Schema({
+	
+	   name: String,
+	
+	
+})
+
+var Creator = mongoose.model('Creators', CreatorSchema);
+
+var shopifyUserSchema = new mongoose.Schema({
+	shopname: String,
+	token: String,
 	products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-        }
-    ]
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Product'
+		}
+	],
+	import: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Product'
+		}
+	],
+
+	creators: [CreatorSchema],
+	pending_orders: [PendingOrdersSchema],
+	comments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment'
+		}
+	]
 });
 
-module.exports = mongoose.model('Creator', creatorSchema);
+module.exports = mongoose.model('ShopifyUser', shopifyUserSchema);

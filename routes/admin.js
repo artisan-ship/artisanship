@@ -7,6 +7,7 @@ var Creator = require('../models/creators');
 var Merchant = require('../models/merchants');
 var Collection = require('../models/collections');
 var CollectionList = require('../models/collectionslist');
+var ShopifyUser = require('../models/shopify_users');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
 var Order = require('../models/orders');
 
@@ -95,11 +96,53 @@ router.get('/admin/orders', (req, res) => {
 
 				res.redirect('/admin');
 			} else {
-				console.log(foundCreator[0].orders);
+			
 				var orders = foundCreator[0].orders;
 				res.render('admin/orders/index', { creator: foundCreator[0] });
 			}
 		});
+});
+
+router.post('/admin/orders', (req, res) => {
+	ShopifyUser.find({ shopname: req.body.shop }, function(err, foundShop) {
+		if (err) {
+			console.log(err);
+		} else {
+			
+			var order = foundShop[0].pending_orders[foundShop[0].pending_orders.indexOf(req.body.order_number)];
+			foundShop[0].pending_orders.forEach(function(foundOrder){
+				foundOrder.orders.forEach(function(orderFound){
+					orderFound.line_items.forEach(function(item){
+						if(item.id == req.body.itemId){
+							console.log("match")
+							console.log(req.body.itemId)
+							item.status_code = {
+								status: "Shipped",
+								body: "Being shipped to the Customer",							
+								
+							}
+							foundShop[0].save()
+								console.log(item)
+							
+						}else{
+							console.log("no match")
+							console.log(req.body.itemId)
+							console.log(item.id)
+						}
+						
+					})
+					
+				})
+			})
+		
+			
+			res.redirect("/admin/orders")
+
+		
+
+		
+		}
+	});
 });
 
 router.get('/admin/merchants/new', function(req, res) {
@@ -139,7 +182,7 @@ router.post('/admin/merchants', function(req, res) {
 
 // products  routes  ----------------------->
 
-router.get('/admin/products/new',isLoggedIn, function(req, res) {
+router.get('/admin/products/new', isLoggedIn, function(req, res) {
 	var userId = req.user._id;
 	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
 		if (err) {
@@ -160,7 +203,7 @@ router.get('/admin/products/new',isLoggedIn, function(req, res) {
 	});
 });
 
-router.get('/admin/products',isLoggedIn, function(req, res) {
+router.get('/admin/products', isLoggedIn, function(req, res) {
 	var userId = req.user._id;
 	Creator.find({ 'creators.id': userId })
 		.populate('products')
@@ -170,13 +213,12 @@ router.get('/admin/products',isLoggedIn, function(req, res) {
 
 				res.redirect('/admin');
 			} else {
-			
 				res.render('admin/products/index', { products: foundCreator[0].products });
 			}
 		});
 });
 
-router.post('/admin/products',isLoggedIn, function(req, res) {
+router.post('/admin/products', isLoggedIn, function(req, res) {
 	var title = req.body.title;
 	var price = req.body.price;
 	var vendor = req.body.vendor;
@@ -214,8 +256,6 @@ router.post('/admin/products',isLoggedIn, function(req, res) {
 		shipping: shipping
 	};
 
-	
-
 	var userId = req.user._id;
 	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
 		if (err) {
@@ -225,7 +265,6 @@ router.post('/admin/products',isLoggedIn, function(req, res) {
 				if (err) {
 					console.log(err);
 				} else {
-					
 					foundCompany[0].products.push(newlyCreated);
 					foundCompany[0].save();
 
@@ -238,7 +277,7 @@ router.post('/admin/products',isLoggedIn, function(req, res) {
 	});
 });
 
-router.delete('/admin/products/:id',isLoggedIn, function(req, res) {
+router.delete('/admin/products/:id', isLoggedIn, function(req, res) {
 	Product.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
 			console.log('err');
