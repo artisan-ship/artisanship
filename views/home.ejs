@@ -1,105 +1,310 @@
 <%- include('partials/home-header') %>
 
-<div class="pusher">
+	<div class="pusher">
+		<div class="wave-container">
+			<div class="ui inverted vertical masthead center aligned segment">
+				<ul class="slideshow">
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<%- include('partials/navbar') %>
+					<div class="ui stackable grid centered">
 
-  <div class="ui inverted vertical masthead center aligned segment">
-    <%- include('partials/navbar') %>
-    <div class="ui stackable grid centered">
-      <div class="six wide column mobile hidden">
+						<div class="six wide column">
+							<div class="ui text  container">
+								<h1 class="ui inverted header">
+									Artisanship
 
-        <div class="shapes">
+								</h1>
+								<h2 class="">Connect with hunderds of creators all over the world. Discover a whole new way of sorucing your products and start selling unique and meaningful products to your customers. </h2>
+								<div class="ui huge inverted button">Read more
+									<i class="right arrow icon"></i>
+								</div>
+								<a href="/register" class="ui huge inverted black button">Sign up
+									<i class="right arrow icon"></i>
+								</a>
+							</div>
+						</div>
 
-          <div class="shape square"></div>
-          <div class="shape circle"></div>
-          <div class="shape triangle"></div>
+					</div>
 
-        </div>
+			</div>
 
-        <img src="/img/clipart/artisan-vector.png" alt="" width="500px" height="500px">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+				<path fill="#273036" fill-opacity="1" d="M0,256L60,240C120,224,240,192,360,197.3C480,203,600,245,720,256C840,267,960,245,1080,229.3C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+			</svg>
 
-      </div>
-      <div class="six wide column">
-        <div class="ui text  container">
-          <h1 class="ui inverted header">
-            Artisanship
-       
-          </h1>
-          <h2 class="">Flexitarian kitsch tbh cred, four dollar toast synth letterpress. Gluten-free kickstarter leggings
-            pitchfork.
-            Glossier cornhole gluten-free vice, hammock celiac small batch gentrify. Man braid beard affogato pickled
-            wolf.</h2>
-          <div class="ui huge inverted button">Read more <i class="right arrow icon"></i></div>
-          <a href="/register" class="ui huge inverted black button">Sign up <i class="right arrow icon"></i></a>
-        </div>
-      </div>
+		</div>
+		<div class="background-white">
 
+			<div class="wave-container">
+				<div class="ui vertical stripe segment" id="textSection">
+					<div class="ui middle aligned stackable grid container">
+						<div class="row">
+							<div class="eight wide column">
+								<h3 class="ui header">A New Way Of E-commerce</h3>
+								<p>We believe that ecommerce can be sustainable and support local buisnesses. We created an ecosystem where merchant and creator work together. .
+								</p>
+								<h3 class="ui header">Unique Products, Made Locally </h3>
+								<p>Find hand made artisanal products that are made close to where the customer lives. No need to ship it all over the world.</p>
+							</div>
+							<div class="six wide right floated column">
+								<%- include('partials/featured-products') %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="center aligned column">
+								<a class="ui huge inverted button">Check Them Out</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<svg id="bottomSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+					<path fill="#273036" fill-opacity="1" d="M0,160L80,138.7C160,117,320,75,480,80C640,85,800,139,960,149.3C1120,160,1280,128,1360,112L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+				</svg>
+			</div>
+			<div class="wave-container">
+				<div style="padding-bottom: 200px;" class="ui container">
+
+					<h1 class="ui center aligned centered huge header">How It Works</h1>
+					<div class="ui  small steps" id="steps">
+						<div class="step" id="step0">
+							<i class="search icon"></i>
+							<div class="content">
+								<div class="title">1. Browse </div>
+								<div class="description">Find Unique Products </div>
+							</div>
+						</div>
+						<div class="step" id="step1">
+							<i class="plus icon"></i>
+							<div class="content">
+								<div class="title">2. Import </div>
+								<div class="description">Import The Products To Your Store</div>
+							</div>
+						</div>
+						<div class="step" id="step2">
+							<i class="dollar icon"></i>
+							<div class="content">
+								<div class="title">3. Sell Your Product</div>
+								<div class="description"></div>
+							</div>
+						</div>
+						<div class="step" id="step3">
+							<i class="truck icon"></i>
+							<div class="content">
+								<div class="title">4. Fulfill </div>
+								<div class="description">Fulfill On Artisanship</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<svg style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+					<path fill="#273036" fill-opacity="1" d="M0,256L60,240C120,224,240,192,360,197.3C480,203,600,245,720,256C840,267,960,245,1080,229.3C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+				</svg>
+
+			</div>
+			<div class="wave-container">
+
+				<div class="ui vertical stripe segment" id="textSection">
+					<div class="ui middle aligned stackable grid container">
+						<div class="ui equal width centered grid">
+							<div class="row">
+								<div class="column">
+									<div class="ui card">
+										<div class="ui center aligned content">
+											<div class="header">Free</div>
+										</div>
+										<div class="ui center aligned content">
+											<h4 class="ui large header">Starter</h4>
+											<div class="ui small feed">
+												<div class="event">
+													<div class="ui center aligned  content">
+														<div class="ui center aligned summary">
+															<h1 class="ui huge header" style="font-size:70px;">
+																5
+															</h1>
+
+															<p>
+																Unique Products
+															</p>
+															<div class="meta">
+																$1.00 For each additional product
+															</div>
+
+														</div>
+
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<div class="extra center aligned content">
+											<button class="ui inverted red button">Sign Up Now</button>
+										</div>
+									</div>
+								</div>
+								<div class=" column">
+									<div class="ui card">
+										<div class="ui center aligned content">
+											<div class="header">$10.00 /mo</div>
+										</div>
+										<div class="ui center aligned content">
+											<h4 class="ui large header">Basic</h4>
+											<div class="ui small feed">
+												<div class="event">
+													<div class="ui center aligned  content">
+														<div class="ui center aligned summary">
+															<h1 class="ui huge header" style="font-size:70px;">
+																30
+															</h1>
+
+															<p>
+																Unique Products
+															</p>
+															<div class="meta">
+																$0.50 For each additional product
+															</div>
+
+														</div>
+
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<div class="extra center aligned content">
+											<button class="ui inverted red button">Sign Up Now</button>
+										</div>
+									</div>
+								</div>
+								<div class="column">
+									<div class="ui card">
+										<div class="ui center aligned content">
+											<div class="header">$20.00 /mo</div>
+										</div>
+										<div class="ui center aligned content">
+											<h4 class="ui large header">Unlimited</h4>
+											<div class="ui small feed">
+												<div class="event">
+													<div class="ui center aligned  content">
+														<div class="ui center aligned summary">
+															<h1 class="ui huge header" style="font-size:70px;">
+																∞
+															</h1>
+
+															<p>
+																Unique Products
+															</p>
+															<div class="meta">
+																<a>No restrictions</a>
+															</div>
+
+														</div>
+
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<div class="extra center aligned content">
+											<button class="ui inverted red button">Sign Up Now</button>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<svg id="bottomSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+					<path fill="#273036" fill-opacity="1" d="M0,160L80,138.7C160,117,320,75,480,80C640,85,800,139,960,149.3C1120,160,1280,128,1360,112L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+				</svg>
+			</div>
+
+			<div class="wave-container">
+				<div class="ui vertical stripe quote segment">
+					<div class="ui equal width stackable internally celled grid">
+						<div class="center aligned row">
+						<div class="ui divided items">
+  <div class="item">
+    <div class="image">
+      <img src="/images/wireframe/image.png">
     </div>
-
-
-  </div>
-
-  <div class="ui vertical stripe segment">
-    <div class="ui middle aligned stackable grid container">
-      <div class="row">
-        <div class="eight wide column">
-          <h3 class="ui header">We Help Companies and Companions</h3>
-          <p>We can give your company superpowers to do things that they never thought possible. Let us delight your
-            customers and empower your needs...through pure data analytics.</p>
-          <h3 class="ui header">We Make Bananas That Can Dance</h3>
-          <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
-        </div>
-        <div class="six wide right floated column">
-          <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
-        </div>
+    <div class="content">
+      <a class="header">12 Years a Slave</a>
+      <div class="meta">
+        <span class="cinema">Union Square 14</span>
       </div>
-      <div class="row">
-        <div class="center aligned column">
-          <a class="ui huge button">Check Them Out</a>
+      <div class="description">
+        <p></p>
+      </div>
+      <div class="extra">
+        <div class="ui label">IMAX</div>
+        <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+      </div>
+    </div>
+  </div>
+  <div class="item">
+    <div class="image">
+      <img src="/images/wireframe/image.png">
+    </div>
+    <div class="content">
+      <a class="header">My Neighbor Totoro</a>
+      <div class="meta">
+        <span class="cinema">IFC Cinema</span>
+      </div>
+      <div class="description">
+        <p></p>
+      </div>
+      <div class="extra">
+        <div class="ui right floated primary button">
+          Buy tickets
+          <i class="right chevron icon"></i>
+        </div>
+        <div class="ui label">Limited</div>
+      </div>
+    </div>
+  </div>
+  <div class="item">
+    <div class="image">
+      <img src="/images/wireframe/image.png">
+    </div>
+    <div class="content">
+      <a class="header">Watchmen</a>
+      <div class="meta">
+        <span class="cinema">IFC</span>
+      </div>
+      <div class="description">
+        <p></p>
+      </div>
+      <div class="extra">
+        <div class="ui right floated primary button">
+          Buy tickets
+          <i class="right chevron icon"></i>
         </div>
       </div>
     </div>
   </div>
+</div>
+						</div>
+					</div>
+				</div>
 
+			
+				<svg style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+					<path fill="#273036" fill-opacity="1" d="M0,256L60,240C120,224,240,192,360,197.3C480,203,600,245,720,256C840,267,960,245,1080,229.3C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+				</svg>
+			</div>
+		</div>
 
-  
-  <%- include('partials/featured-products') %>
+		<%- include('partials/footer') %>
 
-  <div class="ui vertical stripe quote segment">
-    <div class="ui equal width stackable internally celled grid">
-      <div class="center aligned row">
-        <div class="column">
-          <h3>"What a Company"</h3>
-          <p>That is what they all say about us</p>
-        </div>
-        <div class="column">
-          <h3>"I shouldn't have gone with their competitor."</h3>
-          <p>
-            <img src="assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ui vertical stripe segment">
-    <div class="ui text container">
-      <h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
-      <p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing
-        by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your
-        attention.</p>
-      <a class="ui large button">Read More</a>
-      <h4 class="ui horizontal header divider">
-        <a href="#">Case Studies</a>
-      </h4>
-      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
-      <p>Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but its really true. It
-        took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
-      <a class="ui large button">I'm Still Quite Interested</a>
-    </div>
-  </div>
-
-
-
-
-
-  <%- include('partials/footer') %>
+			<script>
+			</script>
