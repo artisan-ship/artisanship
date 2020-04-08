@@ -1,0 +1,154 @@
+<div class='ui container'>
+		<% merchant.products.forEach(function(product,i){ %>
+			<div class="ui raised segment">
+				<div class="ui items">
+					<div class="ui top right attached label">
+
+						<div class="ui label">
+							<h5>
+								<i class="clipboard list icon"></i>Inventory:
+								<%= product.inventory %>
+							</h5>
+						</div>
+						<div class="ui label">
+							<h5>
+								<i class="cogs icon"></i>Production time:
+								<%= product.production_time %> days
+							</h5>
+						</div>
+						<div class="ui label">
+							<h5>
+								<i class="truck  icon"></i>Delivery time:
+								<%= product.delivery_time %> days
+							</h5>
+						</div>
+
+					</div>
+
+					<div class="item">
+						<div class="image">
+							<div class="ui black ribbon label">
+								<i class="hotel icon"></i>
+								<%= product.collections %>
+							</div>
+							<img class="ui rounded image" src="<%= product.image %>">
+						</div>
+						<div class="content">
+							<a class="header">
+								<%= product.title %>
+							</a>
+							<div class="meta">
+								<h4>
+									by:
+									<%= products.vendor %>
+								</h4>
+
+								<p>
+
+								</p>
+
+							</div>
+							<div class="description">
+								<p>
+
+									<span>
+										Product Cost:
+										<strong>$
+											<%= product.price %>
+										</strong>
+										|
+									</span>
+									<span>
+										Retail Price:
+										<strong>$
+											<%= product.retail_price %>
+										</strong>
+										|
+									</span>
+									<span>
+										Shipping Cost:
+										<strong>$
+											<%= product.shipping%>
+										</strong>
+
+									</span>
+
+								</p>
+
+							</div>
+							<div class="extra">
+								Additional Details
+								
+								<form action="/products?_method=DELETE" method="POST">
+									<input type="hidden" name="productId" value="<%= product._id %>">
+									<button class="ui right floated red button">
+									Delete
+								</button>
+								</form>
+
+								
+								<button onlClick="showExtra()" class="ui right floated button detailButton">
+									Show
+								</button>
+
+								<div class="ui tag labels">
+									<a class="ui label">
+										<%= product.tags %>
+									</a>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div id="extraContent<%= i %>" class="ui container" style="display:none;">
+						<div class="ui two column centered grid">
+							<div class="column">
+								<div class="ui segment">
+									<h4 class="ui horizontal divider header">
+										<i class="tag icon"></i>
+										Description
+									</h4>
+									<%= product.body %>
+										<h4 class="ui horizontal divider header">
+											<i class="bar chart icon"></i>
+											Specifications
+										</h4>
+										<table class="ui definition table">
+											<tbody>
+												<tr>
+													<td class="two wide column">Size</td>
+													<td>1" x 2"</td>
+												</tr>
+												<tr>
+													<td>Weight</td>
+													<td>
+														<%= product.weight %> Lbs</td>
+												</tr>
+												<tr>
+													<td>Color</td>
+													<td>Yellowish</td>
+												</tr>
+												<tr>
+													<td>Odor</td>
+													<td>Not Much Usually</td>
+												</tr>
+											</tbody>
+										</table>
+								</div>
+								<div class="four column centered row">
+									<div class="column"></div>
+									<div class="column"></div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+			<% }) %>
+	</div>

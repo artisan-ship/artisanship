@@ -1,0 +1,92 @@
+<%- include('..-../partials/merchant-header') %>
+		<% if(products[0].import.length !== 0){ %>
+	<div class='ui container'>
+
+		<div id="indexContainer" class="ui container centered">
+			<div class="ui horizontal  raised segments">
+				<div class="ui segment">
+					<h4>Total Products</h4>
+					<p>
+						<%= products[0].import.length %>
+					</p>
+				</div>
+				<div class="ui  segment">
+					<h4>Collections</h4>
+					<select class="ui dropdown">
+						<option value="">Collections</option>
+						<option value="1">Shoes</option>
+						<option value="0">Hats</option>
+					</select>
+				</div>
+				<div class="ui segment">
+					<form action="/import" method="POST">
+						<h4>Import into Shopify</h4>
+						<button class="ui blue  button">Import</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+			<div class="ui raised segment">
+
+				<table class="ui celled table">
+					<thead>
+						<th>Product title</th>
+						<th>Product price</th>
+						<th>Department</th>
+						<th></th>
+					</thead>
+					<tbody>
+
+						<% products[0].import.forEach(function(product){ %>
+							<tr>
+								<td>
+									<h4 class="ui image header">
+										<img src="<%= product.image %>" class="ui mini rounded image">
+										<div class="content">
+											<%= product.title %>
+											
+												</div>
+											
+									</h4>
+								</td>
+								<td>
+									<%= product.price %>
+								</td>
+								<td>
+									<%= product.department %>
+								</td>
+								<td>
+									<a href="/<%= product._id %>/edit" class="ui primary basic button">Edit</a>
+									<form id="ProductDeleteFormBtn" action="/admin/products/<%= product._id%>?_method=DELETE" method="POST">
+										<button class="ui red button">
+											Delete
+										</button>
+									</form>
+								</td>
+
+							</tr>
+
+							<% }) %>
+
+					</tbody>
+				</table>
+
+				</div>
+		
+
+					<% }else { %>
+					<div class="ui container">
+					<div class="ui placeholder segment">
+						<div class="ui icon header">
+							<i class="search  icon"></i>
+							You Have No Products Ready For Import
+						</div>
+						<a href="/search" class="ui primary button">Search Products</a>
+					</div>
+
+				</div>
+						<% } %>
+
+			</div>

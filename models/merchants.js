@@ -12,7 +12,25 @@ var merchantSchema = new mongoose.Schema({
     image: String,
     tags: String,
     created: { type: Date, default: Date.now },
-    creators: [
+    users: [
+        {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            username: String
+        }
+    ],
+	    export: [
+        {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product'
+            },
+           
+        }
+    ],
+	    creators: [
         {
             id: {
                 type: mongoose.Schema.Types.ObjectId,
