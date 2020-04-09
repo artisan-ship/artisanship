@@ -1,0 +1,119 @@
+<%- include('../../partials/header') %>
+	<div class="ui two column  grid">
+
+		<div class="ten wide column">
+			<div class="ui main text container segment">
+				<div class="ui huge header"> Create A New Order</div>
+				<form class="ui form" action="/merchant/company" method="POST">
+					<div class="two fields">
+						<div class="ten wide field">
+							<label>Product</label>
+							<select id="productSelect" class="ui fluid dropdown">
+								<option value="">Select Product</option>
+								<% merchant.products.forEach(function(product,i){ %>
+								<option value="<tr><th><%=product.title %></th><th><%=product.vendor %></th><th class='price'><%=product.price %></th></tr>">
+										<%= product.title %>
+									</option>
+									<% }) %>
+
+							</select>
+						</div>
+						<div class="two wide field">
+							<br>
+
+							<div class="ui orange inline button" id="addProduct">Add</div>
+						</div>
+
+					</div>
+					<div class="field">
+						<table class="ui celled table">
+							<thead>
+								<tr>
+									<th>Product Title</th>
+									<th>Vendor</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+						
+						
+							</tbody>
+									<thead>
+								<tr>
+									<th></th>
+									<th></th>
+									<th>Total Price <span id="totalPrice"></span></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="field">
+						<label>Image</label>
+						<input type="text" name="image" placeholder="image url">
+					</div>
+					<div class="field">
+						<label>Tags</label>
+						<input type="text" name="tags" placeholder="tags">
+					</div>
+
+					<button class="ui basic button" type="submit">
+						<i class="edit icon"></i>Add New Company </button>
+				</form>
+			</div>
+
+		</div>
+		<div class="four wide column">
+			<div class="ui raised segment">
+				<form class="ui form" action="/merchant/company" method="POST">
+					<div class="field">
+						<label>Title</label>
+						<input type="text" name="company[title]" placeholder="Company title">
+					</div>
+					<div class="field">
+						<label>Company Logo</label>
+						<input type="text" name="company[logo]" placeholder="Company Logo">
+					</div>
+
+					<div class="field">
+						<label>Image</label>
+						<input type="text" name="image" placeholder="image url">
+					</div>
+					<div class="field">
+						<label>Tags</label>
+						<input type="text" name="tags" placeholder="tags">
+					</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		
+	
+		var orderProducts = [];
+		var totalPrice = 0;
+		
+		$("#addProduct").click(function() {
+			var index = $("#productSelect").val();
+			orderProducts.push($("#productSelect").val())
+			 $("tbody").prepend($("#productSelect").val());
+					var priceArray = document.querySelectorAll('.price');
+					 totalPrice = 0;
+		priceArray.forEach(function(price, index) {
+			
+			totalPrice += parseInt($(price).html(), 10);
+			
+			});
+			
+			$("#totalPrice").html(totalPrice);
+		
+			
+		});
+		
+	
+	
+	</script>
+
+	<%- include('../../partials/footer') %>

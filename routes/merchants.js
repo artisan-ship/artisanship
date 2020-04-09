@@ -73,6 +73,24 @@ router.get('/merchant/orders', (req, res) => {
 		});
 });
 
+router.get('/merchant/orders/new', (req, res) => {
+	var userId = req.user._id;
+	Merchant.find({ 'creators.id': userId })
+		.populate('products')
+		.exec(function(err, foundMerchant) {
+			if (err) {
+				console.log(err);
+
+				res.redirect('/merchant');
+			} else {
+			
+			
+				res.render('merchant/orders/new', { merchant: foundMerchant[0] });
+			}
+		});
+});
+
+
 router.get('/merchant/products/:id', function(req, res) {
 	Product.findById(req.params.id, function(err, foundProduct) {
 		if (err) {
