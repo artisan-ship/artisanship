@@ -39,6 +39,12 @@ var merchantSchema = new mongoose.Schema({
             username: String
         }
     ],
+	    orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Order'
+        }
+    ],
 
     comments: [
         {
@@ -46,7 +52,7 @@ var merchantSchema = new mongoose.Schema({
             ref: 'Comment'
         }
     ],
-	Products: [
+	products: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'

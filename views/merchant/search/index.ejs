@@ -1,102 +1,101 @@
 <%- include('../../partials/merchant-header') %>
-	<div class="ui container">
+	<div class="admin-metrics-panel">
 
-		<div class="ui raised segment">
-			<div class="ui menu">
-				<div class="item">
+		<div style="padding-top: 30px;" class="ui container">
+			<div class="ui centered grid">
+					<h1 class="ui huge header" style="font-size: 60px; color: white;">
+				Search For Products
+			</h1>
+			</div>
+		
+			
 
-					<h3>
-						Search for Products...
-					</h3>
+			</div>
 
+			<div class="ui centered grid">
+
+				<div class="two column centered row" style="margin-top: 30px;">
+					<div class="column">
+						<div class="ui raised segment">
+				<div class="ui menu">
+					<div class="item">
+
+						<h3>
+							Search for Products...
+						</h3>
+
+					</div>
+
+					<div class="item">
+
+						<div class="ui icon input">
+							<input id="search" name="term" type="text" placeholder="Search...">
+							<i class="search icon"></i>
+						</div>
+					</div>
+					<div class="right item">
+						<div class="ui dropdown">
+							<input type="hidden" name="gender">
+							<i class="dropdown icon"></i>
+							<div class="default text">All Categories</div>
+							<div class="menu">
+								<div class="item" data-value="male">Male</div>
+								<div class="item" data-value="female">Female</div>
+							</div>
+						</div>
+						<div class="ui dropdown">
+							<input type="hidden" name="gender">
+							<i class="dropdown icon"></i>
+							<div class="default text">Price</div>
+							<div class="menu">
+								<div class="item" data-value="male">Male</div>
+								<div class="item" data-value="female">Female</div>
+							</div>
+						</div>
+					
+					
+					</div>
 				</div>
 
-				<div class="item">
+					</div>
 
-					<div class="ui icon input">
-						<input id="search" name="term" type="text" placeholder="Search...">
-						<i class="search icon"></i>
-					</div>
-				</div>
-				<div class="right item">
-					<div class="ui dropdown">
-						<input type="hidden" name="gender">
-						<i class="dropdown icon"></i>
-						<div class="default text">All Categories</div>
-						<div class="menu">
-							<div class="item" data-value="male">Male</div>
-							<div class="item" data-value="female">Female</div>
-						</div>
-					</div>
-					<div class="ui dropdown">
-						<input type="hidden" name="gender">
-						<i class="dropdown icon"></i>
-						<div class="default text">Price</div>
-						<div class="menu">
-							<div class="item" data-value="male">Male</div>
-							<div class="item" data-value="female">Female</div>
-						</div>
-					</div>
-					<div class="ui dropdown">
-						<input type="hidden" name="gender">
-						<i class="dropdown icon"></i>
-						<div class="default text">Location</div>
-						<div class="menu">
-							<div class="item" data-value="male">Male</div>
-							<div class="item" data-value="female">Female</div>
-						</div>
-					</div>
-					<div class="ui dropdown">
-						<input type="hidden" name="gender">
-						<i class="dropdown icon"></i>
-						<div class="default text">Supplier</div>
-						<div class="menu">
-							<div class="item" data-value="male">Male</div>
-							<div class="item" data-value="female">Female</div>
-						</div>
-					</div>
-					<div class="ui dropdown">
-						<input type="hidden" name="gender">
-						<i class="dropdown icon"></i>
-						<div class="default text">Sort By</div>
-						<div class="menu">
-							<div class="item" data-value="male">Male</div>
-							<div class="item" data-value="female">Female</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="ui raised segment">
-			<div class="ui horizontal segments">
-				<div class="ui segment">
-					<a href="/search/art">Art</a>
-				</div>
-				<div class="ui segment">
-					<a href="/search/collections/clothes">Clothing</a>
-				</div>
-				<div class="ui segment">
-					<a href="/search/collections/jewelry">Jewelry</a>
-				</div>
-				<div class="ui segment">
-					<a href="/search/collections/eletronics">Electronics & Gadgets</a>
-				</div>
-				<div class="ui segment">
-					<a href="/search/collections/tools">Tools & Supplies</a>
+	</div>
 
-				</div>
-				<div class="ui segment">
-					<a href="/search/collections/home">home</a>
-				</div>
-				<div class="ui segment">
-					<p>More</p>
-				</div>
-			</div>
-
-		</div>
+	<div class="ui container" style="margin-top: 60px; padding-bottom:200px;">
+		
+		
 
 		<div class="ui raised segment">
+			
+							<div class="ui horizontal segments">
+								<div class="ui segment">
+									<a href="/search/art">Art</a>
+								</div>
+								<div class="ui segment">
+									<a href="/search/collections/clothes">Clothing</a>
+								</div>
+								<div class="ui segment">
+									<a href="/search/collections/jewelry">Jewelry</a>
+								</div>
+								<div class="ui segment">
+									<a href="/search/collections/eletronics">Electronics & Gadgets</a>
+								</div>
+								<div class="ui segment">
+									<a href="/search/collections/tools">Tools & Supplies</a>
+
+								</div>
+								<div class="ui segment">
+									<a href="/search/collections/home">home</a>
+								</div>
+								<div class="ui segment">
+									<p>More</p>
+								</div>
+							</div>
+					
 			<div class="ui vertical stripe segment ">
 				<div class="ui grid container">
 					<% for( var i = 0; i < products.length; i++) { %>
@@ -106,7 +105,7 @@
 									<img src="<%= products[i].image %>">
 								</div>
 								<div class="content">
-									<a class="header">
+									<a href="/merchant/products/<%= products[i]._id %>" class="header">
 										<%= products[i].title %>
 									</a>
 									<div class="meta">
@@ -130,30 +129,30 @@
 										<%= products[i].collections %>
 									</div>
 									<br>
-							
-									<% var hideForm = false %>
-									<% if(merchantProducts == undefined) { %>
-									<% }else { %>
-										<% merchantProducts.forEach(function(merchantProduct){ %>
 
-											<% if(products[i].title == merchantProduct.title){ %>
-												<% return hideForm = true%>
-													<% }}) %>
-														<% if (hideForm) { %>
-									<br>
-									
-															<button class="ui fluid button grey">
+									<% var hideForm = false %>
+										<% if(merchantProducts == undefined) { %>
+											<% }else { %>
+												<% merchantProducts.forEach(function(merchantProduct){ %>
+
+													<% if(products[i].title == merchantProduct.title){ %>
+														<% return hideForm = true%>
+															<% }}) %>
+																<% if (hideForm) { %>
+																	<br>
+
+																	<button class="ui fluid basic button grey">
 																		Already Imported
 																	</button>
-															<% } else{ %>
-									<br>
-																<form id="importForm<%= i %>" action="/search" method="POST">
-																	<input type="hidden" name="id" value="<%= products[i]._id %>">
-																	<button class="ui fluid button blue">
-																		import Product
-																	</button>
-																</form>
-																<% } }%>
+																	<% } else{ %>
+																		<br>
+																		<form id="importForm<%= i %>" action="/merchant/search" method="POST">
+																			<input type="hidden" name="id" value="<%= products[i]._id %>">
+																			<button class="ui fluid orange button" id="AddProductBtn">
+																				Add Product
+																			</button>
+																		</form>
+																		<% } }%>
 
 								</div>
 							</div>
@@ -165,6 +164,7 @@
 		</div>
 
 	</div>
+
 
 	<script>
 		function hideForm(i) {

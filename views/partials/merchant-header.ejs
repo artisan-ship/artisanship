@@ -23,7 +23,7 @@
 <body>
 
 		<div class="ui secondary pointing menu" id="nav">
-	<div class="ui container" style="margin-top: 0px;">
+	<div class="ui container" style="margin-top: 0px; ">
 			<a href="/merchant" class="item">
 				Dashboard
 			</a>
@@ -74,3 +74,18 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<script>
+		
+			
+		var items = document.querySelectorAll('.item');
+		items.forEach(function(item, index) {
+			if(window.location.pathname == $(item).attr("href")){
+				 $(item).toggleClass("active");
+			}
+			
+		});
+	
+	
+	</script>

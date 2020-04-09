@@ -56,6 +56,32 @@ router.get('/merchant/products', (req, res) => {
 		});
 });
 
+router.get('/merchant/orders', (req, res) => {
+	var userId = req.user._id;
+	Merchant.find({ 'creators.id': userId })
+		.populate('products')
+		.exec(function(err, foundMerchant) {
+			if (err) {
+				console.log(err);
+
+				res.redirect('/merchant');
+			} else {
+			
+			
+				res.render('merchant/orders/index', { merchant: foundMerchant[0] });
+			}
+		});
+});
+
+router.get('/merchant/products/:id', function(req, res) {
+	Product.findById(req.params.id, function(err, foundProduct) {
+		if (err) {
+			console.log('err');
+		} else {
+			res.render('merchant/products/show',{product:foundProduct});
+		}
+	});
+});
 router.post('/merchant/company', isLoggedIn, function(req, res) {
 	var company = req.body.company;
 	var price = req.body.price;
@@ -125,6 +151,33 @@ router.get('/merchant/search', (req, res) => {
 		});
 });
 
+
+
+
+router.post('/merchant/search', (req, res) => {
+	var userId = req.user._id;
+	Merchant.find({ 'creators.id': userId }, function(err, foundMerchant) {
+		if (err) {
+			console.log(err);
+			res.redirect('/merchant');
+		} else {
+			Product.findById(req.body.id, function(err, foundProduct) {
+				if (err) {
+					console.log(err);
+					res.redirect('/merchant');
+				} else {
+					//add user name
+			
+					foundMerchant[0].products.push(foundProduct);
+					foundMerchant[0].save();
+	
+					res.redirect('/merchant/search');
+				}
+			});
+		}
+	});
+});
+
 router.delete('/merchants/products/:id', function(req, res) {
 	Product.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
@@ -135,18 +188,18 @@ router.delete('/merchants/products/:id', function(req, res) {
 	});
 });
 
-router.get('merchant/export', (req, res) => {
+router.get('/merchant/export', (req, res) => {
 	var userId = req.user._id;
 	Merchant.find({ 'creators.id': userId })
-		.populate('export')
+		.populate('products')
 		.exec(function(err, foundMerchant) {
 			if (err) {
 				console.log(err);
 				req.flash('error', 'There was a problem...');
 				res.redirect('/merchant');
 			} else {
-				console.log(foundimports);
-				var products = foundMerchant[0].export;
+				
+				var products = foundMerchant[0];
 				res.render('merchant/export/index', { products: products });
 			}
 		});

@@ -1,11 +1,29 @@
 <%- include('../partials/merchant-header') %>
 
 	<div class="admin-metrics-panel">
+		
+	
+		
+		
+	
 
-		<div class="ui container">
+		<div style="padding-top: 30px;" class="ui container">
+				<% if(merchant != undefined){ %>
+			<div class="ui center aligned container" >
+
+				<img class="ui centered small rounded image" src="<%= merchant.company.logo %>">
+
+				<h2 class="ui center aligned icon header">
+
+					<%= merchant.company.title %>
+				</h2>
+
+			
+				</div>
+				<% }  %>
 			<div class="ui centered grid">
 
-				<div class="six column centered row" style="margin-top: 60px;">
+				<div class="six column centered row" style="margin-top: 30px;">
 					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
 					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
 					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
@@ -16,7 +34,7 @@
 
 	</div>
 
-	<% if(! merchant){ %>
+	<% if(merchant == undefined){ %>
 		<div class="ui container">
 			<div class="ui raised segment">
 				<div class="ui placeholder segment">
@@ -30,41 +48,9 @@
 		</div>
 
 		<% }else{ %>
-			<div class="ui center aligned container">
-
-				<img class="ui centered small rounded image" src="<%= merchant.company.logo %>">
-
-				<h2 class="ui center aligned icon header">
-
-					<%= merchant.company.title %>
-				</h2>
-
-				<h4 class="ui center aligned icon header">
-					Our Creators
-				</h4>
-				<div class="ui horizontal list">
-					<div class="item">
-						<img class="ui mini circular image" src="/images/avatar2/small/molly.png">
-						<div class="content">
-							<div class="ui sub header">Molly</div>
-							Woodworker
-						</div>
-					</div>
-					<div class="item">
-						<img class="ui mini circular image" src="/images/avatar2/small/elyse.png">
-						<div class="content">
-							<div class="ui sub header">Elyse</div>
-							Leatherworker
-						</div>
-					</div>
-					<div class="item">
-						<img src="/images/avatar2/small/eve.png" class="ui mini circular image">
-						<div class="content">
-							<div class="ui sub header">Eve</div>
-							CNC operator
-						</div>
-					</div>
-				</div>
+<div class="ui container" style="margin-top: 250px;">
+	
+			
 
 				<div class="ui raised segment">
 

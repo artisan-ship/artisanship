@@ -1,0 +1,134 @@
+<%- include('../../partials/merchant-header') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<div class="ui container">
+	
+		
+		<% if(merchant.orders.length == 0){%>
+		
+			<div class="ui raised segment">
+				<h2>
+				No Orders
+					<button class="ui right floated green inverted button">
+					Create A new Order
+				</button>
+			</h2>
+				
+			
+		</div>
+			
+		<%}else{%>
+		
+					<% merchant.orders.forEach(function (orderFirst,i){ %>
+					<% orderFirst.orders.forEach(function (order,) { %>
+		<div class="ui raised segment" >
+			<table class="ui very padded table">
+				<thead>
+					<tr>
+						<th>Order Number</th>
+						<th>Line Items</th>
+						<th>Order size</th>
+						<th>Iventory</th>
+						<th>Production Time</th>
+						<th>Status</th>
+						<th>ETA</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+						
+					
+						<tr>
+							<td>
+								<%= order.order_number %>
+							</td>
+							<td>
+							
+							</td>
+							<td>22</td>
+							<td>1</td>
+							<td><div class="label"><%= orderFirst.shop %></div></td>
+							<td>
+								
+									<div class="label"><%= orderFirst.order_status.status %></div>
+								
+							</td>
+							<td>March 30</td>
+							<td>
+						
+									<button #id="detailButton" class="ui blue button detailButton">
+									Details
+									</button>
+						
+							</td>
+						</tr>
+
+						<table id="orderDetails<%= i %>" index class="ui striped table" style="display:none;">
+							<thead>
+								<tr>
+								    <th>Id</th>
+									<th>Product Title</th>
+									<th>Vendor</th>
+									<th>shop</th>
+									<th>status</th>
+									<th class="right aligned">Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% order.line_items.forEach(function(item,j){%>
+								<% creator.products.forEach(function (product){ %>
+								      <% if(item.title == product.title){%>
+									<tr class="">
+									<td><%= item.id %></td>
+									<td><%= item.title %></td>
+									<td><%= item.vendor %></td>
+									<td><%= item.shop %></td>
+									<td><%= item.order_status %></td>
+									<td class="right aligned"><form action="/admin/orders" method="POST">
+										<input type="hidden" name="orderIndex" value="<%= i %>">
+										<input type="hidden" name="itemIndex" value="<%= j %>">
+										<input type="hidden" name="shop" value="<%= orderFirst.shop %>">
+										<input type="hidden" name="itemId" value="<%= item.id %>">
+										<input type="hidden" name="vendor" value="<%= item.vendor %> ">
+										<input type="hidden" name="order_number" value="<%= order.order_number %> ">
+										<button class="ui blue button ">
+											Fulfill Order
+										</button>
+										</form></td>
+								</tr>
+								
+								
+								<% } else{%>
+								<% } %>
+								<% } )%>
+							
+								<% }) %>
+							
+							
+							</tbody>
+						</table>
+
+					
+
+				</tbody>
+			</table>
+		</div>
+<% }) %>
+						<% }) %>
+		<%}%>
+
+		
+			
+		</div>
+
+<script>
+	
+		var allButtonsOnPage = document.querySelectorAll('.detailButton');
+		allButtonsOnPage.forEach(function(button, index) {
+			button.addEventListener('click', function() {
+				$("#orderDetails" + index ).slideToggle();
+			});
+		});
+
+</script>
+
