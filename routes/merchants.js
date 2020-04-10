@@ -101,10 +101,12 @@ router.post('/merchant/orders', isLoggedIn, function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			Creator.findById(foundProduct.creator.id, function(err, foundCreator) {
+			Creator.find({"company.title" : foundProduct.vendor} , function(err, foundCreator) {
 				if (err) {
 					console.log(err);
 				} else {
+					
+					console.log(foundCreator)
 					Merchant.find({ 'creators.id': userId }, function(err, foundMerchant) {
 						if (err) {
 							console.log(err);
@@ -129,6 +131,8 @@ router.post('/merchant/orders', isLoggedIn, function(req, res) {
 										}
 									};
 									console.log('order created');
+									foundCreator[0].orders.push(newOrder);
+									foundCreator[0].save();
 
 									foundMerchant[0].orders.push(newOrder);
 									foundMerchant[0].save();
