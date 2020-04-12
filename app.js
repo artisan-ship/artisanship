@@ -1,4 +1,5 @@
 const express = require('express');
+var dotenv = require('dotenv').config();
 var passport =require('passport');
 const  bodyParser = require('body-parser');
 var User = require("./models/users");

@@ -1,73 +1,274 @@
 <%- include('../../partials/header') %>
 
-	<div class="ui main text container segment">
+	<script type='text/javascript'>
+		function preview_image(event) {
+			$("#uploadHolder").hide()
+			$("#imageHolder").show()
+			var reader = new FileReader();
+			reader.onload = function() {
+				var output = document.getElementById('output_image');
+				output.src = reader.result;
+			}
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
 
-		<div class="ui huge header"> Create A New Product</div>
-		<form class="ui form" action="/admin/products" method="POST">
-			<div class="field">
-				<label>Title</label>
-				<input type="text" name="title" placeholder="title">
-			</div>
-			<div class="field">
-				<label>Price</label>
-				<input type="text" name="price" placeholder="price">
-			</div>
-			<div class="field">
-				<label>Recommended Retail Price</label>
-				<input type="text" name="retail_price" placeholder="retail price">
-			</div>
-			<div class="field">
-				<label>Vendor</label>
-				<input type="hidden" name="vendor" value="<%= creator[0].company.title %>">
-			</div>
 
-			<div class="field">
-				<label>Collection</label>
-				<select name="collection" class="ui fluid dropdown">
-					<% collections.collections.forEach(function(collection){ %>
-						<option value="<%= collection %>">
-							<%= collection %>
-						</option>
-						<% }) %>
 
-				</select>
-			</div>
-			<div class="field">
-				<label>Image</label>
-				<input type="text" name="image" placeholder="image url">
-			</div>
-			<div class="field">
-				<label>Tags</label>
-				<input type="text" name="tags" placeholder="Tags">
-			</div>
-			<div class="field">
-				<label>Weight</label>
-				<input type="text" name="weight" placeholder="Weight in lbs">
-			</div>
-			<div class="field">
-				<label>Shipping Cost</label>
-				<input type="text" name="shipping" placeholder="Shipping Cost">
-			</div>
-			<div class="field">
-				<label>Estimated Delivery Time</label>
-				<input type="text" name="delivery_time" placeholder="Estimated Delivery Time">
-			</div>
-			<div class="field">
-				<label>Production Time</label>
-				<input type="text" name="production_time" placeholder="Production Time">
-			</div>
-				<div class="field">
-				<label>Inventory</label>
-				<input type="text" name="inventory" placeholder="Inventory">
-			</div>
-			<div class="field">
-				<label></label>
-				<textarea name="body" required></textarea>
-			</div>
 
-			<button class="ui basic button" type="submit">
-				<i class="edit icon"></i> Add Product </button>
+	<div class="ui container">
+		<form class="ui form" action="/admin/products" method="POST" enctype='multipart/form-data'>
+
+			<div class="ui two column centered  grid">
+
+				<div class="ten wide column">
+					<div class="ui main text container segment">
+						<div class="field">
+							<label>Product Image</label>
+
+							<div id="uploadHolder" class="ui placeholder segment">
+								<div class="ui icon header">
+									<i class="image  icon"></i>
+									No documents are listed for this customer.
+								</div>
+								<div class="ui button blue">
+									<input type="file" onchange="preview_image(event)" id="image" name="image" accept="image/*" required> Add Picture
+								</div>
+
+							</div>
+							<div id="imageHolder" style="display:none;" class="ui placeholder segment">
+								<img id="output_image" />
+							</div>
+
+						</div>
+						<div class="ui small header"> Product Info</div>
+
+						<div class=" field">
+							<input type="text" name="title" placeholder="title">
+
+						</div>
+						<div class="three fields">
+							<div class="six wide field">
+								<label>Price</label>
+
+								<input type="number" name="title" placeholder="Unit Price">
+							</div>
+							<div class="six wide field">
+								<br>
+
+								<input type="number" name="title" placeholder="Recommended Retail Price">
+							</div>
+							<div class="six wide field">
+								<br>
+
+								<select name="currency">
+									<option value="dollar">$</option>
+									<option value="pound"> £ </option>
+									<option value="euro"> € </option>
+								</select>
+							</div>
+
+						</div>
+						<div class="field">
+
+							<div class="field">
+								<label>Description</label>
+								<textarea name="body" required></textarea>
+							</div>
+
+						</div>
+						<input id="showPrice" name="totalprice" type="hidden">
+
+						<button class="ui orange  button" type="submit">
+							<i class="edit icon"></i>Create Order </button>
+
+					</div>
+
+				</div>
+
+				<div class="five wide column">
+					<div class="ui raised segment">
+
+						<div class="field">
+							<label>Collection</label>
+							<select name="collection" class="ui fluid dropdown">
+								<% collections.collections.forEach(function(collection){ %>
+									<option value="<%= collection %>">
+										<%= collection %>
+									</option>
+									<% }) %>
+
+							</select>
+
+						</div>
+			
+
+					</div>
+
+					<div class="ui raised segment">
+						<i class="tag icon"></i>Tags
+						<div class="ui form">
+
+							<div class="ui action input">
+
+								<input id="tagInput" type="text" name="tags" placeholder="tags">
+
+								<div id="tagButton" class="ui button" style="border-radius: 0;">Add</div>
+							</div>
+
+							<div id="addedTags" class="ui horizontal list">
+
+							</div>
+
+						</div>
+					</div>
+
+					<div class="ui raised segment">
+
+						<div class="ui form">
+							<h4 class="ui horizontal divider header">
+
+								Weight & Dimensions
+							</h4>
+							<div class="two fields ">
+								<div class=" six wide field">
+									<label>Weight</label>
+									<input type="text" name="tags" placeholder="">
+								</div>
+								<div class=" eight wide field">
+									<label>Unit</label>
+									<select name="weightunit">
+										<option value="kg">kg</option>
+										<option value="grams"> grams </option>
+										<option value="pounds"> lbs </option>
+										<option value="ounce"> oz </option>
+									</select>
+								</div>
+
+							</div>
+							<hr>
+							<div class="four fields ">
+								<div class=" four wide field">
+									<label>Length</label>
+									<input type="number" name="length" placeholder="0">
+								</div>
+								<div class=" four wide field">
+									<label>Width</label>
+									<input type="number" name="width" placeholder="0">
+								</div>
+								<div class=" four wide field">
+									<label>Height</label>
+									<input type="number" name="height" placeholder="0">
+								</div>
+								<div class=" five wide field">
+									<label>Unit</label>
+									<select name="dimensionunit">
+										<option value="cm">cm</option>
+										<option value="mm"> mm </option>
+										<option value="inch"> inch </option>
+										<option value="feet"> feet </option>
+									</select>
+								</div>
+
+							</div>
+							<hr>
+							<h4 class="ui horizontal divider header">
+
+								Shipping & Production
+							</h4>
+							<h4>
+
+							</h4>
+							<div class="Two fields ">
+
+								<div class=" fourteen wide field">
+									<label>
+										Shipping Cost
+									</label>
+									<div class="ui labeled input">
+										<div class="ui label">
+											<select class="ui compact selection dropdown">
+
+												<option value="dollar">$</option>
+												<option value="pound"> £ </option>
+												<option value="euro"> € </option>
+											</select>
+										</div>
+										<input type="number" name="length" placeholder="0">
+									</div>
+
+								</div>
+								
+
+								</div>
+							
+								<div class=" fourteen wide field">
+									<label>
+										Shipping Time 
+									</label>
+									<div class="ui labeled input">
+									
+										<input type="number" name="length" placeholder="0">
+											<div class="ui label">
+											<select class="ui compact selection dropdown">
+
+												<option value="dollar">days</option>
+												<option value="pound"> weeks </option>
+												
+											</select>
+										</div>
+									</div>
+
+							</div>
+								<div class=" fourteen wide field">
+									<label>
+										Production Time 
+									</label>
+									<div class="ui labeled input">
+									
+										<input type="number" name="length" placeholder="0">
+											<div class="ui label">
+											<select class="ui compact selection dropdown">
+												<option value="dollar">Hours</option>
+
+												<option value="dollar">Days</option>
+												<option value="pound"> Weeks </option>
+												
+											</select>
+										</div>
+									</div>
+
+						</div>
+					</div>
+
+				</div>
+				</div>
+
+			</div>
 		</form>
 	</div>
+	<div class="ui modal">
+		<i class="close icon"></i>
+		<div class="ui container">
+			<div class="ui segment">
+				<%- include('../../partials/new-customer-form') %>
 
-	<%- include('../../partials/footer') %>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		var orderProducts = [];
+		var totalPrice = 0;
+		var productAdded = false;
+		$("#newCustomer").click(function() {
+			$('.ui.modal')
+				.modal('show');
+		})
+		$("#tagButton").click(function() {
+			var tag = $("#tagInput").val();
+			var tagValue = "'" + tag + "'";
+			$("#addedTags").prepend("<div class='item'> <div class='content'><a class='ui tag label'>" + tag + "</a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
+		})
+	</script>

@@ -14,9 +14,13 @@
 }
 
 body {
+	background: #ededed;
 	padding-bottom: 100px;
 }
 
+.ui.secondary.pointing.menu {
+	background: white;
+}
 .container {
 	margin-top: 50px;
 }
@@ -60,4 +64,12 @@ body {
 
 #AddProductBtn:active {
 	background-color: orange;
+}
+
+input#image:before{
+	 content: hello;
+}
+input#image{
+	 opacity: 0;
+	font-size: 0px;
 }

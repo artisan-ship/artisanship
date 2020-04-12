@@ -11,6 +11,28 @@ var ShopifyUser = require('../models/shopify_users');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
 var Order = require('../models/orders');
 
+var multer = require('multer');
+var storage = multer.diskStorage({
+	filename: function(req, file, callback) {
+		callback(null, Date.now() + file.originalname);
+	}
+});
+var imageFilter = function(req, file, cb) {
+	// accept image files only
+	if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+		return cb(new Error('Only image files are allowed!'), false);
+	}
+	cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter });
+
+var cloudinary = require('cloudinary');
+cloudinary.config({
+	cloud_name: 'artisanship',
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 router.get('/admin', isLoggedIn, function(req, res) {
 	var userId = req.user._id;
 
@@ -96,7 +118,6 @@ router.get('/admin/orders', (req, res) => {
 
 				res.redirect('/admin');
 			} else {
-			
 				var orders = foundCreator[0].orders;
 				res.render('admin/orders/index', { creator: foundCreator[0] });
 			}
@@ -108,39 +129,32 @@ router.post('/admin/orders', (req, res) => {
 		if (err) {
 			console.log(err);
 		} else {
-			
-			var order = foundShop[0].pending_orders[foundShop[0].pending_orders.indexOf(req.body.order_number)];
-			foundShop[0].pending_orders.forEach(function(foundOrder){
-				foundOrder.orders.forEach(function(orderFound){
-					orderFound.line_items.forEach(function(item){
-						if(item.id == req.body.itemId){
-							console.log("match")
-							console.log(req.body.itemId)
+			var order =
+				foundShop[0].pending_orders[
+					foundShop[0].pending_orders.indexOf(req.body.order_number)
+				];
+			foundShop[0].pending_orders.forEach(function(foundOrder) {
+				foundOrder.orders.forEach(function(orderFound) {
+					orderFound.line_items.forEach(function(item) {
+						if (item.id == req.body.itemId) {
+							console.log('match');
+							console.log(req.body.itemId);
 							item.status_code = {
-								status: "Shipped",
-								body: "Being shipped to the Customer",							
-								
-							}
-							foundShop[0].save()
-								console.log(item)
-							
-						}else{
-							console.log("no match")
-							console.log(req.body.itemId)
-							console.log(item.id)
+								status: 'Shipped',
+								body: 'Being shipped to the Customer'
+							};
+							foundShop[0].save();
+							console.log(item);
+						} else {
+							console.log('no match');
+							console.log(req.body.itemId);
+							console.log(item.id);
 						}
-						
-					})
-					
-				})
-			})
-		
-			
-			res.redirect("/admin/orders")
+					});
+				});
+			});
 
-		
-
-		
+			res.redirect('/admin/orders');
 		}
 	});
 });
@@ -218,62 +232,66 @@ router.get('/admin/products', isLoggedIn, function(req, res) {
 		});
 });
 
-router.post('/admin/products', isLoggedIn, function(req, res) {
-	var title = req.body.title;
-	var price = req.body.price;
-	var vendor = req.body.vendor;
-	var tags = req.body.tags;
-	var collection = req.body.collection;
-	var retailPrice = req.body.retail_price;
-	var inventory = req.body.inventory;
-	var shipping = req.body.shipping;
-	var deliveryTime = req.body.delivery_time;
-	var productionTime = req.body.production_time;
-	var weight = req.body.weight;
-	var image = req.body.image;
-	// to do var handle = title.
-	var body = req.body.body;
-	var creator = {
-		id: req.user._id,
-		username: req.user.username
-	};
+router.post('/admin/products', isLoggedIn, upload.single('image'), function(req, res) {
+	cloudinary.uploader.upload(req.file.path, function(result) {
+		var title = req.body.title;
+		var price = req.body.price;
+		var vendor = req.body.vendor;
+		var tags = req.body.tags;
+		var collection = req.body.collection;
+		var retailPrice = req.body.retail_price;
+		var inventory = req.body.inventory;
+		var shipping = req.body.shipping;
+		var deliveryTime = req.body.delivery_time;
+		var productionTime = req.body.production_time;
+		var weight = req.body.weight;
+		var image = result.secure_url;
+		// to do var handle = title.
+		var body = req.body.body;
+		var creator = {
+			id: req.user._id,
+			username: req.user.username
+		};
 
-	var newProduct = {
-		title: title,
-		price: price,
-		retail_price: retailPrice,
-		vendor: vendor,
-		tags: tags,
-		image: image,
-		body: body,
-		creator: creator,
-		weight: weight,
-		collections: collection,
-		weight: weight,
-		production_time: productionTime,
-		inventory: inventory,
-		delivery_time: deliveryTime,
-		shipping: shipping
-	};
+		var newProduct = {
+			title: title,
+			price: price,
+			retail_price: retailPrice,
+			vendor: vendor,
+			tags: tags,
+			image: image,
+			body: body,
+			creator: creator,
+			weight: weight,
+			collections: collection,
+			weight: weight,
+			production_time: productionTime,
+			inventory: inventory,
+			delivery_time: deliveryTime,
+			shipping: shipping
+		};
 
-	var userId = req.user._id;
-	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
-		if (err) {
-			console.log(err);
-		} else {
-			Product.create(newProduct, function(err, newlyCreated) {
-				if (err) {
-					console.log(err);
-				} else {
-					foundCompany[0].products.push(newlyCreated);
-					foundCompany[0].save();
+		var userId = req.user._id;
+		Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
+			if (err) {
+				console.log(err);
+			} else {
+				Product.create(newProduct, function(err, newlyCreated) {
+					if (err) {
+						console.log(err);
+					} else {
+						foundCompany[0].products.push(newlyCreated);
+						foundCompany[0].save();
 
-					console.log('Added a new product');
-					console.log(foundCompany.products);
-					res.redirect('/admin/products');
-				}
-			});
-		}
+						console.log('Added a new product');
+						console.log(foundCompany.products);
+						res.redirect('/admin/products');
+					}
+				});
+			}
+		});
+
+		// add cloudinary url for the image to the campground object under image property
 	});
 });
 
