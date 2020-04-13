@@ -1,88 +1,259 @@
 <%- include('../../partials/header') %>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<div class="ui container">
-	
-		
-		<% if(creator.orders.length == 0){%>
-		
-			<div class="ui raised segment">
-				<h2>
-				No Orders
-				
-			</h2>
-				
-			
-		</div>
-			
-		<%}else{%>
-		
-					<% creator.orders.forEach(function (order,i){ %>
-					
-		<div class="ui raised segment" >
-			<table class="ui very padded table">
-				<thead>
-					<tr>
-						<th>Order Number</th>
-						<th>Product</th>
-						<th>Order size</th>
-						<th>Total Price</th>
-						<th>Creator</th>
-						<th>Status</th>
-						<th>Created At</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
 
-						
-					
-						<tr>
-							<td>
-								<%= order.order_number %>
-							</td>
-							<td>
-							<%= order.product.title %>
-							</td>
-							<td><%= order.order_count %></td>
-							<td><%= order.total_price %></td>
-							<td><%= order.creator %></td>
-							<td>
+		<div class="ui two column centered grid">
+			<div class=" ten wide column">
+
+				<div class="ui raised segment">
+
+					<div class="ui top attached tabular menu">
+						<a class="item active" data-tab="first">Pending Orders</a>
+						<a class="item" data-tab="second">Fulfilled Orders</a>
+						<a class="item" data-tab="third">Canceled Orders</a>
+					</div>
+					<div class="ui bottom attached tab segment active" data-tab="first">
+
+						<table class="ui basic table">
+							<thead>
+								<tr>
+									<th>Order Number</th>
+									<th>Product</th>
+									<th>Order size</th>
+									<th>Total Price</th>
+									<th>Creator</th>
+									<th>Status</th>
+									<th>Created At</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<% creator.orders.forEach(function (order,i){ %>
+
+									<tr>
+										<td>
+											<%= order.order_number %>
+										</td>
+										<td>
+											<%= order.product.title %>
+										</td>
+										<td>
+											<%= order.order_count %>
+										</td>
+										<td>
+											<%= order.total_price %>
+										</td>
+										<td>
+											<%= order.creator %>
+										</td>
+										<td>
+
+											<%= order.order_status.status %>
+
+										</td>
+										<td>
+											<%= order.created.toDateString()%>
+										</td>
+										<td>
+
+											<button #id="detailButton" class="ui orange button detailButton">
+												Details
+											</button>
+
+										</td>
+									</tr>
+
+									<% }) %>
+							</tbody>
+						</table>
+					</div>
+					<div class="ui bottom attached tab segment" data-tab="second">
+						Second
+					</div>
+					<div class="ui bottom attached tab segment" data-tab="third">
+						Third
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class=" six wide column">
+
+				<div class="ui raised segment" id="details" style="display:none;">
+					<% creator.orders.forEach(function(order,i){ %>
+						<div class="ui styled accordion" style=" display:none;" id="orderDetails<%= i %>">
+							<div class="active title">
+								<i class="dropdown icon"></i>
+								<strong>Order Details</strong>
+
+							</div>
+							<div id="" class="active content">
+									<h4>
+									Order Information
+								</h4>
+								<p>
+									<strong>Order Number: </strong><%= order.order_number %>
+								</p>
+								<p>
+									<strong>Created At: </strong><%= order.created.toDateString()%>
+								</p>
+								<p>
+									<strong>Status: </strong><%= order.order_status.body%>
+								</p>
+								<hr>
+								<h5>
+									Product Information
+								</h5>
+								<p>
+									<strong>Product Title: </strong><%= order.product.title %>  
+								</p>
+								<p>
+									<strong>Order Size: </strong> <%= order.order_count %> | <strong>Inventory: </strong><%= order.product.inventory %> 
+								</p>
+								<p>
+									<strong>Unit Price: </strong><%= order.product.price %> | <strong>Total Price: </strong><%= order.total_price %> 
+								</p>
 								
-									<%= order.order_status.status %>
+							
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								Customer Details
+							</div>
+							<div class="content">
+								<h5>
+									Customer Information
+								</h5>
+								<p>
+									<strong>Name: </strong><%= order.customer.first_name %> <%= order.customer.last_name %>
+								</p>
+								<p>
+									<strong>Email: </strong><%= order.customer.email %> 
+								</p>
+								<hr>
+								<h5>
+									Shipping Information
+								</h5>
+								<p>
+									<strong>Address: </strong><%= order.customer.address1 %>  
+								</p>
+								<p>
+									<strong>House Number: </strong> <%= order.customer.address2 %>
+								</p>
+								<p>
+									<strong>City: </strong><%= order.customer.city %>  <strong>State: </strong><%= order.customer.province %> 
+								</p>
+								<p>
+									<strong>Zip Code: </strong><%= order.customer.zip %>  <strong>Country: </strong><%= order.customer.country %> 
+								</p>
 								
-							</td>
-							<td><%= order.created.toDateString()%></td>
-							<td>
-						
-									<button #id="detailButton" class="ui blue button detailButton">
-									Details
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								Merchant Details
+							</div>
+							<div class="content">
+																<p>
+									<strong>Merchant: </strong><%= order.merchant %>  
+								</p>
+								
+							</div>
+							<div class="ui segments">
+								<div class="ui segment">
+									<button class="ui orange button updateButton">
+										Update
 									</button>
-						
-							</td>
-						</tr>
+									<button class="ui right floated red inverted button">
+										Delete
+									</button>
+								</div>
+								<div class="ui secondary segment">
+									<p>Secondary Content</p>
+								</div>
+							</div>
 
-
-					
-
-				</tbody>
-			</table>
-		</div>
-
+						</div>
 						<% }) %>
-		<%}%>
+				</div>
 
-		
-			
+			</div>
+
 		</div>
+	</div>
 
-<script>
-	
+
+<div class="ui small modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Modal Title
+  </div>
+	 <div class="content">
+    	  <div class="ui form">
+  <div class="two fields">
+	  <label>Order Status</label>
+	    <div class="field">
+			<select>
+				<option>Pending</option>
+				<option>Canceled</option>
+				<option>Fulfilled</option>
+			</select>
+	  </div>
+	  <label>Order Status Detail</label>
+	      <div class="field">
+			<select>
+				<option>Being Produced </option>
+				<option>Shipped</option>
+				<option>Delayed</option>
+			</select>
+	  </div>
+	</div>
+   
+  <div class="field">
+    <label>Note</label>
+    <textarea rows="2"></textarea>
+  </div>
+</div>
+	</div>
+
+  <div class="actions">
+    <div class="ui button">Cancel</div>
+    <div class="ui button">OK</div>
+  </div>
+  </div>
+ 
+
+
+	<script>
+		$('.menu .item')
+			.tab();
+		
+		
+		
 		var allButtonsOnPage = document.querySelectorAll('.detailButton');
 		allButtonsOnPage.forEach(function(button, index) {
 			button.addEventListener('click', function() {
-				$("#orderDetails" + index ).slideToggle();
+				
+				$('#details').show();
+				$('.accordion').hide();
+				
+				$('#orderDetails' + index).show();
 			});
 		});
+		
+			var updateButtons = document.querySelectorAll('.updateButton');
+		updateButtons.forEach(function(button, index) {
+			button.addEventListener('click', function() {
+				
+					$('.ui.modal')
+  .modal("show")
+			});
+		});
+		
 
-</script>
-
+;
+	
+		$('.ui.accordion')
+			.accordion();
+	</script>

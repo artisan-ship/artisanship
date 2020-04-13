@@ -68,3 +68,16 @@
 			</div>
 		</div>
 	</div>
+		<script>
+		
+			
+		var items = document.querySelectorAll('.item');
+		items.forEach(function(item, index) {
+			if(window.location.pathname == $(item).attr("href")){
+				 $(item).toggleClass("active");
+			}
+			
+		});
+	
+	
+	</script>

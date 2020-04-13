@@ -1,67 +1,117 @@
 <%- include('../../partials/header') %>
 
-    <div id="indexContainer" class="ui container centered">
-        <div class="ui horizontal segments">
-            <div class="ui segment">
-                <h4>Total Products</h4>
-                <p>
-                    <%= products.length %>
-                </p>
-            </div>
-            <div class="ui segment">
-                <h4>Collections</h4>
-                <select class="ui dropdown">
-                    <option value="">Collections</option>
-                    <option value="1">Shoes</option>
-                    <option value="0">Hats</option>
-                </select>
-            </div>
-            <div class="ui segment">
-                <a href="products/new" class="ui primary basic button">Add new product</a>
-            </div>
-        </div>
+	<div id="indexContainer" class="ui container centered">
 
-        <table class="ui celled table">
-            <thead>
-                <th>Product title</th>
-                <th>Product price</th>
-                <th>Department</th>
-                <th></th>
-            </thead>
-            <tbody>
+		<div class="ui two column centered grid">
+			<div class=" ten wide column">
 
-                <% products.forEach(function(product){ %>
-                    <tr>
-                        <td>
-                            <h4 class="ui image header">
-                                <img src="<%= product.image %>" class="ui mini rounded image">
-                                <div class="content">
-                                    <%= product.title %>
-                                        <div class="sub header">
-                                        </div>
-                            </h4>
-                        </td>
-                        <td>
-                            <%= product.price %>
-                        </td>
-                        <td>
-                            <%= product.department %>
-                        </td>
-                        <td>
-                            <a href="/<%= product._id %>/edit" class="ui primary basic button">Edit</a>
-							<form id="ProductDeleteFormBtn" action="/admin/products/<%= product._id%>?_method=DELETE" method="POST">
-								<button class="ui red button">
-									Delete
-								</button>
-							</form>
-                        </td>
+			<div class="ui raised segment">
+				
+				
+					<div class="ui divided items" style="background-color:white;">
+						<% products.forEach(function(product,i){ %>
+							<div class="item product" id="productItem<%= i %>" data-number="<%= i %>">
+								<div class="image">
+									<img style="height:150px; padding: 5px;" src="<%= product.image %>">
+								</div>
+								<div class="content">
+									<a class="header">
+										<%= product.title %>
+									</a>
+									<div class="meta">
+										<span class="cinema">
+											<%= product.price %>
+										</span>
+									</div>
+									<div class="description">
+										<p></p>
+									</div>
+									<div class="extra">
+										<div class="ui label">IMAX</div>
+										<div class="ui label">
+											<i class="globe icon"></i> Additional Languages</div>
+									</div>
+								</div>
+							</div>
+							<% }) %>
+					</div>
+			
+</div>
+			</div>
+			<div class=" six wide column">
+				<div class="ui raised segment">
+					<h3>
+						Create A New Product
+					</h3>
+					<a href="/admin/products/new" class="ui orange button">
+						Create Product
+					</a>
+				</div>
+				<div class="ui raised segment" id="details"style="display:none;">
+					<% products.forEach(function(product,i){ %>
+					<div class="ui styled accordion" style=" display:none;" id="productDetails<%= i %>">
+						<div class="active title">
+							<i class="dropdown icon"></i>
+							<strong>Product Details</strong>
 
-                    </tr>
+						</div>
+						<div id ="" class="active content">
+							<%= product.body %>
+						</div>
+						<div class="title">
+							<i class="dropdown icon"></i>
+							What kinds of dogs are there?
+						</div>
+						<div class="content">
+							<p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+						</div>
+						<div class="title">
+							<i class="dropdown icon"></i>
+							How do you acquire a dog?
+						</div>
+						<div class="content">
+							<p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+							<p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home
+								to a dog who may not find one so readily.</p>
+						</div>
+						<div class="ui segments">
+  <div class="ui segment">
+   <button class="ui orange button">
+	   Edit
+	  </button>
+	  <button class="ui right floated red inverted button">
+	   Delete
+	  </button>
+  </div>
+  <div class="ui secondary segment">
+    <p>Secondary Content</p>
+  </div>
+</div>
+					
+					</div>
+							<% }) %>
+				</div>
 
-                    <% }) %>
+			</div>
 
-            </tbody>
-        </table>
+		</div>
 
-        </div>
+	</div>
 
+	<script>
+			var allItems = document.querySelectorAll('.product');
+		allItems.forEach(function(item, index) {
+			item.addEventListener('click', function() {
+				$('.product').css("box-shadow" ,"none");
+				$('#details').show();
+				$('.accordion').hide();
+				$('#productItem' + index).css("box-shadow" ,"0px 0px 10px 0.2px orange");
+				$('#productItem' + index).css("back" ,"#eaeaea85");
+				$('#productDetails' + index).show();
+				
+			});
+		});
+	
+		$('.ui.accordion')
+			.accordion();
+	</script>
