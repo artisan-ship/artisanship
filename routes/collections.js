@@ -59,40 +59,6 @@ router.get('/collections/:id/products/:product_id', function(req, res) {
     });
 });
 
-router.post('/collections/:id/products', function(req, res) {
-    var merchantId = req.user._id;
-    var productId = req.body.id;
-    console.log(productId);
 
-    Product.findById(productId, function(err, foundProduct) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(productId);
-            console.log(foundProduct);
-            Merchant.find({ 'creators.id': merchantId }, function(err, foundMerchant) {
-                if (err) {
-                    console.log(merchantId);
-                } else {
-                    console.log('passed');
-                    console.log(foundMerchant);
-                    Product.create(foundProduct, function(err, newlyCreated) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(foundMerchant);
-                            foundMerchant[0].Products.push(newlyCreated);
-                            foundMerchant[0].save();
-
-                            console.log('Added a new product');
-                            console.log(foundMerchant);
-                            res.redirect('/admin');
-                        }
-                    });
-                }
-            });
-        }
-    });
-});
 
 module.exports = router;

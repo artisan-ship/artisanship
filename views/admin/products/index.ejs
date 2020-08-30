@@ -1,5 +1,7 @@
 <%- include('../../partials/header') %>
 
+
+<%= products %>
 <div id="indexContainer" class="ui container centered">
 	<% if(products.length > 0 ){%>
 
@@ -97,18 +99,49 @@
 					</div>
 					<div class="ui segments">
 						<div class="ui segment">
-							<button class="ui orange button">
+						
+								<button class="ui orange button">
 								Edit
 							</button>
-							<button class="ui right floated red inverted button">
+						
+						
+						
+						 <button onclick="showDeleteModal(<%= i %>)" class="ui right floated red inverted button">
 								Delete
 							</button>
+						
+						
 						</div>
 						<div class="ui secondary segment">
 							<p>Secondary Content</p>
 						</div>
 					</div>
 				</div>
+			
+	<div class="ui basic modal" id="deleteModal<%= i%>">
+  <div class="ui icon header">
+    <i class="trash alternate icon"></i>
+    Delete This Product?
+  </div>
+  <div class="content">
+    <p>This will remove the product from your product list!</p>
+  </div>
+  <div class="actions">
+	   	<form action="/admin/<%=currentUser.id %>/products/<%=product._id %>?_method=DELETE" method="POST">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+	 
+    <button class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </button>
+	  	</form>
+  </div>
+</div>
+
+		
 				<% }) %>
 			</div>
 		</div>
@@ -130,10 +163,18 @@
 			
 		</div>
 	</div>
-
+		
 	<% } %>
 
 	<script>
+		
+		function showDeleteModal(i){
+				$('#deleteModal' + i)
+  .modal('show')
+;
+		}
+	
+		
 		var allButtonsOnPage = document.querySelectorAll('.detailButton');
 		allButtonsOnPage.forEach(function (button, index) {
 			button.addEventListener('click', function () {

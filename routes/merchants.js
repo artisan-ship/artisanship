@@ -150,7 +150,7 @@ router.post('/merchant/orders', isLoggedIn, function(req, res) {
 
 });
 
-router.get('/merchant/products/:id', function(req, res) {
+router.get('/products/:id', isLoggedIn, function(req, res) {
 	Product.findById(req.params.id, function(err, foundProduct) {
 		if (err) {
 			console.log('err');
@@ -159,6 +159,8 @@ router.get('/merchant/products/:id', function(req, res) {
 		}
 	});
 });
+
+
 router.post('/merchant/company', isLoggedIn, function(req, res) {
 	var company = req.body.company;
 	var price = req.body.price;

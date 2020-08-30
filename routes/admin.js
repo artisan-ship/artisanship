@@ -393,16 +393,67 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(
 	});
 });
 
-router.delete('/admin/:id/products/:id', isLoggedIn, function(req, res) {
-	Product.findByIdAndRemove(req.params.id, function(err) {
+router.delete('/admin/:id/products/:productid', isLoggedIn, function(req, res) {
+		var userId = req.user._id;
+UserInfo.find({ 'user.id': userId }, function(err, foundUser) {
+		if(err){
+			console.log(err)
+		}
+		else{
+			if(foundUser.type == "creator"){
+					Product.findByIdAndRemove(req.params.productid, function(err) {
 		if (err) {
 			console.log('err');
 		} else {
-			res.redirect('/admin/products');
+			res.redirect('/admin/'+ req.params.id +  '/products');
+		}
+	});
+			}
+			
+			else{
+				
+				foundUser[0].products.forEach(function(product,i){
+					console.log(product._id);
+					console.log(req.params.productid);
+					if(product._id == req.params.productid){
+						console.log("removed product")
+						foundUser[0].products.splice(i, 1,);
+						foundUser[0].save();
+					
+						return 	res.redirect('/admin/'+ req.params.id +  '/products');
+					}
+				})
+			}
+		}
+	})
+
+});
+
+
+
+router.post('/admin/:id/products/:productid', (req, res) => {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function(err, foundMerchant) {
+		if (err) {
+			console.log(err);
+			res.redirect('/merchant');
+		} else {
+			Product.findById(req.body.productid, function(err, foundProduct) {
+				if (err) {
+					console.log(err);
+					res.redirect('/merchant');
+				} else {
+					//add user name
+
+					foundMerchant[0].products.push(foundProduct);
+					foundMerchant[0].save();
+
+					res.redirect('/admin/'+ userId + '/search');
+				}
+			});
 		}
 	});
 });
-
 
 // ---------------search routes 
 router.get('/admin/:id/search', (req, res) => {

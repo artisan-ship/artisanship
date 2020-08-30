@@ -1,4 +1,4 @@
-<%- include('../../partials/merchant-header') %>
+<%- include('../../partials/header') %>
 
 <div class="pusher">
 	<div class="ui centered container">
@@ -17,17 +17,29 @@
 							<h1 class="ui header">
 								<%= product.title %>
 							</h1>
+							
+							<p>
+								Vendor: <strong><%= product.vendor %></strong>
+							</p>
+								<h4 class="ui header">
+								Unit Price:
+								$ <em><%= product.price %></em>
+									<p>
+											Recommended Retail Price:
+								$ <em><%= product.retail_price %></em>
+									</p>
+								
+							</h4>
+						
 
-							<form action="/collections/<%- product._id %>/products" method="POST">
+							<form action="/admin/<%= currentUser.id %>/products/<%= product._id %>" method="POST">
 								<input type="hidden" name="id" value="<%= product._id %>" />
-								<button class="ui button blue" href="#">
+								<button class="ui button orange" href="#">
 									Add product
 								</button>
 							</form>
 
-							<h4 class="ui header">
-								$ <%= product.price %>
-							</h4>
+						
 							<h4 class="ui horizontal divider header">
 								<i class="bar chart icon"></i>
 								Description
