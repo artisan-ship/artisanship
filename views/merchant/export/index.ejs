@@ -1,4 +1,4 @@
-<%- include('../../partials/merchant-header') %>
+<%- include('../../partials/header') %>
 		<% if(products.products.length !== 0){ %>
 	<div class='ui container'>
 
@@ -19,9 +19,9 @@
 					</select>
 				</div>
 				<div class="ui segment">
-					<form action="/import" method="POST">
+					<form action="" method="">
 						<h4>Export to CSV</h4>
-						<button class="ui blue  button">Export</button>
+						<button onclick="download_csv()" class="ui blue  button">Export</button>
 					</form>
 				</div>
 			</div>
@@ -33,8 +33,17 @@
 				<table class="ui celled table">
 					<thead>
 						<th>Product title</th>
-						<th>Product price</th>
-						<th>Department</th>
+						<th>Price</th>
+						<th>Retail Price</th>
+						<th></th>
+						<th>Vendor</th>
+						<th></th>
+						<th>Tags</th>
+						<th>collection</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
 						<th></th>
 					</thead>
 					<tbody>
@@ -45,7 +54,7 @@
 									<h4 class="ui image header">
 										<img src="<%= product.image %>" class="ui mini rounded image">
 										<div class="content">
-											<a href="/merchant/product/<%=product._id %>"><%= product.title %></a>
+											<a href="/admin/<%= currentUser.id %>/product/<%=product._id %>"><%= product.title %></a>
 											
 												</div>
 											
@@ -55,8 +64,24 @@
 									<%= product.price %>
 								</td>
 								<td>
-									<%= product.department %>
+									<%= product.retail_price %>
 								</td>
+									<td>
+									<%= product.body %>
+								</td>
+									<td>
+									<%= product.vendor %>
+								</td>
+									<td>
+									
+								</td>
+									<td>
+									<%= product.tags %>
+								</td>
+									<td>
+									<%= product.collections %>
+								</td>
+								
 								<td>
 									<a href="/<%= product._id %>/edit" class="ui primary basic button">Edit</a>
 									<form id="ProductDeleteFormBtn" action="/admin/products/<%= product._id%>?_method=DELETE" method="POST">
@@ -90,3 +115,32 @@
 						<% } %>
 
 			</div>
+
+<script>
+
+var data = [
+  <% products.products.forEach(function(product){ %>
+	  ['<%=product.title %>', '<%=product.price %>' , '<%=product.retail_price %>', '<%=product.body %>', '<%=product.vendor %>', '<%=product.image %>', '<%=product.tags %>', '<%=product.collections %>', '<%=product.production_time %>', '<%=product.inventory %>', '<%=product.delivery_time %>','<%=product.shipping %>','<%=product.created %>','<%=product.comments %>'],
+	<% }) %>
+   ['Foo', 'programmer'],
+  
+  
+];
+ 
+ 
+function download_csv() {
+    var csv = 'title,price,retail_price,body,vendor,image,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
+    data.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+    });
+ 
+    console.log(csv);
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'artisanship-product-export-'+Date.now()+'.csv';
+    hiddenElement.click();
+}
+</script>
+ 

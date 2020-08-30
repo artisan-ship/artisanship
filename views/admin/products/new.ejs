@@ -17,7 +17,7 @@
 
 
 	<div class="ui container">
-		<form class="ui form" action="/admin/products" method="POST" enctype='multipart/form-data'>
+		<form class="ui form" action="/admin/<%= currentUser.id %>/products" method="POST" enctype='multipart/form-data'>
 
 			<div class="ui two column centered  grid">
 
@@ -45,18 +45,18 @@
 
 						<div class=" field">
 							<input type="text" name="title" placeholder="title">
-
+                            <input type="hidden" name="vendor" value="<%= userInfo.company_title%>">
 						</div>
 						<div class="three fields">
 							<div class="six wide field">
 								<label>Price</label>
 
-								<input type="number" name="title" placeholder="Unit Price">
+								<input type="number" name="price" placeholder="Unit Price">
 							</div>
 							<div class="six wide field">
 								<br>
 
-								<input type="number" name="title" placeholder="Recommended Retail Price">
+								<input type="number" name="retail_price" placeholder="Recommended Retail Price">
 							</div>
 							<div class="six wide field">
 								<br>
@@ -80,7 +80,7 @@
 						<input id="showPrice" name="totalprice" type="hidden">
 
 						<button class="ui orange  button" type="submit">
-							<i class="edit icon"></i>Create Order </button>
+							<i class="edit icon"></i>Create New Product </button>
 
 					</div>
 

@@ -24,20 +24,45 @@
 
 		<div class="ui secondary pointing menu" id="nav">
 	<div class="ui container" style="margin-top: 0px;">
+		<% if(userInfo.type == "creator") { %>
+	
 			<a href="/admin" class="item">
 				Dashboard
 			</a>
 		
-			<a href="/admin/products" class="item">
+			<a href="/admin/<%= currentUser.id %>/products" class="item">
 				My Products
 			</a>
 			
-			<a href="/admin/orders" class="item">
+			<a href="/admin/<%= currentUser.id %>/orders" class="item">
 				My Orders
 			</a>
 			<a href="/merchants" class="item">
 				
 			</a>
+<% } else{%>
+			<a href="/admin" class="item">
+				Dashboard
+			</a>
+		
+			<a href="/admin/<%= currentUser.id %>/search" class="item">
+				Search Products
+			</a>
+		<a href="/admin/<%= currentUser.id %>/export" class="item">
+				Export Products
+			</a>
+			
+			<a href="/admin/<%= currentUser.id %>/products" class="item">
+				My Products
+			</a>
+			
+			<a href="/admin/<%= currentUser.id %>/orders" class="item">
+				My Orders
+			</a>
+			<a href="/creators" class="item">
+				
+			</a>
+		<% } %>
 			<div class="right menu">
 				<a class="ui item">
 					<i class="ui setting icon"></i>

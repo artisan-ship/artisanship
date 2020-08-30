@@ -1,4 +1,4 @@
-<%- include('../../partials/merchant-header') %>
+<%- include('../../partials/header') %>
 	<div class="admin-metrics-panel">
 
 		<div style="padding-top: 30px;" class="ui container">
@@ -109,7 +109,7 @@
 										<%= products[i].title %>
 									</a>
 									<div class="meta">
-										<span class="date">Joined in 2013</span>
+										<span class="date"><%= products[i].created %></span>
 									</div>
 									<div class="meta">
 										<p>
@@ -129,6 +129,7 @@
 										<%= products[i].collections %>
 									</div>
 									<br>
+						
 
 									<% var hideForm = false %>
 										<% if(merchantProducts == undefined) { %>
@@ -146,7 +147,7 @@
 																	</button>
 																	<% } else{ %>
 																		<br>
-																		<form id="importForm<%= i %>" action="/merchant/search" method="POST">
+																		<form id="importForm<%= i %>" action="/admin/<%= currentUser.id%> /search" method="POST">
 																			<input type="hidden" name="id" value="<%= products[i]._id %>">
 																			<button class="ui fluid orange button" id="AddProductBtn">
 																				Add Product

@@ -1,0 +1,160 @@
+<div class="admin-metrics-panel">
+		
+	
+		
+		
+	
+
+		<div style="padding-top: 30px;" class="ui container">
+			
+			<div class="ui center aligned container" >
+
+				<img class="ui centered small rounded image" src="">
+
+				<h2 class="ui center aligned icon header">
+
+				
+				</h2>
+
+			
+				</div>
+		
+			<div class="ui centered grid">
+
+				<div class="six column centered row" style="margin-top: 30px;">
+					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
+					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
+					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
+					<div class="column">		<%- include('../partials/admin-metric-card') %></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+		<div class="ui container">
+			<div class="ui raised segment">
+				<div class="ui placeholder segment">
+					<div class="ui icon header">
+						<i class="rocket icon"></i>
+						You have not yet created a company..
+					</div>
+					<a href="/merchant/company/new" class="ui primary button">Create Company</a>
+				</div>
+			</div>
+		</div>
+
+	
+<div class="ui container" style="margin-top: 250px;">
+	
+			
+
+				<div class="ui raised segment">
+
+					<div class="ui four statistics">
+						<div class="statistic">
+							<div class="value">
+								3
+							</div>
+							<div class="label">
+								[products]
+
+							</div>
+						</div>
+						<div class="statistic">
+							<div class="text value">
+								two
+								<br> hundered
+							</div>
+							<div class="label">
+								Completed orders
+							</div>
+						</div>
+						<div class="statistic">
+							<div class="value">
+								5
+							</div>
+							<div class="label">
+								Pending orders
+							</div>
+						</div>
+						<div class="statistic">
+							<div class="value">
+								<i class="users icon"></i> 42
+							</div>
+							<div class="label">
+								Connected Merchants
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="ui horizontal segments">
+					<div class="ui segment">
+						<p>
+							<h2 class="ui header">
+								<i class="home icon"></i>
+								<div class="content">
+									Company Settings
+									<div class="sub header">Manage your company and team</div>
+								</div>
+							</h2>
+
+						</p>
+					</div>
+					<div class="ui segment">
+						<p>
+
+							<h2 class="ui header">
+								<i class="tags icon"></i>
+								<div class="content">
+									<a href="/admin/products"> Products
+										<div class="sub header">Create, update and remove products</div>
+									</a>
+								</div>
+							</h2>
+
+						</p>
+					</div>
+					<div class="ui segment">
+						<p>
+							<h2 class="ui header">
+								<i class="truck icon"></i>
+								<div class="content">
+									Orders
+									<div class="sub header">Manage your orders</div>
+								</div>
+							</h2>
+
+						</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="ui container centered">
+				<div class="ui horizontal segments">
+					<div class="ui segment">
+						<h4>Total Products</h4>
+						<p>
+
+						</p>
+					</div>
+					<div class="ui segment">
+						<h4>Collections</h4>
+						<select class="ui dropdown">
+							<option value="">Collections</option>
+							<option value="1">Shoes</option>
+							<option value="0">Hats</option>
+						</select>
+					</div>
+					<div class="ui segment">
+						<a href="merchant/imports" class="ui primary basic button">Add new product</a>
+					</div>
+				</div>
+
+			</div>
+
+			<% } %>

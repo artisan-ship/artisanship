@@ -17,16 +17,18 @@
 		</div>
 			
 		<%}else{%>
+		<% if(userInfo.type == "merchant"){%>
 		<div class="ui raised segment">
 				<h2>
 			
-					<a href="/merchant/orders/new" class="ui right floated orange inverted button">
+					<a href="/admin/<%= currentUser.id %>/orders/new" class="ui right floated orange inverted button">
 					Create A new Order
 				</a>
 			</h2>
 				
 			
 		</div>
+		    <% } %>
 			
 					<% merchant.orders.forEach(function (order,i){ %>
 					

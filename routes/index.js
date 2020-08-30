@@ -4,8 +4,8 @@ var passport = require('passport');
 var User = require('../models/users');
 var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
-router.get('/', function(req, res) {
-	Product.find({}, function(err, foundProduct) {
+router.get('/', function (req, res) {
+	Product.find({}, function (err, foundProduct) {
 		if (err) {
 			console.log('err');
 		} else {
@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 	});
 });
 
-router.get('/login', function(req, res) {
+router.get('/login', function (req, res) {
 	res.render('login');
 });
 
@@ -22,17 +22,17 @@ router.post(
 	'/login',
 	passport.authenticate('local', {
 		successRedirect: '/admin',
-		failureRedirect: '/login'
+		failureRedirect: '/login',
 	}),
-	function(req, res) {}
+	function (req, res) {}
 );
 
-router.get('/register', function(req, res) {
+router.get('/register', function (req, res) {
 	res.render('register');
 });
 
-router.post('/register', function(req, res) {
-	User.register(new User({ username: req.body.username }), req.body.password, function(
+router.post('/register', function (req, res) {
+	User.register(new User({ username: req.body.username }), req.body.password, function (
 		err,
 		user
 	) {
@@ -40,20 +40,23 @@ router.post('/register', function(req, res) {
 			console.log(err);
 			return res.render('register');
 		}
+		passport.authenticate('local')(req, res, function () {
+			UserInfo.create(req.body.register, function (err, newUser) {
+				if (err) {
+					console.log('break down');
+				} else {
+					newUser.user.id = req.user._id;
+					newUser.user.username = req.user.username;
+					newUser.save();
 
-		UserInfo.create(req.body.register, function(err, newUser) {
-			if (err) {
-				console.log('break down');
-			} else {
-				passport.authenticate('local')(req, res, function() {
 					res.redirect('/admin');
-				});
-			}
+				}
+			});
 		});
 	});
 });
 
-router.get('/logout', function(req, res) {
+router.get('/logout', function (req, res) {
 	req.logout();
 
 	res.redirect('/');
