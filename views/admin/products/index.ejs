@@ -1,7 +1,6 @@
 <%- include('../../partials/header') %>
 
 
-<%= products %>
 <div id="indexContainer" class="ui container centered">
 	<% if(products.length > 0 ){%>
 
@@ -15,21 +14,28 @@
 							<img style="height: 150px; padding: 5px;" src="<%= product.image %>" />
 						</div>
 						<div class="content">
-							<a class="header">
+							<a href="/products/<%= product._id %>" class="header">
 								<%= product.title %>
 							</a>
+									<hr>
 							<div class="meta">
-								<span class="cinema">
-									<%= product.price %>
-								</span>
+						
+									<strong>$</strong><%= product.price %> 
+								/ <strong>$</strong><%= product.retail_price %>
 							</div>
+						
+								<div class="meta">
+										<%= product.vendor %>
+						
+							</div>
+							
 							<div class="description">
 								<p></p>
 							</div>
 							<div class="extra">
-								<div class="ui label">IMAX</div>
+								<div class="ui orange label"><%= product.collections %></div>
 								<div class="ui label">
-									<i class="globe icon"></i> Additional Languages
+									<i class="tag icon"></i> <%= product.tags[0] %>
 								</div>
 							</div>
 						</div>
