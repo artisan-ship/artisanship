@@ -42,21 +42,26 @@
 			</a>
 <% } else{%>
 			<a href="/admin" class="item">
+				<i class="ui chart line icon"></i>
 				Dashboard
 			</a>
 		
 			<a href="/admin/<%= currentUser.id %>/search" class="item">
+				<i class="ui search icon"></i>
 				Search Products
 			</a>
 		<a href="/admin/<%= currentUser.id %>/export" class="item">
+			<i class="ui tag icon"></i>
 				Export Products
 			</a>
 			
 			<a href="/admin/<%= currentUser.id %>/products" class="item">
+				<i class="ui tag icon"></i>
 				My Products
 			</a>
 			
 			<a href="/admin/<%= currentUser.id %>/orders" class="item">
+				<i class="ui clipboard list icon"></i>
 				My Orders
 			</a>
 			<a href="/creators" class="item">
