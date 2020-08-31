@@ -1,189 +1,164 @@
 <%- include('../../partials/header') %>
-	<div class="admin-metrics-panel">
-
-		<div style="padding-top: 30px;" class="ui container">
-			<div class="ui centered grid">
-					<h1 class="ui huge header" style="font-size: 60px; color: white;">
-				Search For Products
-			</h1>
+<div class="ui product-search container">
+	<div class="ui right labeled input" style="width: 100%;">
+		<input class="prompt" type="text" placeholder="Search products..." />
+		<button class="ui medium label orange">
+			<i class="search icon"></i>
+			search
+		</button>
+		<div class="ui basic red label filter" style="margin-left: 20px;">
+			<i class="ui filter icon"></i>
+			Filter
+		</div>
+	</div>
+	<div class="results"></div>
+	<div class="ui big labels search">
+		<div class="ui red label">
+			All
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui home icon"></i>
+			Home
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui paint brush icon"></i>
+			Art
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui eye icon"></i>
+			Beauty
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui tablet alternate icon"></i>
+			Tech & Gadgets
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui cut icon"></i>
+			Fashion
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui wrench icon"></i>
+			Tools
+		</div>
+		<div class="ui basic orange search label">
+			<i class="ui wrench icon"></i>
+			Jewelry
+		</div>
+		<div class="ui yellow search label">
+			<i class="ui ellipsis horizontal icon"></i>
+			More
+		</div>
+	</div>
+</div>
+<div class="ui grid container">
+	<% for( var i = 0; i < products.length; i++) { %>
+	<div class="four wide column centered">
+		<div class="ui card">
+			<div class="image">
+				<img src="<%= products[i].image %>" />
 			</div>
-		
+			<div class="content">
+				<a href="/products/<%= products[i]._id %>" class="header">
+					<%= products[i].title %>
+				</a>
+
+				<div class="meta">
+					<p>
+						By:
+						<strong>
+							<%= products[i].vendor %>
+						</strong>
+					</p>
+				</div>
+				<div class="description">
+					<div class="left floated">
+						<b>Price</b>
+						<p>
+							<%= "$ " + products[i].price %>
+						</p>
+					</div>
+					<div class="right floated">
+						<b>Retail Price</b>
+						<p>
+							<%= "$ " + products[i].retail_price.substring(0,4) %>
+						</p>
+					</div>
+				</div>
 			
-
 			</div>
-
-			<div class="ui centered grid">
-
-				<div class="two column centered row" style="margin-top: 30px;">
-					<div class="column">
-						<div class="ui raised segment">
-				<div class="ui menu">
-					<div class="item">
-
-						<h3>
-							Search for Products...
-						</h3>
-
-					</div>
-
-					<div class="item">
-
-						<div class="ui icon input">
-							<input id="search" name="term" type="text" placeholder="Search...">
-							<i class="search icon"></i>
-						</div>
-					</div>
-					<div class="right item">
-						<div class="ui dropdown">
-							<input type="hidden" name="gender">
-							<i class="dropdown icon"></i>
-							<div class="default text">All Categories</div>
-							<div class="menu">
-								<div class="item" data-value="male">Male</div>
-								<div class="item" data-value="female">Female</div>
-							</div>
-						</div>
-						<div class="ui dropdown">
-							<input type="hidden" name="gender">
-							<i class="dropdown icon"></i>
-							<div class="default text">Price</div>
-							<div class="menu">
-								<div class="item" data-value="male">Male</div>
-								<div class="item" data-value="female">Female</div>
-							</div>
-						</div>
+			<hr>
+					<div class="extra content shipping-info" style="margin-top: -20px;">
+					<div class="left floated">
 					
-					
+						<b>Shipping Cost</b>
+						<p>
+							<%= "$ " + products[i].shipping %>
+						</p>
+					</div>
+					<div class="right floated" style='margin-left: 15px;'>
+						<b>Shipping  time</b>
+						<p>
+							<%= "$ " + products[i].delivery_time %>
+						</p>
 					</div>
 				</div>
+			<div class="extra content">
+				<span class="left floated like">
+					<i class="like icon"></i>
+					Like
+				</span>
 
-					</div>
+				<% var hideForm = false %> <% if(merchantProducts == undefined) { %> <% }else { %>
+				<% merchantProducts.forEach(function(merchantProduct){ %> <% if(products[i].title ==
+				merchantProduct.title){ %> <% return hideForm = true%> <% }}) %> <% if (hideForm) {
+				%>
 
-				</div>
+				<span class="right floated star">
+					<i class="check icon"></i>
+					Product imported
+				</span>
+				<% } else{ %>
+
+				<form
+					id="importForm<%= i %>"
+					action="/admin/<%= currentUser.id%> /search"
+					method="POST"
+				>
+					<input type="hidden" name="id" value="<%= products[i]._id %>" />
+
+					<span class="right floated add-button">
+						<button>
+							<i class="plus icon add-product"></i>
+							Add product
+						</button>
+					</span>
+				</form>
+
+				<% } }%>
 			</div>
 		</div>
-
 	</div>
 
-	<div class="ui container" style="margin-top: 60px; padding-bottom:200px;">
-		
-		
+	<% }; %>
+</div>
 
-		<div class="ui raised segment">
-			
-							<div class="ui horizontal segments">
-								<div class="ui segment">
-									<a href="/search/art">Art</a>
-								</div>
-								<div class="ui segment">
-									<a href="/search/collections/clothes">Clothing</a>
-								</div>
-								<div class="ui segment">
-									<a href="/search/collections/jewelry">Jewelry</a>
-								</div>
-								<div class="ui segment">
-									<a href="/search/collections/eletronics">Electronics & Gadgets</a>
-								</div>
-								<div class="ui segment">
-									<a href="/search/collections/tools">Tools & Supplies</a>
-
-								</div>
-								<div class="ui segment">
-									<a href="/search/collections/home">home</a>
-								</div>
-								<div class="ui segment">
-									<p>More</p>
-								</div>
-							</div>
-					
-			<div class="ui vertical stripe segment ">
-				<div class="ui grid container">
-					<% for( var i = 0; i < products.length; i++) { %>
-						<div class="four wide column centered ">
-							<div class="ui card">
-								<div class="image">
-									<img src="<%= products[i].image %>">
-								</div>
-								<div class="content">
-									<a href="/products/<%= products[i]._id %>" class="header">
-										<%= products[i].title %>
-									</a>
-									<div class="meta">
-										<span class="date"><%= products[i].created %></span>
-									</div>
-									<div class="meta">
-										<p>
-											<strong>
-												<%= products[i].vendor  %>
-											</strong>
-
-										</p>
-									</div>
-									<div class="centered description">
-
-										<%= "$ " + products[i].price  %>
-									</div>
-								</div>
-								<div class="extra content">
-									<div class="ui red horizontal label">
-										<%= products[i].collections %>
-									</div>
-									<br>
-						
-
-									<% var hideForm = false %>
-										<% if(merchantProducts == undefined) { %>
-											<% }else { %>
-												<% merchantProducts.forEach(function(merchantProduct){ %>
-
-													<% if(products[i].title == merchantProduct.title){ %>
-														<% return hideForm = true%>
-															<% }}) %>
-																<% if (hideForm) { %>
-																	<br>
-
-																	<button class="ui fluid basic button grey">
-																		Already Imported
-																	</button>
-																	<% } else{ %>
-																		<br>
-																		<form id="importForm<%= i %>" action="/admin/<%= currentUser.id%> /search" method="POST">
-																			<input type="hidden" name="id" value="<%= products[i]._id %>">
-																			<button class="ui fluid orange button" id="AddProductBtn">
-																				Add Product
-																			</button>
-																		</form>
-																		<% } }%>
-
-								</div>
-							</div>
-						</div>
-
-						<% }; %>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
-
-	<script>
-		function hideForm(i) {
-			$("#importForm" + i).hide();
-		}
-		var term = $("#search").val();
-		console.log(term);
-		$("#search").keyup(function() {
-			term = $("#search").val();
-			setTimeout(function() {
-				document.location.href = "/search/" + term
-			}, 4000);
-		});
-		$("#filter").keyup(function() {
-			term = $("#search").val();
-			setTimeout(function() {
-				document.location.href = "/search/" + term
-			}, 4000);
-		});
-		$('.ui.dropdown').dropdown();
-	</script>
+<script>
+	function hideForm(i) {
+		$('#importForm' + i).hide();
+	}
+	var term = $('#search').val();
+	console.log(term);
+	$('#search').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/search/' + term;
+		}, 4000);
+	});
+	$('#filter').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/search/' + term;
+		}, 4000);
+	});
+	$('.ui.dropdown').dropdown();
+</script>

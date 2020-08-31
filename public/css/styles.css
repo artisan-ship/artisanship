@@ -33,8 +33,44 @@ body {
 	border-radius: 50px !important;
 }
 
-/* admin panel stylinh */
+/* admin panel styling */
 
+
+.product-search.container {
+	padding: 3em;
+} 
+.product-search.container .input {
+	font-size: 1.2em;
+} 
+
+
+.labels.search{
+	padding: 1em;
+	background-color: transparent;
+}
+
+.basic.search.label:hover{
+	background-color: #f2711c !important;
+	color: white !important;
+	cursor: pointer;
+}
+
+.filter {
+	margin-left:10px;
+}
+
+.label.filter:hover{
+	background-color: #f2711c !important;
+	color: white !important;
+	cursor: pointer;
+}
+
+.add-product:hover{
+	font-weight:bold;
+	color:black;
+	font-size: 1.2em;
+	cursor: pointer;
+}
 .admin-metrics-panel {
 	margin-top: -50px;
 	width: 100%;
@@ -43,6 +79,16 @@ body {
 	background-image: url(https://i.pinimg.com/originals/8d/76/32/8d7632c13a0ac4a9ba29a0cec4b975f2.jpg);
 	background-attachment: fixed;
 	background-size: cover;
+}
+
+.add-button button{
+	background-color:transparent;
+	border:none;
+	
+}
+.add-button button:focus{
+	border:none;
+	outline: 0;
 }
 
 .ui.card > .image:not(.ui) > img,
@@ -73,6 +119,16 @@ body {
 #nav .item {
 	color: white;
 	font-size:1.2em;
+}
+
+.card .description p {
+	font-size:1.5em;
+	font-weight:bold;
+	color:#101010;
+}
+
+.shipping-info {
+	margin-top: -20px;
 }
 
 input#image:before{
