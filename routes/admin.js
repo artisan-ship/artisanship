@@ -227,7 +227,7 @@ router.post('/admin/merchants', isLoggedIn, function (req, res) {
 
 router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
-	Creator.find({ 'creators.id': userId }, function (err, foundCompany) {
+	userInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
@@ -238,6 +238,7 @@ router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 				} else {
 					console.log(foundCollections);
 					res.render('admin/products/new', {
+						userInfo: foundUser[0],
 						creator: foundCompany,
 						collections: foundCollections[0],
 					});
@@ -251,14 +252,14 @@ router.get('/admin/:id/products', isLoggedIn, function (req, res) {
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function (err, FoundUser) {
+		.exec(function (err, foundUser) {
 			if (err) {
 				console.log(err);
 
 				res.redirect('/admin');
 			} else {
-				console.log(FoundUser);
-				res.render('admin/products/index', { products: FoundUser[0].products });
+				
+				res.render('admin/products/index', { userInfo:foundUser[0], products: foundUser[0].products });
 			}
 		});
 });
@@ -398,6 +399,7 @@ router.get('/admin/:id/search' , isLoggedIn, (req, res) => {
 					} else {
 						var products = foundUser[0].products;
 						res.render('merchant/search/index', {
+							userInfo: foundUser[0],
 							products: foundProducts,
 							merchantProducts: products,
 						});
@@ -464,6 +466,7 @@ router.get('/admin/:id/search/:term', isLoggedIn, function (req, res) {
 						});
 					} else {
 						res.render('merchant/search/index', {
+							userInfo: foundUser[0]
 							products: foundProducts,
 							merchantProducts: products,
 						});
@@ -481,14 +484,14 @@ router.get('/admin/:id/export', isLoggedIn, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function (err, foundMerchant) {
+		.exec(function (err, foundUser) {
 			if (err) {
 				console.log(err);
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
 				var products = foundMerchant[0];
-				res.render('merchant/export/index', { products: products });
+				res.render('merchant/export/index', { products: products, userInfo: foundUser[0] });
 			}
 		});
 });
