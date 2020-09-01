@@ -237,30 +237,6 @@ router.post('/merchant/customers/new', isLoggedIn, function(req, res) {
 	});
 });
 
-router.get('/merchant/search', (req, res) => {
-	var userId = req.user._id;
-	Merchant.find({ 'creators.id': userId })
-		.populate('products')
-		.exec(function(err, foundMerchant) {
-			if (err) {
-				console.log(err);
-				req.flash('error', 'There was a problem...');
-				res.redirect('/merchant');
-			} else {
-				Product.find({}, function(err, foundProducts) {
-					if (err) {
-						console.log(err);
-					} else {
-						var products = foundMerchant[0].products;
-						res.render('merchant/search/index', {
-							products: foundProducts,
-							merchantProducts: products
-						});
-					}
-				});
-			}
-		});
-});
 
 router.post('/merchant/search', (req, res) => {
 	var userId = req.user._id;

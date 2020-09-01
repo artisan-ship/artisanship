@@ -1,15 +1,14 @@
 <%- include('../../partials/header') %>
 <div class="ui product-search container">
 	<div class="ui right labeled input" style="width: 100%;">
-		<input class="prompt" type="text" placeholder="Search products..." />
-		<button class="ui medium label orange">
+		<input id="searchbar" name="term" class="prompt" type="text" placeholder="Search products..." />
+		<button id="search" class="search-button ui medium label orange">
 			<i class="search icon"></i>
 			search
 		</button>
-		<div class="ui basic red label filter" style="margin-left: 20px;">
-			<i class="ui filter icon"></i>
-			Filter
-		</div>
+		<%- include('../../partials/filter-button') %>
+	
+</div>
 	</div>
 	<div class="results"></div>
 	<div class="ui big labels search">
@@ -44,15 +43,13 @@
 			<i class="ui wrench icon"></i>
 			Jewelry
 		</div>
-		<div class="ui yellow search label">
-			<i class="ui ellipsis horizontal icon"></i>
-			More
-		</div>
+		<%- include('../../partials/more-button') %>
+		
 	</div>
 </div>
-<div class="ui grid container">
+<div class="ui four column doubling grid container">
 	<% for( var i = 0; i < products.length; i++) { %>
-	<div class="four wide column centered">
+	<div class="column centered">
 		<div class="ui card">
 			<div class="image">
 				<img src="<%= products[i].image %>" />
@@ -146,18 +143,18 @@
 	function hideForm(i) {
 		$('#importForm' + i).hide();
 	}
-	var term = $('#search').val();
+	var term = $('#searchbar').val();
 	console.log(term);
-	$('#search').keyup(function () {
-		term = $('#search').val();
+	$('#search').click(function () {
+		term = $('#searchbar').val();
 		setTimeout(function () {
-			document.location.href = '/search/' + term;
-		}, 4000);
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 10);
 	});
 	$('#filter').keyup(function () {
 		term = $('#search').val();
 		setTimeout(function () {
-			document.location.href = '/search/' + term;
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
 		}, 4000);
 	});
 	$('.ui.dropdown').dropdown();

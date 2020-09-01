@@ -3,22 +3,23 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/users');
 var Product = require('../models/products');
+var Fuse = require('fuse.js');
 var Creator = require('../models/creators');
 var Merchant = require('../models/merchants');
 var Collection = require('../models/collections');
 var CollectionList = require('../models/collectionslist');
 var ShopifyUser = require('../models/shopify_users');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
-var UserInfo = require("../models/user_info");
+var UserInfo = require('../models/user_info');
 var Order = require('../models/orders');
 
 var multer = require('multer');
 var storage = multer.diskStorage({
-	filename: function(req, file, callback) {
+	filename: function (req, file, callback) {
 		callback(null, Date.now() + file.originalname);
-	}
+	},
 });
-var imageFilter = function(req, file, cb) {
+var imageFilter = function (req, file, cb) {
 	// accept image files only
 	if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
 		return cb(new Error('Only image files are allowed!'), false);
@@ -31,14 +32,12 @@ var cloudinary = require('cloudinary');
 cloudinary.config({
 	cloud_name: 'artisanship',
 	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET
+	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-
 
 //------------- start of routes ---------------
 
-// admin index routes 
+// admin index routes
 router.get('/admin', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
 	if (!userId) {
@@ -47,7 +46,6 @@ router.get('/admin', isLoggedIn, function (req, res) {
 		res.redirect('/admin/' + userId);
 	}
 });
-
 
 router.get('/admin/:id', isLoggedIn, function (req, res) {
 	var userId = req.params.id;
@@ -62,9 +60,9 @@ router.get('/admin/:id', isLoggedIn, function (req, res) {
 });
 
 //company routes --------------------------->
-router.get('/admin/company/new', isLoggedIn, function(req, res) {
+router.get('/admin/company/new', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
-	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
+	Creator.find({ 'creators.id': userId }, function (err, foundCompany) {
 		if (err) {
 			console.log('err');
 		} else {
@@ -80,7 +78,7 @@ router.get('/admin/company/new', isLoggedIn, function(req, res) {
 	});
 });
 
-router.post('/admin/company', isLoggedIn, function(req, res) {
+router.post('/admin/company', isLoggedIn, function (req, res) {
 	var company = req.body.company;
 	var price = req.body.price;
 	var tags = req.body.tags;
@@ -88,7 +86,7 @@ router.post('/admin/company', isLoggedIn, function(req, res) {
 	var body = req.body.body;
 	var creator = {
 		id: req.user._id,
-		username: req.user.username
+		username: req.user.username,
 	};
 
 	var newCompany = {
@@ -97,11 +95,11 @@ router.post('/admin/company', isLoggedIn, function(req, res) {
 		tags: tags,
 		image: image,
 		body: body,
-		creators: creator
+		creators: creator,
 	};
 
 	var userId = req.user._id;
-	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
+	Creator.find({ 'creators.id': userId }, function (err, foundCompany) {
 		if (err) {
 			console.log('err');
 		} else {
@@ -111,7 +109,7 @@ router.post('/admin/company', isLoggedIn, function(req, res) {
 				console.log('You already created a company');
 				res.redirect('/admin');
 			} else {
-				Creator.create(newCompany, function(err, createdCompany) {
+				Creator.create(newCompany, function (err, createdCompany) {
 					if (err) {
 						console.log(err);
 					} else {
@@ -130,7 +128,7 @@ router.get('/admin/:id/orders', (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('Orders')
-		.exec(function(err, foundUser) {
+		.exec(function (err, foundUser) {
 			if (err) {
 				console.log(err);
 
@@ -142,24 +140,22 @@ router.get('/admin/:id/orders', (req, res) => {
 		});
 });
 
-
 router.get('/admin/:id/orders/new', (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function(err, foundMerchant) {
+		.exec(function (err, foundMerchant) {
 			if (err) {
 				console.log(err);
 
 				res.redirect('/merchant');
 			} else {
-				
 				res.render('merchant/orders/new', { merchant: foundMerchant[0] });
 			}
 		});
 });
 
-router.post('/admin/:id/orders', isLoggedIn, function(req, res) {
+router.post('/admin/:id/orders', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
 	var customerId = req.body.customerId;
 	var products = req.body.product;
@@ -169,22 +165,21 @@ router.post('/admin/:id/orders', isLoggedIn, function(req, res) {
 	console.log(products);
 	console.log(products.id);
 
-	Product.findById(products.id, function(err, foundProduct) {
+	Product.findById(products.id, function (err, foundProduct) {
 		if (err) {
 			console.log(err);
 		} else {
-			UserInfo.find({"company_title" : foundProduct.vendor} , function(err, foundCreator) {
+			UserInfo.find({ company_title: foundProduct.vendor }, function (err, foundCreator) {
 				if (err) {
 					console.log(err);
 				} else {
-					
-					console.log(foundCreator)
-					UserInfo.find({ 'user.id': userId }, function(err, foundMerchant) {
+					console.log(foundCreator);
+					UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 						if (err) {
 							console.log(err);
 							res.redirect('/admin');
 						} else {
-							foundMerchant[0].customers.forEach(function(foundCustomer) {
+							foundMerchant[0].customers.forEach(function (foundCustomer) {
 								if (foundCustomer._id == req.body.customerId) {
 									customer = foundCustomer;
 
@@ -199,8 +194,8 @@ router.post('/admin/:id/orders', isLoggedIn, function(req, res) {
 										order_status: {
 											status: 'placed',
 											code: 001,
-											body: ' The order is placed with the creator'
-										}
+											body: ' The order is placed with the creator',
+										},
 									};
 									console.log('order created');
 									foundCreator[0].orders.push(newOrder);
@@ -218,8 +213,6 @@ router.post('/admin/:id/orders', isLoggedIn, function(req, res) {
 	});
 
 	res.redirect('back');
-
-
 });
 // router.post('/admin/:id/orders', (req, res) => {
 // 	ShopifyUser.find({ shopname: req.body.shop }, function(err, foundShop) {
@@ -256,11 +249,11 @@ router.post('/admin/:id/orders', isLoggedIn, function(req, res) {
 // 	});
 // });
 
-router.get('/admin/merchants/new', function(req, res) {
+router.get('/admin/merchants/new', function (req, res) {
 	res.render('admin/merchants/new');
 });
 
-router.post('/admin/merchants', function(req, res) {
+router.post('/admin/merchants', function (req, res) {
 	var company = req.body.company;
 	var price = req.body.price;
 	var tags = req.body.tags;
@@ -268,7 +261,7 @@ router.post('/admin/merchants', function(req, res) {
 	var body = req.body.body;
 	var creator = {
 		id: req.user._id,
-		username: req.user.username
+		username: req.user.username,
 	};
 
 	var newCompany = {
@@ -278,10 +271,10 @@ router.post('/admin/merchants', function(req, res) {
 		tags: tags,
 		image: image,
 		body: body,
-		creators: creator
+		creators: creator,
 	};
 
-	Merchant.create(newCompany, function(err, createdCompany) {
+	Merchant.create(newCompany, function (err, createdCompany) {
 		if (err) {
 			console.log(err);
 		} else {
@@ -293,20 +286,20 @@ router.post('/admin/merchants', function(req, res) {
 
 // products  routes  ----------------------->
 
-router.get('/admin/:id/products/new', isLoggedIn, function(req, res) {
+router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
-	Creator.find({ 'creators.id': userId }, function(err, foundCompany) {
+	Creator.find({ 'creators.id': userId }, function (err, foundCompany) {
 		if (err) {
 			console.log('err');
 		} else {
-			CollectionList.findById(collectionsId, function(err, foundCollections) {
+			CollectionList.findById(collectionsId, function (err, foundCollections) {
 				if (err) {
 					console.log(err);
 					res.redirect('back');
 				} else {
 					res.render('admin/products/new', {
 						creator: foundCompany,
-						collections: foundCollections
+						collections: foundCollections,
 					});
 				}
 			});
@@ -314,24 +307,24 @@ router.get('/admin/:id/products/new', isLoggedIn, function(req, res) {
 	});
 });
 
-router.get('/admin/:id/products', isLoggedIn, function(req, res) {
+router.get('/admin/:id/products', isLoggedIn, function (req, res) {
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function(err, FoundUser) {
+		.exec(function (err, FoundUser) {
 			if (err) {
 				console.log(err);
 
 				res.redirect('/admin');
 			} else {
-				console.log(FoundUser)
+				console.log(FoundUser);
 				res.render('admin/products/index', { products: FoundUser[0].products });
 			}
 		});
 });
 
-router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(req, res) {
-	cloudinary.uploader.upload(req.file.path, function(result) {
+router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function (req, res) {
+	cloudinary.uploader.upload(req.file.path, function (result) {
 		var title = req.body.title;
 		var price = req.body.price;
 		var vendor = req.body.vendor;
@@ -348,7 +341,7 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(
 		var body = req.body.body;
 		var creator = {
 			id: req.user._id,
-			username: req.user.username
+			username: req.user.username,
 		};
 
 		var newProduct = {
@@ -366,15 +359,15 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(
 			production_time: productionTime,
 			inventory: inventory,
 			delivery_time: deliveryTime,
-			shipping: shipping
+			shipping: shipping,
 		};
 
 		var userId = req.user._id;
-		UserInfo.find({ 'user.id': userId }, function(err, foundUser) {
+		UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 			if (err) {
 				console.log(err);
 			} else {
-				Product.create(newProduct, function(err, newlyCreated) {
+				Product.create(newProduct, function (err, newlyCreated) {
 					if (err) {
 						console.log(err);
 					} else {
@@ -383,7 +376,7 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(
 
 						console.log('Added a new product');
 						console.log(foundUser.products);
-						res.redirect('/admin/'+ userId+ '/products');
+						res.redirect('/admin/' + userId + '/products');
 					}
 				});
 			}
@@ -393,52 +386,45 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function(
 	});
 });
 
-router.delete('/admin/:id/products/:productid', isLoggedIn, function(req, res) {
-		var userId = req.user._id;
-UserInfo.find({ 'user.id': userId }, function(err, foundUser) {
-		if(err){
-			console.log(err)
-		}
-		else{
-			if(foundUser.type == "creator"){
-					Product.findByIdAndRemove(req.params.productid, function(err) {
+router.delete('/admin/:id/products/:productid', isLoggedIn, function (req, res) {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
-			console.log('err');
+			console.log(err);
 		} else {
-			res.redirect('/admin/'+ req.params.id +  '/products');
-		}
-	});
-			}
-			
-			else{
-				
-				foundUser[0].products.forEach(function(product,i){
+			if (foundUser.type == 'creator') {
+				Product.findByIdAndRemove(req.params.productid, function (err) {
+					if (err) {
+						console.log('err');
+					} else {
+						res.redirect('/admin/' + req.params.id + '/products');
+					}
+				});
+			} else {
+				foundUser[0].products.forEach(function (product, i) {
 					console.log(product._id);
 					console.log(req.params.productid);
-					if(product._id == req.params.productid){
-						console.log("removed product")
-						foundUser[0].products.splice(i, 1,);
+					if (product._id == req.params.productid) {
+						console.log('removed product');
+						foundUser[0].products.splice(i, 1);
 						foundUser[0].save();
-					
-						return 	res.redirect('/admin/'+ req.params.id +  '/products');
+
+						return res.redirect('/admin/' + req.params.id + '/products');
 					}
-				})
+				});
 			}
 		}
-	})
-
+	});
 });
-
-
 
 router.post('/admin/:id/products/:productid', (req, res) => {
 	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId }, function(err, foundMerchant) {
+	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
 			console.log(err);
 			res.redirect('/merchant');
 		} else {
-			Product.findById(req.body.productid, function(err, foundProduct) {
+			Product.findById(req.body.productid, function (err, foundProduct) {
 				if (err) {
 					console.log(err);
 					res.redirect('/merchant');
@@ -448,32 +434,32 @@ router.post('/admin/:id/products/:productid', (req, res) => {
 					foundMerchant[0].products.push(foundProduct);
 					foundMerchant[0].save();
 
-					res.redirect('/admin/'+ userId + '/search');
+					res.redirect('/admin/' + userId + '/search');
 				}
 			});
 		}
 	});
 });
 
-// ---------------search routes 
+// ---------------search routes
 router.get('/admin/:id/search', (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function(err, foundUser) {
+		.exec(function (err, foundUser) {
 			if (err) {
 				console.log(err);
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
-				Product.find({}, function(err, foundProducts) {
+				Product.find({}, function (err, foundProducts) {
 					if (err) {
 						console.log(err);
 					} else {
 						var products = foundUser[0].products;
 						res.render('merchant/search/index', {
 							products: foundProducts,
-							merchantProducts: products
+							merchantProducts: products,
 						});
 					}
 				});
@@ -483,12 +469,12 @@ router.get('/admin/:id/search', (req, res) => {
 
 router.post('/admin/:id/search', (req, res) => {
 	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId }, function(err, foundMerchant) {
+	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
 			console.log(err);
 			res.redirect('/merchant');
 		} else {
-			Product.findById(req.body.id, function(err, foundProduct) {
+			Product.findById(req.body.id, function (err, foundProduct) {
 				if (err) {
 					console.log(err);
 					res.redirect('/merchant');
@@ -498,11 +484,55 @@ router.post('/admin/:id/search', (req, res) => {
 					foundMerchant[0].products.push(foundProduct);
 					foundMerchant[0].save();
 
-					res.redirect('/admin/'+ userId + '/search');
+					res.redirect('/admin/' + userId + '/search');
 				}
 			});
 		}
 	});
+});
+
+router.get('/admin/:id/search/:term', function (req, res) {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }).populate('products').exec( function (err, foundUser) {
+		if (err) {
+			console.log(err);
+			res.redirect('/merchant');
+		} else {
+			Product.find({}, function (err, foundProducts) {
+				if (err) {
+					console.log(err);
+					res.redirect('/merchant');
+				} else {
+					var products = foundUser.products;
+					var options = {
+						keys: [
+							{
+								name: 'title',
+								weight: 0.9,
+							},
+						],
+					};
+					var fuse = new Fuse(foundProducts, options);
+					var searchResult = fuse.search(req.params.term);
+
+					if (searchResult.length > 0) {
+						var searchArray = [searchResult[0].item];
+
+						res.render('merchant/search/index', {
+							products: searchArray,
+							merchantProducts: products,
+						});
+					} else {
+						res.render('merchant/search/index', {
+							products: foundProducts,
+							merchantProducts: products,
+						});
+					}
+				}
+			});
+		}
+	});
+
 });
 
 // -----------------------export routes ----------------------------------------
@@ -511,7 +541,7 @@ router.get('/admin/:id/export', (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
-		.exec(function(err, foundMerchant) {
+		.exec(function (err, foundMerchant) {
 			if (err) {
 				console.log(err);
 				req.flash('error', 'There was a problem...');
@@ -525,7 +555,7 @@ router.get('/admin/:id/export', (req, res) => {
 
 //-----------------------customer route ---------------------------
 
-router.post('/admin/:id/customers/new', isLoggedIn, function(req, res) {
+router.post('/admin/:id/customers/new', isLoggedIn, function (req, res) {
 	var firstName = req.body.firstname;
 	var lastName = req.body.lastname;
 	var email = req.body.email;
@@ -542,11 +572,11 @@ router.post('/admin/:id/customers/new', isLoggedIn, function(req, res) {
 		address2: address2,
 		zip: zip,
 		province: state,
-		country: 'USA'
+		country: 'USA',
 	};
 
 	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId }, function(err, foundCompany) {
+	UserInfo.find({ 'user.id': userId }, function (err, foundCompany) {
 		if (err) {
 			console.log('err');
 		} else {
