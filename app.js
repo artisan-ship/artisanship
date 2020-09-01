@@ -56,21 +56,6 @@ app.use(function(req, res , next){
 app.use(indexRoutes);
 app.use(function(req, res , next){
 	res.locals.currentUser = req.user;
-
-	if(typeof req.user.id === "undefined"){
-		console.log("test");
-	}
-	else{
-		UserInfo.find({ 'user.id': req.user.id }, function(err, foundUser) {
-			if (err) {
-				console.log('err');
-			} else {
-				res.locals.userInfo = foundUser[0];
-			}
-		}
-		)
-	}
-
 	next();
 })
 app.use(adminRoutes);
