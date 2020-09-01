@@ -10,35 +10,44 @@
 			</div>
 			<div class="ui segment">
 				<h4>Export Format</h4>
-			<span>
-
-  <div class="ui inline dropdown">
-    <div class="text">
-      
-      Choose Platform..
-    </div>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <div class="item">
-        <img class="ui avatar image" src="https://1000logos.net/wp-content/uploads/2020/08/WooCommerce-Logo.png">
-        Woocommerce 
-      </div>
-      <div class="item">
-        <img class="ui avatar image" src="https://dwglogo.com/wp-content/uploads/2017/11/Shopify_logo_01.png">
-           Shopify
-      </div>
-      <div class="item">
-        <img class="ui avatar image" src="https://seeklogo.com/images/M/magento-logo-7F3911AE9E-seeklogo.com.png">
-        Magento
-      </div>
-      <div class="item">
-        <img class="ui avatar image" src="https://ps.w.org/bigcommerce/assets/icon-256x256.png?rev=2141502">
-        Bigcommerce
-      </div>
- 
-    </div>
-  </div>
-</span>
+				<span>
+					<div class="ui inline dropdown">
+						<div class="text">
+							Choose Platform..
+						</div>
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<div class="item">
+								<img
+									class="ui avatar image"
+									src="https://1000logos.net/wp-content/uploads/2020/08/WooCommerce-Logo.png"
+								/>
+								Woocommerce
+							</div>
+							<div class="item">
+								<img
+									class="ui avatar image"
+									src="https://dwglogo.com/wp-content/uploads/2017/11/Shopify_logo_01.png"
+								/>
+								Shopify
+							</div>
+							<div class="item">
+								<img
+									class="ui avatar image"
+									src="https://seeklogo.com/images/M/magento-logo-7F3911AE9E-seeklogo.com.png"
+								/>
+								Magento
+							</div>
+							<div class="item">
+								<img
+									class="ui avatar image"
+									src="https://ps.w.org/bigcommerce/assets/icon-256x256.png?rev=2141502"
+								/>
+								Bigcommerce
+							</div>
+						</div>
+					</div>
+				</span>
 			</div>
 			<div class="ui segment">
 				<form action="" method="">
@@ -58,7 +67,6 @@
 				<th>Vendor</th>
 				<th>Tags</th>
 				<th>collection</th>
-				
 			</thead>
 			<tbody>
 				<% products.products.forEach(function(product, i){ %>
@@ -67,9 +75,7 @@
 						<h4 class="ui image header">
 							<img src="<%= product.image %>" class="ui medium rounded image" />
 							<div class="content">
-								<a href="/products/<%=product._id %>"
-									><%= product.title %></a
-								>
+								<a href="/products/<%=product._id %>"><%= product.title %></a>
 							</div>
 						</h4>
 					</td>
@@ -93,7 +99,9 @@
 					</td>
 
 					<td>
-						<button onclick="exportProducts(<%=i%>)" class="ui orange button">Export</button>
+						<button class="ui mini icon button" onclick="exportProducts(<%=i%>)" data-tooltip="Export Product">
+							<i class="download icon"></i>
+						</button>
 					</td>
 				</tr>
 
@@ -116,53 +124,53 @@
 </div>
 
 <script>
-	$('.ui.dropdown')
-  .dropdown()
+	$('.activating.element').popup()
 ;
-	function exportProducts(i){
-		console.log(i);
-			var data = [
-	  <% products.products.forEach(function(product){ %>
-		  ['<%=product.title %>', '<%=product.price %>' , '<%=product.retail_price %>', '<%=product.vendor %>', '<%=product.image %>', '<%=product.tags %>', '<%=product.collections %>', '<%=product.production_time %>', '<%=product.inventory %>', '<%=product.delivery_time %>','<%=product.shipping %>','<%=product.created %>','<%=product.comments %>'],
-		<% }) %>
-	   ['Foo', 'programmer'],
+		$('.ui.dropdown')
+	  .dropdown()
+	;
+		function exportProducts(i){
+			console.log(i);
+				var data = [
+		  <% products.products.forEach(function(product){ %>
+			  ['<%=product.title %>', '<%=product.price %>' , '<%=product.retail_price %>', '<%=product.vendor %>', '<%=product.image %>', '<%=product.tags %>', '<%=product.collections %>', '<%=product.production_time %>', '<%=product.inventory %>', '<%=product.delivery_time %>','<%=product.shipping %>','<%=product.created %>','<%=product.comments %>'],
+			<% }) %>
+		   ['Foo', 'programmer'],
 
-			];
-			
-		if( i >= 0){
-		    var data = [
-				data[i]
-				
-			] 
-			console.log(data[i])
-	
-			
- download_csv()
+				];
+
+			if( i >= 0){
+			    var data = [
+					data[i]
+
+				]
+				console.log(data[i])
+
+
+	 download_csv()
+			}
+			else{
+
+
+
+					 download_csv()
+			}
+
+
+		function download_csv() {
+		    var csv = 'title,price,retail_price,vendor,image,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
+		    data.forEach(function(row) {
+		            csv += row.join(',');
+		            csv += "\n";
+		    });
+
+
+		    var hiddenElement = document.createElement('a');
+		    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+		    hiddenElement.target = '_blank';
+		    hiddenElement.download = 'artisanship-product-export-'+Date.now()+'.csv';
+		    hiddenElement.click();
 		}
-		else{
-		
-		
-			
-				 download_csv()
+
 		}
-
-
-	function download_csv() {
-	    var csv = 'title,price,retail_price,vendor,image,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
-	    data.forEach(function(row) {
-	            csv += row.join(',');
-	            csv += "\n";
-	    });
-
-	    
-	    var hiddenElement = document.createElement('a');
-	    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-	    hiddenElement.target = '_blank';
-	    hiddenElement.download = 'artisanship-product-export-'+Date.now()+'.csv';
-	    hiddenElement.click();
-	}
-		
-	}
-
-	
 </script>

@@ -2,7 +2,7 @@
 
 <div class="pusher">
 	<div class="ui centered container">
-		<div class="ui centered raised segment" id="productPageSegment">
+		<div class="ui centered raised segment product-page-segment" id="productPageSegment">
 			<div class="ui centered grid">
 				<div class="ten wide column">
 					<div class="container" style="">
@@ -13,43 +13,53 @@
 				</div>
 				<div class="six wide column">
 					<div class="container">
-						<div class="ui segment">
+						<div class="ui segment product-page-detail">
 							<h1 class="ui header">
 								<%= product.title %>
 							</h1>
-							
-							<p>
-								Vendor: <strong><%= product.vendor %></strong>
-							</p>
-								<h4 class="ui header">
-								Unit Price:
-								$ <em><%= product.price %></em>
+
+							<p>By <strong><%= product.vendor %></strong></p>
+							<div class="review-stars">
+								<i class="star icon"></i>
+								<i class="star icon"></i>
+								<i class="star icon"></i>
+								<i class="star icon"></i>
+								<i class="star icon"></i>
+								<span class="rating-text">
+									(35)
+								</span>
+							</div>
+
+							<div class="ui price-section">
+								<span class="unit-price"
+									>Price:
 									<p>
-											Recommended Retail Price:
-								$ <em><%= product.retail_price %></em>
+										<span class="price-text">$<%= product.price %></span>
 									</p>
-								
-							</h4>
-						
+								</span>
 
-							<form action="/admin/<%= currentUser.id %>/products/<%= product._id %>" method="POST">
-								<input type="hidden" name="id" value="<%= product._id %>" />
-								<button class="ui button orange" href="#">
-									Add product
-								</button>
-							</form>
+								<span class="retail-price"
+									>Retail Price:
+									<p>
+										<span class="price-text">$<%= product.retail_price %></span>
+									</p>
+								</span>
+							</div>
 
-						
-							<h4 class="ui horizontal divider header">
-								<i class="bar chart icon"></i>
-								Description
-							</h4>
+							<h4 class="ui horizontal divider header"></h4>
 							<p>
 								<%= product.body %>
 							</p>
+							<form action="/admin/<%= currentUser.id %>/products/<%= product._id %>" method="POST">
+									<button class="ui labeled icon orange button">
+								<i class="add icon"></i>
+								Add Product
+							</button>
+							</form>
+						
+
 							<h4 class="ui horizontal divider header">
-								<i class="bar chart icon"></i>
-								Specifications
+								Details
 							</h4>
 
 							<table class="ui definition table">

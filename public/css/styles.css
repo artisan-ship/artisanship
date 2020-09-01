@@ -8,11 +8,52 @@
 	display: inline;
 }
 
-#productPageSegment {
+
+.product-page-segment{
 	height: 100%;
 	margin: 50px 0;
 }
+.container .product-page-detail {
+	border:none;
+	box-shadow:none;
+}
 
+.container .product-page-detail h1{
+    font-size: 4.5em;
+    font-family: serif;
+    font-weight: normal;
+    letter-spacing: 3px;
+	overflow-wrap: break-word;
+    margin: 0px;
+    line-height: 0.9em;
+}
+
+
+.container .product-page-detail .review-stars .star{
+	color: #ffce38;
+}
+
+.container .product-page-detail .price-section {
+	font-size:1.1em;
+	color:#121212;
+	font-weight:lighter;
+	padding: 10px 20px;
+}
+.container .product-page-detail .price-section  .retail-price{
+	float:right;
+	text-align:center;
+}
+
+ .container .product-page-detail .price-section  .unit-price{
+	float:left;
+	text-align:center;
+}
+
+ .container .product-page-detail .price-section .price-text{
+	font-size: 1.3em;
+	 font-weight:bold;
+	letter-spacing: 2px;
+}
 body {
 	background: #ededed;
 	padding-bottom: 100px;
@@ -29,13 +70,16 @@ body {
 	margin-top: 10px;
 }
 
-
+.ui.header+p {
+    margin-top: 1em;
+}
 
 /* admin panel styling */
 
 
 .product-search.container {
-	padding: 3em;
+	padding: 2em;
+	margin-top: 3em;
 } 
 .product-search.container .input {
 	font-size: 1.2em;
@@ -68,6 +112,12 @@ table .content a:hover{
 	color:orange;
 }
 
+
+.dashboard .basic.orange.button:hover {
+	background-color: #f2711c !important;
+	color: white !important;
+	cursor: pointer;
+}
 .filter {
 	margin-left:10px;
 }
@@ -148,6 +198,13 @@ table .content a:hover{
 
 .shipping-info {
 	
+}
+
+.dashboard-card-text{
+	    font-size: 0.7em;
+    font-weight: lighter;
+    color: grey;
+    padding: 5px;
 }
 
 input #image:before{
