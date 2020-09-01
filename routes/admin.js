@@ -227,7 +227,7 @@ router.post('/admin/merchants', isLoggedIn, function (req, res) {
 
 router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 	var userId = req.user._id;
-	userInfo.find({ 'user.id': userId }, function (err, foundUser) {
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
@@ -236,10 +236,10 @@ router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 					console.log(err);
 					res.redirect('back');
 				} else {
-					console.log(foundCollections);
+					console.log(foundUser);
 					res.render('admin/products/new', {
 						userInfo: foundUser[0],
-						creator: foundCompany,
+						creator: foundUser[0],
 						collections: foundCollections[0],
 					});
 				}
@@ -490,7 +490,7 @@ router.get('/admin/:id/export', isLoggedIn, (req, res) => {
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
-				var products = foundMerchant[0];
+				var products = foundUser[0].products;
 				res.render('merchant/export/index', { products: products, userInfo: foundUser[0] });
 			}
 		});
