@@ -342,3 +342,32 @@ a[href="/register"]:hover{
 #registerBtn{
 	z-index:1;
 }
+
+.how-it-works-section .title{
+	text-align: center;
+	font-size: 2em;
+}
+
+.how-it-works-section i{
+
+	font-size: 4.5em;
+	color:orange;
+}
+
+.how-it-works-section .description{
+
+	font-size: 1.2em;
+	padding: 1em;
+}
+
+.how-it-works-section p{
+
+	font-size: 1.4em;
+	padding: 0.5em;
+}
+.mega{
+	font-size: 5em;
+    padding-bottom: 1em;
+}
+
+
