@@ -466,7 +466,7 @@ router.get('/admin/:id/search/:term', isLoggedIn, function (req, res) {
 						});
 					} else {
 						res.render('merchant/search/index', {
-							userInfo: foundUser[0]
+							userInfo: foundUser[0],
 							products: foundProducts,
 							merchantProducts: products,
 						});
