@@ -10,7 +10,7 @@ var Product   = require("./models/products");
 var Merchant   = require("./models/merchants");
 var passportLocalMongoose = require('passport-local-mongoose');
 var mongoose =require('mongoose');
-
+// var seed = require('./seeds')
 // var productRoutes = require('./routes/products');
 var indexRoutes = require('./routes/index')
 var adminRoutes = require('./routes/admin')

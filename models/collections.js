@@ -21,7 +21,7 @@ var collectionSchema = new mongoose.Schema({
 			ref: 'Product'
 		}
 	],
-	electronics: [
+	tech: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Product'

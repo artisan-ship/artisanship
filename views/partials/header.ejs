@@ -9,7 +9,8 @@
 
 	<!-- Site Properties -->
 	<title>Artisanship</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 
@@ -22,52 +23,55 @@
 
 <body>
 
-		<div class="ui secondary pointing menu" id="nav">
-	<div class="ui container" style="margin-top: 0px;">
-		<% if(userInfo.type == "creator") { %>
-	
-			<a href="/admin" class="item">
-				Dashboard
-			</a>
-		
-			<a href="/admin/<%= currentUser.id %>/products" class="item">
-				My Products
-			</a>
-			
-			<a href="/admin/<%= currentUser.id %>/orders" class="item">
-				My Orders
-			</a>
-			<a href="/merchants" class="item">
-				
-			</a>
-<% } else{%>
+	<div class="ui secondary pointing menu" id="nav">
+		<div class="ui container" style="margin-top: 0px;">
+			<% if(userInfo.type == "creator") { %>
+
 			<a href="/admin" class="item">
 				<i class="ui chart line icon"></i>
 				Dashboard
 			</a>
-		
-			<a href="/admin/<%= currentUser.id %>/search" class="item">
-				<i class="ui search icon"></i>
-				Search Products
-			</a>
-		<a href="/admin/<%= currentUser.id %>/export" class="item">
-			<i class="ui tag icon"></i>
-				Export Products
-			</a>
-			
+
 			<a href="/admin/<%= currentUser.id %>/products" class="item">
 				<i class="ui tag icon"></i>
 				My Products
 			</a>
-			
+
+			<a href="/admin/<%= currentUser.id %>/orders" class="item">
+				<i class="ui clipboard list icon"></i>
+				My Orders
+			</a>
+			<a href="/merchants" class="item">
+
+			</a>
+			<% } else{%>
+			<a href="/admin" class="item">
+				<i class="ui chart line icon"></i>
+				Dashboard
+			</a>
+
+			<a href="/admin/<%= currentUser.id %>/search" class="item">
+				<i class="ui search icon"></i>
+				Search Products
+			</a>
+			<a href="/admin/<%= currentUser.id %>/export" class="item">
+				<i class="ui tag icon"></i>
+				Export Products
+			</a>
+
+			<a href="/admin/<%= currentUser.id %>/products" class="item">
+				<i class="ui tag icon"></i>
+				My Products
+			</a>
+
 			<a href="/admin/<%= currentUser.id %>/orders" class="item">
 				<i class="ui clipboard list icon"></i>
 				My Orders
 			</a>
 			<a href="/creators" class="item">
-				
+
 			</a>
-		<% } %>
+			<% } %>
 			<div class="right menu">
 				<a class="ui item">
 					<i class="ui setting icon"></i>
@@ -78,36 +82,36 @@
 				</a>
 
 				<% if(!currentUser){ %>
-					<a href="/login" class="ui inverted button">Login</a>
-					<a href="/register" class="ui inverted button">Sign Up</a>
+				<a href="/login" class="ui inverted button">Login</a>
+				<a href="/register" class="ui inverted button">Sign Up</a>
 
-					<%} else { %>
-						<a class="item">
-							<strong>
-								<i class="user  icon"></i>
-								<%= currentUser.username %>
-							</strong>
-						</a>
-						<a href="/logout" class="item">
-							<strong>
-								<i class="sign-out  icon"></i>
-							</strong>
-						</a>
-						<% } %>
+				<%} else { %>
+				<a class="item">
+					<strong>
+						<i class="user  icon"></i>
+						<%= currentUser.username %>
+					</strong>
+				</a>
+				<a href="/logout" class="item">
+					<strong>
+						<i class="sign-out  icon"></i>
+					</strong>
+				</a>
+				<% } %>
 
 			</div>
 		</div>
 	</div>
-		<script>
-		
-			
+	<script>
+
+
 		var items = document.querySelectorAll('.item');
-		items.forEach(function(item, index) {
-			if(window.location.pathname == $(item).attr("href")){
-				 $(item).toggleClass("active");
+		items.forEach(function (item, index) {
+			if (window.location.pathname == $(item).attr("href")) {
+				$(item).toggleClass("active");
 			}
-			
+
 		});
-	
-	
+
+
 	</script>

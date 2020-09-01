@@ -14,7 +14,7 @@
 							<label>Product</label>
 							<select id="productSelect" class="ui fluid dropdown">
 								<option value="">Select Product</option>
-								<% merchant.products.forEach(function(product,i){ %>
+								<% userInfo.products.forEach(function(product,i){ %>
 									<option value="<tr><th><input type='hidden' name='product[id]' value='<%=product._id %>'><%=product.title %></th><th><%=product.vendor %></th><th class='price'><%=product.price %></th></tr>">
 										<%= product.title %>
 									</option>
@@ -77,7 +77,7 @@
 						<label>Select Customer</label>
 								<select name="customerId" id="customerSelect" class="ui fluid dropdown">
 								<option value="">Customer</option>
-								<% merchant.customers.forEach(function(customer,i){ %>
+								<% userInfo.customers.forEach(function(customer,i){ %>
 							    <option name="customerId" value="<%=customer.id%>"><%=customer.first_name %>   <%=customer.last_name%></option>
                                  <% }) %>
 							</select>
