@@ -5,6 +5,8 @@ var User = require('../models/users');
 var Product = require('../models/products');
 var Creator = require('../models/creators');
 var Merchant = require('../models/merchants');
+var UserInfo = require('../models/user_info');
+
 
 router.get('/merchant', isLoggedIn, function(req, res) {
 	var userId = req.user._id;
@@ -151,13 +153,24 @@ router.post('/merchant/orders', isLoggedIn, function(req, res) {
 });
 
 router.get('/products/:id', isLoggedIn, function(req, res) {
-	Product.findById(req.params.id, function(err, foundProduct) {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId },function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
-			res.render('merchant/products/show', { product: foundProduct });
+			Product.findById(req.params.id).populate("reviews").exec(function(err, foundProduct) {
+				if (err) {
+					console.log('err');
+				} else {
+					console.log()
+					res.render('merchant/products/show', { userInfo: foundUser[0],product: foundProduct });
+				}
+			});
+			console.log(foundUser);
+			
 		}
 	});
+
 });
 
 

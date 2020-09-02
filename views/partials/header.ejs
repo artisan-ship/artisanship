@@ -103,8 +103,9 @@
 		</div>
 	</div>
 
-	<div class="ui container" style="padding: 30px;">
+
 		<% if(error && error.length > 0){ %>
+			<div class="ui container" style="padding:  30px 0;">
 		<div class="ui warning message">
 			<i class="close icon"></i>
 			<div class="header">
@@ -112,9 +113,11 @@
 			</div>
 			<%= error %>
 		</div>
+	</div>
 
 		<% } %>
 		<% if(success && success.length > 0){ %>
+			<div class="ui container" style="padding: 30px 0;">
 		<div class="ui positive message">
 			<i class="close icon"></i>
 			<div class="header">
@@ -122,8 +125,9 @@
 			</div>
 			<%= success %>
 		</div>
-		<% } %>
 	</div>
+		<% } %>
+
 	<script>
 		$('.message .close')
 			.on('click', function () {

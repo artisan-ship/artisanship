@@ -67,6 +67,16 @@
 						</strong>
 					</p>
 				</div>
+				<% if (products[i].reviews.length > 0){ %>
+					<div class="review-stars">
+						<span style=" font-size: 1em;" class="ui rating" data-rating="<%= products[i].rating %>" data-max-rating="5"></span>
+						<span class="rating-text">
+							(<%= products[i].reviews.length %>)
+						</span>
+					</div>
+
+				<% } %>
+			
 				<div class="description">
 					<div class="left floated">
 						<b>Price</b>
@@ -140,6 +150,8 @@
 </div>
 
 <script>
+	$('.ui.rating').rating();
+
 	function hideForm(i) {
 		$('#importForm' + i).hide();
 	}

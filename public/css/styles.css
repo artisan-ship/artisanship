@@ -85,7 +85,14 @@ body {
 	font-size: 1.2em;
 } 
 
-
+.comments .rating{
+	font-size: 1.5em;
+	color: #ffce38;
+}
+.comments .rating{
+	font-size: 1.5em;
+	color: #ffce38;
+}
 .labels.search{
 	padding: 1em;
 	background-color: transparent;

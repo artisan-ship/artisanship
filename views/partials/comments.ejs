@@ -1,81 +1,66 @@
 <div class="ui comments">
   <h3 class="ui dividing header">Comments</h3>
+  <% product.reviews.forEach(function(review){ %>
+  
   <div class="comment">
     <a class="avatar">
       <img src="/images/avatar/small/matt.jpg">
     </a>
     <div class="content">
-      <a class="author">Matt</a>
+      <a class="author"><%= review.author.username %></a>
       <div class="metadata">
         <span class="date">Today at 5:42PM</span>
       </div>
+      
+
       <div class="text">
-        How artistic!
+        <span style=" font-size: 1.2 em;" class="ui star rating" data-rating="<%= review.rating %>" data-max-rating="5"></span>
+
+      </div>
+      <div class="text">
+        <%= review.text %>
       </div>
       <div class="actions">
-        <a class="reply">Reply</a>
+     
       </div>
     </div>
   </div>
-  <div class="comment">
-    <a class="avatar">
-      <img src="/images/avatar/small/elliot.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Elliot Fu</a>
-      <div class="metadata">
-        <span class="date">Yesterday at 12:30AM</span>
-      </div>
-      <div class="text">
-        <p>This has been very useful for my research. Thanks as well!</p>
-      </div>
-      <div class="actions">
-        <a class="reply">Reply</a>
-      </div>
-    </div>
-    <div class="comments">
-      <div class="comment">
-        <a class="avatar">
-          <img src="/images/avatar/small/jenny.jpg">
-        </a>
-        <div class="content">
-          <a class="author">Jenny Hess</a>
-          <div class="metadata">
-            <span class="date">Just now</span>
-          </div>
-          <div class="text">
-            Elliot you are always so right :)
-          </div>
-          <div class="actions">
-            <a class="reply">Reply</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="comment">
-    <a class="avatar">
-      <img src="/images/avatar/small/joe.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Joe Henderson</a>
-      <div class="metadata">
-        <span class="date">5 days ago</span>
-      </div>
-      <div class="text">
-        Dude, this is awesome. Thanks so much
-      </div>
-      <div class="actions">
-        <a class="reply">Reply</a>
-      </div>
-    </div>
-  </div>
-  <form class="ui reply form">
-    <div class="field">
-      <textarea></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> Add Reply
-    </div>
-  </form>
+ <% }) %>
+
 </div>
+<form action="/products/<%= product._id %>/reviews" method="POST" class="ui reply form">
+  <div class="field">
+    <span style="font-weight: bold; font-size: 1.5em;"">Rating</span>
+
+        <div id="reviewRatingInput" style=" font-size: 1.5 em;" class="ui star rating" data-rating="" data-max-rating="
+        5"></div>
+
+
+
+
+  </div>
+  <div class="field">
+    <input type="hidden" id="reviewRatingForm" name="review[rating]" value="">
+    <span style="font-weight: bold; font-size: 1.5em;"">Review</span>
+      <textarea name=" review[text]"></textarea>
+  </div>
+  <button class=" ui orange labeled submit icon button">
+    <i class="icon edit"></i> Create Review
+  </button>
+</form>
+</div>
+
+<script>
+  $('.ui.rating').rating();
+
+
+ 
+  $("#reviewRatingInput").click(function () {
+    $('#reviewRatingForm').val($("#reviewRatingInput").rating('get rating'))
+
+
+      ;
+  })
+
+
+</script>

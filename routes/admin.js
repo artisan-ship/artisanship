@@ -12,6 +12,7 @@ var ShopifyUser = require('../models/shopify_users');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
 var UserInfo = require('../models/user_info');
 var Order = require('../models/orders');
+var Review = require("../models/reviews");
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -531,6 +532,46 @@ router.post('/admin/:id/customers/new', isLoggedIn, function (req, res) {
 		}
 	});
 });
+// Reviews Create
+router.post("/products/:id/reviews",isLoggedIn, function (req, res) {
+    //lookup product using ID
+    Product.findById(req.params.id).populate("reviews").exec(function (err, foundProduct) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        Review.create(req.body.review, function (err, review) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            //add author username/id 
+            review.author.id = req.user._id;
+            review.author.username = req.user.username;
+            review.product = foundProduct;
+            //save review
+            review.save();
+            foundProduct.reviews.push(review);
+            // calculate the new average review for the campground
+            foundProduct.rating = calculateAverage(foundProduct.reviews);
+          
+            foundProduct.save();
+            req.flash("success", "Your review has been successfully added.");
+            res.redirect('/products/' + foundProduct._id);
+        });
+    });
+});
+
+function calculateAverage(reviews) {
+    if (reviews.length === 0) {
+        return 0;
+    }
+    var sum = 0;
+    reviews.forEach(function (element) {
+        sum += element.rating;
+    });
+    return sum / reviews.length;
+}
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {

@@ -20,13 +20,9 @@
 
 							<p>By <strong><%= product.vendor %></strong></p>
 							<div class="review-stars">
-								<i class="star icon"></i>
-								<i class="star icon"></i>
-								<i class="star icon"></i>
-								<i class="star icon"></i>
-								<i class="star icon"></i>
+								<span style=" font-size: 1.4em;" class="ui star rating" data-rating="<%= product.rating %>" data-max-rating="5"></span>
 								<span class="rating-text">
-									(35)
+									(<%= product.reviews.length %>)
 								</span>
 							</div>
 
@@ -41,7 +37,7 @@
 								<span class="retail-price"
 									>Retail Price:
 									<p>
-										<span class="price-text">$<%= product.retail_price %></span>
+										<span class="price-text">$<%= product.retail_price.substring(0,6)%></span>
 									</p>
 								</span>
 							</div>
