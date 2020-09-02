@@ -13,6 +13,7 @@ var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
 var UserInfo = require('../models/user_info');
 var Order = require('../models/orders');
 var Review = require("../models/reviews");
+var middleware = require('../middleware/index');
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -39,7 +40,7 @@ cloudinary.config({
 //------------- start of routes ---------------
 
 // admin index routes
-router.get('/admin', isLoggedIn, function (req, res) {
+router.get('/admin', middleware.isLoggedIn, function (req, res) {
 	var userId = req.user._id;
 	if (!userId) {
 		res.redirect('/register');
@@ -50,7 +51,7 @@ router.get('/admin', isLoggedIn, function (req, res) {
 	}
 });
 
-router.get('/admin/:id', isLoggedIn, function (req, res) {
+router.get('/admin/:id', middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
@@ -68,7 +69,7 @@ router.get('/admin/:id', isLoggedIn, function (req, res) {
 
 // --------------------------------order routes -----------------------------
 
-router.get('/admin/:id/orders', isLoggedIn, (req, res) => {
+router.get('/admin/:id/orders', middleware.isLoggedIn,middleware.checkUserOwnership, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('Orders')
@@ -84,7 +85,7 @@ router.get('/admin/:id/orders', isLoggedIn, (req, res) => {
 		});
 });
 
-router.get('/admin/:id/orders/new', isLoggedIn, (req, res) => {
+router.get('/admin/:id/orders/new', middleware.isLoggedIn,middleware.checkUserOwnership, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
@@ -99,7 +100,7 @@ router.get('/admin/:id/orders/new', isLoggedIn, (req, res) => {
 		});
 });
 
-router.post('/admin/:id/orders', isLoggedIn, function (req, res) {
+router.post('/admin/:id/orders', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.user._id;
 	var customerId = req.body.customerId;
 	var products = req.body.product;
@@ -192,7 +193,7 @@ router.post('/admin/:id/orders', isLoggedIn, function (req, res) {
 // 	});
 // });
 
-router.get('/admin/merchants/new', isLoggedIn, function (req, res) {
+router.get('/admin/merchants/new', middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
 	res.render('admin/merchants/new');
 });
 
@@ -229,7 +230,7 @@ router.post('/admin/merchants', isLoggedIn, function (req, res) {
 
 // products  routes  ----------------------->
 
-router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
+router.get('/admin/:id/products/new', middleware.isLoggedIn,middleware.checkUserOwnership,function (req, res) {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
@@ -252,7 +253,7 @@ router.get('/admin/:id/products/new', isLoggedIn, function (req, res) {
 	});
 });
 
-router.get('/admin/:id/products', isLoggedIn, function (req, res) {
+router.get('/admin/:id/products', middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
@@ -268,7 +269,7 @@ router.get('/admin/:id/products', isLoggedIn, function (req, res) {
 		});
 });
 
-router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function (req, res) {
+router.post('/admin/:id/products', middleware.isLoggedIn,middleware.checkUserOwnership, upload.single('image'), function (req, res) {
 	cloudinary.uploader.upload(req.file.path, function (result) {
 		var title = req.body.title;
 		var price = req.body.price;
@@ -330,7 +331,7 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function 
 	});
 });
 
-router.delete('/admin/:id/products/:productid', isLoggedIn, function (req, res) {
+router.delete('/admin/:id/products/:productid', middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
@@ -361,7 +362,7 @@ router.delete('/admin/:id/products/:productid', isLoggedIn, function (req, res) 
 	});
 });
 
-router.post('/admin/:id/products/:productid', isLoggedIn, (req, res) => {
+router.post('/admin/:id/products/:productid', middleware.isLoggedIn,middleware.checkUserOwnership, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
@@ -386,7 +387,7 @@ router.post('/admin/:id/products/:productid', isLoggedIn, (req, res) => {
 });
 
 // ---------------search routes
-router.get('/admin/:id/search' , isLoggedIn, (req, res) => {
+router.get('/admin/:id/search' , middleware.isLoggedIn, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
@@ -412,7 +413,7 @@ router.get('/admin/:id/search' , isLoggedIn, (req, res) => {
 		});
 });
 
-router.post('/admin/:id/search', isLoggedIn, (req, res) => {
+router.post('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
@@ -436,7 +437,7 @@ router.post('/admin/:id/search', isLoggedIn, (req, res) => {
 	});
 });
 
-router.get('/admin/:id/search/:term', isLoggedIn, function (req, res) {
+router.get('/admin/:id/search/:term', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId }).populate('products').exec( function (err, foundUser) {
 		if (err) {
@@ -483,7 +484,7 @@ router.get('/admin/:id/search/:term', isLoggedIn, function (req, res) {
 
 // -----------------------export routes ----------------------------------------
 
-router.get('/admin/:id/export', isLoggedIn, (req, res) => {
+router.get('/admin/:id/export', middleware.isLoggedIn,middleware.checkUserOwnership, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })
 		.populate('products')
@@ -501,7 +502,7 @@ router.get('/admin/:id/export', isLoggedIn, (req, res) => {
 
 //-----------------------customer route ---------------------------
 
-router.post('/admin/:id/customers/new', isLoggedIn, function (req, res) {
+router.post('/admin/:id/customers/new', middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
 	var firstName = req.body.firstname;
 	var lastName = req.body.lastname;
 	var email = req.body.email;
@@ -533,7 +534,7 @@ router.post('/admin/:id/customers/new', isLoggedIn, function (req, res) {
 	});
 });
 // Reviews Create
-router.post("/products/:id/reviews",isLoggedIn, function (req, res) {
+router.post("/products/:id/reviews",middleware.isLoggedIn,middleware.checkUserOwnership, function (req, res) {
     //lookup product using ID
     Product.findById(req.params.id).populate("reviews").exec(function (err, foundProduct) {
         if (err) {
