@@ -43,6 +43,8 @@ router.get('/admin', isLoggedIn, function (req, res) {
 	if (!userId) {
 		res.redirect('/register');
 	} else {
+
+	
 		res.redirect('/admin/' + userId);
 	}
 });
@@ -53,8 +55,9 @@ router.get('/admin/:id', isLoggedIn, function (req, res) {
 		if (err) {
 			console.log('err');
 		} else {
+			
 			console.log(foundUser);
-			res.render('admin/index', { userInfo: foundUser[0] });
+			res.render('admin/index', { userInfo: foundUser[0], success: "welcome " + foundUser.firtname  } );
 		}
 	});
 });
@@ -312,11 +315,10 @@ router.post('/admin/:id/products', isLoggedIn, upload.single('image'), function 
 					if (err) {
 						console.log(err);
 					} else {
+						
 						foundUser[0].products.push(newlyCreated);
 						foundUser[0].save();
-
-						console.log('Added a new product');
-						console.log(foundUser.products);
+						req.flash("success", "The product has been created")
 						res.redirect('/admin/' + userId + '/products');
 					}
 				});

@@ -1,4 +1,7 @@
+
 const express = require('express');
+var flash = require('connect-flash');
+var cookieParser = require('cookie-parser')
 var dotenv = require('dotenv').config();
 var passport =require('passport');
 const  bodyParser = require('body-parser');
@@ -17,10 +20,12 @@ var adminRoutes = require('./routes/admin')
 var merchantRoutes = require('./routes/merchants')
 var collectionRoutes = require('./routes/collections')
 var UserInfo = require('./models/user_info');
-
-
-
 const app = express();
+
+app.use(cookieParser('secretString'));
+
+app.use(flash());
+
 
 mongoose.connect('mongodb://localhost/artisanship', {useNewUrlParser: true,  useUnifiedTopology : true});
 app.use(bodyParser.urlencoded({extended: true}));
@@ -37,6 +42,8 @@ app.use(require("express-session")({
 	saveUninitialized: false
 }));
 
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -48,16 +55,15 @@ passport.deserializeUser(User.deserializeUser())
 
 app.use(function(req, res , next){
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
 	next();
 })
 
 //seedDB()
 
 app.use(indexRoutes);
-app.use(function(req, res , next){
-	res.locals.currentUser = req.user;
-	next();
-})
+
 app.use(adminRoutes);
 app.use(collectionRoutes);
 app.use(merchantRoutes);

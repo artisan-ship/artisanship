@@ -102,7 +102,37 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="ui container" style="padding: 30px;">
+		<% if(error && error.length > 0){ %>
+		<div class="ui warning message">
+			<i class="close icon"></i>
+			<div class="header">
+				<%= error %>
+			</div>
+			<%= error %>
+		</div>
+
+		<% } %>
+		<% if(success && success.length > 0){ %>
+		<div class="ui positive message">
+			<i class="close icon"></i>
+			<div class="header">
+				<%= success %>
+			</div>
+			<%= success %>
+		</div>
+		<% } %>
+	</div>
 	<script>
+		$('.message .close')
+			.on('click', function () {
+				$(this)
+					.closest('.message')
+					.transition('fade')
+					;
+			})
+			;
 
 
 		var items = document.querySelectorAll('.item');
