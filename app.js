@@ -69,16 +69,10 @@ app.use(collectionRoutes);
 app.use(merchantRoutes);
 
 
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	
-	res.redirect("/login");
-}
-
-
-
+app.use(function(req, res, next) {
+    res.status(404);
+    res.render('404-page');
+});
 
 
 app.listen(3000, function(){
