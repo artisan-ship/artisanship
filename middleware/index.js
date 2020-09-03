@@ -57,6 +57,25 @@ middlewareObj.checkProductOwnership = function(req, req, next){
 
 }
 
+middlewareObj.checkProductOwnershipforReview = function(req, req, next){
+   
+        Product.findById(req.params.id, function(err, foundProduct) {
+            if (err) {
+                res.redirect('back');
+            } else {
+                if (foundProduct.creator.id.equals(req.user._id)) {
+                    req.flash("error", "You have created this product so you are not able to review this product");
+                    res.redirect('back');
+                   
+                } else {
+                    next();
+                }
+            }
+        });
+
+}
+
+
 
 middlewareObj.isLoggedIn = function(req, res, next){
 	    if (req.isAuthenticated()) {

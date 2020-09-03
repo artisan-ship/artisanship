@@ -539,45 +539,59 @@ router.post('/admin/:id/customers/new', middleware.isLoggedIn, middleware.checkU
 	});
 });
 // Reviews Create
-router.post("/products/:id/reviews", middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
+router.post("/products/:id/reviews", middleware.isLoggedIn, function (req, res) {
 	//lookup product using ID
-	Product.findById(req.params.id).populate("reviews").exec(function (err, foundProduct) {
+	Product.findById(req.params.id).populate("reviews", "creator").exec(function (err, foundProduct) {
 		if (err) {
 			req.flash("error", err.message);
 			return res.redirect("back");
 		}
-		Review.create(req.body.review, function (err, review) {
-			if (err) {
-				req.flash("error", err.message);
-				return res.redirect("back");
-			}
-			//add author username/id 
-			review.author.id = req.user._id;
-			review.author.username = req.user.username;
-			review.product = foundProduct;
-			//save review
-			review.save();
-			foundProduct.reviews.push(review);
-			// calculate the new average review for the campground
-			foundProduct.rating = calculateAverage(foundProduct.reviews);
+		if (foundProduct.creator.id == req.user._id) {
+			req.flash("error", "You have created this product so you are not able to review this product");
+			res.redirect('back');
 
-			foundProduct.save();
-			req.flash("success", "Your review has been successfully added.");
-			res.redirect('/products/' + foundProduct._id);
-		});
+		} else {
+
+			console.log(foundProduct)
+
+
+			Review.create(req.body.review, function (err, review) {
+				if (err) {
+					req.flash("error", err.message);
+					return res.redirect("back");
+				}
+
+				//add author username/id 
+				review.author.id = req.user._id;
+				review.author.username = req.user.username;
+				review.product = foundProduct;
+				//save review
+				review.save();
+				console.log("-----review-----")
+				console.log(review)   
+
+// fix rating
+	
+				foundProduct.save();
+				req.flash("success", "Your review has been successfully added.");
+				res.redirect('/products/' + foundProduct._id);
+
+
+				function calculateAverage(reviews) {
+					if (reviews.length === 0) {
+						return 0;
+					}
+					var sum = 0;
+					reviews.forEach(function (element) {
+						sum += element.rating;
+					});
+					return Number(sum / reviews.length);
+				}
+			});
+		}
 	});
 });
 
-function calculateAverage(reviews) {
-	if (reviews.length === 0) {
-		return 0;
-	}
-	var sum = 0;
-	reviews.forEach(function (element) {
-		sum += element.rating;
-	});
-	return sum / reviews.length;
-}
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
