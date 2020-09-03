@@ -7,7 +7,8 @@ var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
-
+const { route } = require('./admin');
+var users = "";
 
 const tokenSchema = new mongoose.Schema({
     _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
@@ -81,7 +82,8 @@ router.post('/register', function (req, res) {
 									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
-										return res.status(200).send('A verification email has been sent to ' + newUser.email + '.');
+										req.flash('success',"A verification email has been sent to " + newUser.email)
+										return res.redirect('/login')
 									});
 								});
 
@@ -101,7 +103,45 @@ router.post('/register', function (req, res) {
 	});
 });
 
-var nodemailer = require('nodemailer');
+
+
+
+/**
+* POST /confirmation
+*/
+
+router.get("/confirmation/:token",function(req,res){
+
+
+	userToken = req.params.token;
+	res.render('confirmation');
+
+})
+router.post("/confirmation/", function (req, res) {
+
+ 
+    // Find a matching token
+    Token.findOne({ token: userToken}, function (err, token) {
+
+		console.log(token)
+		
+        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+ 
+        // If we found a token, find a matching user
+        UserInfo.findOne({ "_id": token._userId }, function (err, user) {
+			console.log(user)
+            if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+            if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+		   console.log(token._userId);
+		   console.log(user.user.id);
+            // Verify and save the user
+            user.isVerified = true;
+            user.save()
+			req.flash("success","Account verified please login")
+			res.redirect("/login");
+        });
+    });
+});
 
 
 
