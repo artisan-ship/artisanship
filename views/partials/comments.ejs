@@ -9,7 +9,7 @@
     <div class="content">
       <a class="author"><%= review.author.username %></a>
       <div class="metadata">
-        <span class="date">Today at 5:42PM</span>
+        <span class="date time-ago" ><%= review.createdAt %></span>
       </div>
       
 
@@ -51,6 +51,16 @@
 </div>
 
 <script>
+
+
+// change date
+var datesToChange = $(".time-ago").toArray()
+datesToChange.forEach(function (date) {
+  var dateString = $(date).html();
+  $(date).html(timeago.format(dateString));
+})
+
+
   $('.ui.rating').rating();
 
 

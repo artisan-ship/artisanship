@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+
+//order schema 
 var MerchantOrdersSchema = new mongoose.Schema({
 	creator: String,
 	merchant: String,
@@ -65,6 +67,7 @@ var MerchantOrdersSchema = new mongoose.Schema({
 	shop: String,
 });
 
+//customer schema
 
 var customerSchema = new mongoose.Schema({
 	first_name: String,
@@ -86,8 +89,13 @@ var customerSchema = new mongoose.Schema({
 });
 
 
+// token schema
+const tokenSchema = new mongoose.Schema({
+    _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    token: { type: String, required: true },
+    createdAt: { type: Date, required: true, default: Date.now, expires: 43200 }
+});
 
-// create new random product
 var userInfoSchema = new mongoose.Schema({
 	company_title: String,
 	company_logo: String,
@@ -96,6 +104,7 @@ var userInfoSchema = new mongoose.Schema({
 	avatar: String,
 	location: String,
 	email: String,
+	isVerified: { type: Boolean, default: false },
 	created: { type: Date, default: Date.now },
 	first_name: String,
 	middle_name: String,
