@@ -18,7 +18,15 @@
 								<%= product.title %>
 							</h1>
 
-							<p>By <strong><%= product.vendor %></strong></p>
+							<p>By <strong><%= product.vendor %></strong>
+								<a  class="ui labeled button" tabindex="0">
+									<a href="/admin/<%= currentUser.id %>/follow/<%= product.creator.id %>" class="ui mini red button">
+									  <i class="heart icon"></i> Follow
+									</a>
+								
+								</a>
+							
+							</p>
 							<div class="review-stars">
 								<span style=" font-size: 1.4em;" class="ui star rating" data-rating="<%= product.rating %>" data-max-rating="5"></span>
 								<span class="rating-text">

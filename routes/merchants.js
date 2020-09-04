@@ -158,7 +158,7 @@ router.get('/products/:id', isLoggedIn, function(req, res) {
 		if (err) {
 			console.log('err');
 		} else {
-			Product.findById(req.params.id).populate("reviews").exec(function(err, foundProduct) {
+			Product.findById(req.params.id).populate("reviews","creator").exec(function(err, foundProduct) {
 				if (err) {
 					console.log('err');
 				} else {

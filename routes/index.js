@@ -7,6 +7,7 @@ var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+var Notification = require("../models/notification");
 const { route } = require('./admin');
 var users = "";
 
@@ -86,7 +87,8 @@ router.post('/register', function (req, res) {
 										return res.redirect('/login')
 									});
 								});
-
+								newUser.followers = [];
+								newUser.notifications = [];
 								newUser.user.id = req.user._id;
 								newUser.user.username = req.user.username;
 								newUser.save();
@@ -143,6 +145,61 @@ router.post("/confirmation/", function (req, res) {
     });
 });
 
+
+
+// user profile
+router.get('/users/:id', async function(req, res) {
+	try {
+	  let user = await User.findById(req.params.id).populate('followers').exec();
+	  res.render('profile', { user });
+	} catch(err) {
+	  req.flash('error', err.message);
+	  return res.redirect('back');
+	}
+  });
+  
+  // follow user
+  router.get('/admin/:id/follow/:userid', isLoggedIn, async function(req, res) {
+	try {
+	  let userfollow = await User.findById(req.user._id);
+	  let user = await UserInfo.findOne({"user.id":req.params.userid});
+	  user.followers.push(userfollow);
+	  user.save();
+	  req.flash('success', 'Successfully followed ' + user.user.username + '!');
+	  res.redirect('back');
+	} catch(err) {
+	  req.flash('error', err.message);
+	  res.redirect('back');
+	}
+  });
+  
+  // view all notifications
+  router.get('/admin/:id/notifications', isLoggedIn, async function(req, res) {
+	try {
+	  let user = await UserInfo.findOne({"user.id":req.params.userid}).populate({
+		path: 'notifications',
+		options: { sort: { "_id": -1 } }
+	  }).exec();
+	  let allNotifications = user.notifications;
+	  res.render('notifications/index', { allNotifications });
+	} catch(err) {
+	  req.flash('error', err.message);
+	  res.redirect('back');
+	}
+  });
+  
+  // handle notification
+  router.get('admin/:userid/notifications/:id', isLoggedIn, async function(req, res) {
+	try {
+	  let notification = await Notification.findById(req.params.id);
+	  notification.isRead = true;
+	  notification.save();
+	  res.redirect(`/products/${notification.productId}`);
+	} catch(err) {
+	  req.flash('error', err.message);
+	  res.redirect('back');
+	}
+  });
 
 
 

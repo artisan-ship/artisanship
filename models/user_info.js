@@ -144,6 +144,14 @@ var userInfoSchema = new mongoose.Schema({
 			ref: 'Product',
 		},
 	],
+
+
+    followers: [
+    	{
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User'
+    	}
+    ]
 });
 
 module.exports = mongoose.model('UserInfo', userInfoSchema);

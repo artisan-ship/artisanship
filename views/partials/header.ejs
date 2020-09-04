@@ -77,26 +77,40 @@
 			</a>
 			<% } %>
 			<div class="right menu">
-				<a class="ui item">
-					<i class="ui setting icon"></i>
-
-				</a>
-				<a class="ui item">
-					<i class="ui mail icon"></i>
-				</a>
+			
 
 				<% if(!currentUser){ %>
 				<a href="/login" class="ui inverted button">Login</a>
 				<a href="/register" class="ui inverted button">Sign Up</a>
 
 				<%} else { %>
-				<a class="item">
-					<strong>
-						<i class="user  icon"></i>
-						<%= currentUser.username %>
-					</strong>
-				</a>
-				
+					<a class="item">
+						<strong>
+							<i class="user  icon"></i>
+							<%= currentUser.username %>
+						</strong>
+					</a>
+				<div class="ui pointing dropdown link item">
+					<i  class="icon bell"></i> 
+					<div style="margin-left:2px;" class=" ui red label"><%= notifications.length %></div>
+					<span class="text"></span>
+			
+					<div class="menu">
+						<div class="header">New Notifications</div>
+						<div class="item">
+							<a href="/admin/<%= currentUser.id %>/notifications">View past notifications</a>
+						</div>
+						<% notifications.forEach(function(notification) { %>                          
+							<div class="item">
+								<a href="/admin/<%= currentUser.id %>/notifications/<%= notification.id %>">
+									<%= notification.username %> created a new product
+								</a>
+							</div>
+						<% }); %>
+					</div>
+				</div>
+
+
 				<a href="/logout" class="item">
 					<strong>
 						<i class="sign-out  icon"></i>
@@ -109,8 +123,8 @@
 	</div>
 
 
-		<% if(error && error.length > 0){ %>
-			<div class="ui container" style="padding:  30px 0;">
+	<% if(error && error.length > 0){ %>
+	<div class="ui container" style="padding:  30px 0;">
 		<div class="ui warning message">
 			<i class="close icon"></i>
 			<div class="header">
@@ -120,9 +134,9 @@
 		</div>
 	</div>
 
-		<% } %>
-		<% if(success && success.length > 0){ %>
-			<div class="ui container" style="padding: 30px 0;">
+	<% } %>
+	<% if(success && success.length > 0){ %>
+	<div class="ui container" style="padding: 30px 0;">
 		<div class="ui positive message">
 			<i class="close icon"></i>
 			<div class="header">
@@ -131,9 +145,10 @@
 			<%= success %>
 		</div>
 	</div>
-		<% } %>
+	<% } %>
 
 	<script>
+		$('.ui.dropdown').dropdown('show');
 		$('.message .close')
 			.on('click', function () {
 				$(this)
