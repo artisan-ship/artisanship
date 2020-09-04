@@ -8,6 +8,10 @@
 	display: inline;
 }
 
+.ui.rating .active.icon {
+    background: 0 0;
+    color: rgba(220, 176, 0, 0.87);
+}
 
 .product-page-segment{
 	height: 100%;

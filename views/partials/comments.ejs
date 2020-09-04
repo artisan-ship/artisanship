@@ -1,6 +1,5 @@
 <div class="ui comments">
   <h3 class="ui dividing header">Comments</h3>
-  <%= product.reviews %>
   <% product.reviews.forEach(function(review){ %>
   
   <div class="comment">
@@ -15,7 +14,7 @@
       
 
       <div class="text">
-        <span style=" font-size: 1.2 em;" class="ui star rating" data-rating="<%= review.rating %>" data-max-rating="5"></span>
+        <span style=" font-size: 1.2 em;" class="ui rating" data-rating="<%= review.rating %>" data-max-rating="5"></span>
 
       </div>
       <div class="text">
@@ -43,7 +42,7 @@
   <div class="field">
     <input type="hidden" id="reviewRatingForm" name="review[rating]" value="">
     <span style="font-weight: bold; font-size: 1.5em;"">Review</span>
-      <textarea name=" review[text]"></textarea>
+      <textarea name="review[text]"></textarea>
   </div>
   <button class=" ui orange labeled submit icon button">
     <i class="icon edit"></i> Create Review

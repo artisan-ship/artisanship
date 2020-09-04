@@ -155,9 +155,9 @@ router.get('/products/:id', middleware.isLoggedIn, function(req, res) {
 		if (err) {
 			console.log('err');
 		} else {
-			Product.findById(req.params.id).populate("reviews","creator").exec(function(err, foundProduct) {
+			Product.findById(req.params.id).populate("reviews").exec(function(err, foundProduct) {
 				if (err) {
-					console.log('err');
+					console.log(err);
 				} else {
 					console.log()
 					res.render('admin/products/show', { userInfo: foundUser[0],product: foundProduct });
@@ -170,5 +170,63 @@ router.get('/products/:id', middleware.isLoggedIn, function(req, res) {
 
 });
 
+
+// Product DELETE 
+router.delete('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if (err) {
+			console.log(err);
+		} else {
+			if (foundUser.type == 'creator') {
+				Product.findByIdAndRemove(req.params.productid, function (err) {
+					if (err) {
+						console.log('err');
+					} else {
+						res.redirect('/admin/' + req.params.id + '/products');
+					}
+				});
+			} else {
+				foundUser[0].products.forEach(function (product, i) {
+					console.log(product._id);
+					console.log(req.params.productid);
+					if (product._id == req.params.productid) {
+						console.log('removed product');
+						foundUser[0].products.splice(i, 1);
+						foundUser[0].save();
+
+						return res.redirect('/admin/' + req.params.id + '/products');
+					}
+				});
+			}
+		}
+	});
+});
+
+// add product to  merchant
+
+router.post('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
+		if (err) {
+			console.log(err);
+			res.redirect('/merchant');
+		} else {
+			Product.findById(req.body.productid, function (err, foundProduct) {
+				if (err) {
+					console.log(err);
+					res.redirect('/merchant');
+				} else {
+					//add user name
+
+					foundMerchant[0].products.push(foundProduct);
+					foundMerchant[0].save();
+
+					res.redirect('/admin/' + userId + '/search');
+				}
+			});
+		}
+	});
+});
 
 module.exports = router;

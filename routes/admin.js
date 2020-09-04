@@ -235,60 +235,6 @@ router.post('/admin/merchants', isLoggedIn, function (req, res) {
 });
 
 
-router.delete('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
-	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
-		if (err) {
-			console.log(err);
-		} else {
-			if (foundUser.type == 'creator') {
-				Product.findByIdAndRemove(req.params.productid, function (err) {
-					if (err) {
-						console.log('err');
-					} else {
-						res.redirect('/admin/' + req.params.id + '/products');
-					}
-				});
-			} else {
-				foundUser[0].products.forEach(function (product, i) {
-					console.log(product._id);
-					console.log(req.params.productid);
-					if (product._id == req.params.productid) {
-						console.log('removed product');
-						foundUser[0].products.splice(i, 1);
-						foundUser[0].save();
-
-						return res.redirect('/admin/' + req.params.id + '/products');
-					}
-				});
-			}
-		}
-	});
-});
-
-router.post('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
-	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
-		if (err) {
-			console.log(err);
-			res.redirect('/merchant');
-		} else {
-			Product.findById(req.body.productid, function (err, foundProduct) {
-				if (err) {
-					console.log(err);
-					res.redirect('/merchant');
-				} else {
-					//add user name
-
-					foundMerchant[0].products.push(foundProduct);
-					foundMerchant[0].save();
-
-					res.redirect('/admin/' + userId + '/search');
-				}
-			});
-		}
-	});
-});
 
 // ---------------search routes
 router.get('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
@@ -438,59 +384,7 @@ router.post('/admin/:id/customers/new', middleware.isLoggedIn, middleware.checkU
 		}
 	});
 });
-// Reviews Create
-router.post("/products/:id/reviews", middleware.isLoggedIn, function (req, res) {
-	//lookup product using ID
-	Product.findById(req.params.id).populate("reviews", "creator").exec(function (err, foundProduct) {
-		if (err) {
-			req.flash("error", err.message);
-			return res.redirect("back");
-		}
-		if (foundProduct.creator.id == req.user._id) {
-			req.flash("error", "You have created this product so you are not able to review this product");
-			res.redirect('back');
 
-		} else {
-
-			console.log(foundProduct)
-
-
-			Review.create(req.body.review, function (err, review) {
-				if (err) {
-					req.flash("error", err.message);
-					return res.redirect("back");
-				}
-
-				//add author username/id 
-				review.author.id = req.user._id;
-				review.author.username = req.user.username;
-				review.product = foundProduct;
-				//save review
-				review.save();
-				console.log("-----review-----")
-				console.log(review)   
-
-// fix rating
-	
-				foundProduct.save();
-				req.flash("success", "Your review has been successfully added.");
-				res.redirect('/products/' + foundProduct._id);
-
-
-				function calculateAverage(reviews) {
-					if (reviews.length === 0) {
-						return 0;
-					}
-					var sum = 0;
-					reviews.forEach(function (element) {
-						sum += element.rating;
-					});
-					return Number(sum / reviews.length);
-				}
-			});
-		}
-	});
-});
 
 
 function isLoggedIn(req, res, next) {
