@@ -129,16 +129,16 @@
 		$('.ui.dropdown')
 	  .dropdown()
 	;
+		
+
 		function exportProducts(i){
 			console.log(i);
 				var data = [
 		  <% products.forEach(function(product){ %>
-			  ['<%=product.title %>', '<%=product.price %>' , '<%=product.retail_price %>', '<%=product.vendor %>', '<%=product.image %>', '<%=product.tags %>', '<%=product.collections %>', '<%=product.production_time %>', '<%=product.inventory %>', '<%=product.delivery_time %>','<%=product.shipping %>','<%=product.created %>','<%=product.comments %>'],
+			['<%=product.title %>' , '<%=product.retail_price %>', '<%=product.vendor %>', '<%=product.image %>', '<%=product.image %>'],
 			<% }) %>
-		   ['Foo', 'programmer'],
-
+		
 				];
-
 			if( i >= 0){
 			    var data = [
 					data[i]
@@ -151,14 +151,18 @@
 			}
 			else{
 
-
-
 					 download_csv()
 			}
 
 
 		function download_csv() {
-		    var csv = 'title,price,retail_price,vendor,image,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
+			//get format 
+
+			//shopify format 
+		   // var csv = 'Title,price,Variant Price,Vendor,Image Src,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
+
+			var csv = 'Title,Variant Price,Vendor,Image Src,Variant Image\n';
+		   // var csv = 'title,price,retail_price,vendor,image,tags,collection,production_time,inventory,delivery_time,shipping,created,comments\n';
 		    data.forEach(function(row) {
 		            csv += row.join(',');
 		            csv += "\n";

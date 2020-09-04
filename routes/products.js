@@ -210,12 +210,12 @@ router.post('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.
 	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
 			console.log(err);
-			res.redirect('/merchant');
+			res.redirect('/admin');
 		} else {
 			Product.findById(req.body.productid, function (err, foundProduct) {
 				if (err) {
 					console.log(err);
-					res.redirect('/merchant');
+					res.redirect('/admin');
 				} else {
 					//add user name
 

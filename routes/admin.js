@@ -269,18 +269,19 @@ router.post('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 	UserInfo.find({ 'user.id': userId }, function (err, foundMerchant) {
 		if (err) {
 			console.log(err);
-			res.redirect('/merchant');
+			res.redirect('/admin');
 		} else {
-			Product.findById(req.body.id).populate("creator").exec(function (err, foundProduct) {
+			Product.findById(req.body.id).populate("Creator").exec(function (err, foundProduct) {
 				if (err) {
-					console.log(err);
-					res.redirect('/merchant');
+					
+					req.flash("error", "Oh no! Something went wrong...")
+					res.redirect('/admin');
 				} else {
 					//add user name
 
 					foundMerchant[0].products.push(foundProduct);
 					foundMerchant[0].save();
-
+					req.flash("success", "Successfully added this product")
 					res.redirect('/admin/' + userId + '/search');
 				}
 			});
@@ -345,7 +346,9 @@ router.get('/admin/:id/export', middleware.isLoggedIn, middleware.checkUserOwner
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
+				
 				var products = foundUser[0].products;
+				console.log(products)
 				res.render('merchant/export/index', { products: products, userInfo: foundUser[0] });
 			}
 		});
