@@ -152,26 +152,7 @@ router.post('/merchant/orders', isLoggedIn, function(req, res) {
 
 });
 
-router.get('/products/:id', isLoggedIn, function(req, res) {
-	var userId = req.user._id;
-	UserInfo.find({ 'user.id': userId },function (err, foundUser) {
-		if (err) {
-			console.log('err');
-		} else {
-			Product.findById(req.params.id).populate("reviews","creator").exec(function(err, foundProduct) {
-				if (err) {
-					console.log('err');
-				} else {
-					console.log()
-					res.render('merchant/products/show', { userInfo: foundUser[0],product: foundProduct });
-				}
-			});
-			console.log(foundUser);
-			
-		}
-	});
 
-});
 
 
 router.post('/merchant/company', isLoggedIn, function(req, res) {

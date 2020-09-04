@@ -14,11 +14,11 @@ var Merchant   = require("./models/merchants");
 var passportLocalMongoose = require('passport-local-mongoose');
 var mongoose =require('mongoose');
 var seed = require('./seeds');
-// var productRoutes = require('./routes/products');
-var indexRoutes = require('./routes/index')
-var adminRoutes = require('./routes/admin')
-var merchantRoutes = require('./routes/merchants')
-var collectionRoutes = require('./routes/collections')
+var indexRoutes = require('./routes/index');
+var adminRoutes = require('./routes/admin');
+var merchantRoutes = require('./routes/merchants');
+var collectionRoutes = require('./routes/collections');
+var productRoutes = require('./routes/products');
 var UserInfo = require('./models/user_info');
 const app = express();
 
@@ -72,6 +72,7 @@ app.use(async function(req, res, next){
 app.use(indexRoutes);
 
 app.use(adminRoutes);
+app.use(productRoutes);
 app.use(collectionRoutes);
 app.use(merchantRoutes);
 
