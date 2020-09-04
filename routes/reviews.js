@@ -8,7 +8,7 @@ var middleware = require('../middleware/index');
 
 
 // Reviews CREATE
-router.post("/products/:id/reviews", middleware.isLoggedIn,middleware.checkReviewExistence,middleware.checkIfMerchant, function (req, res) {
+router.post("/products/:id/reviews", middleware.isLoggedIn,middleware.checkReviewExistence,middleware.notifyReview,middleware.checkIfMerchant, function (req, res) {
     //lookup campground using ID
     Product.findById(req.params.id).populate("reviews").exec(function (err, foundProduct) {
         if (err) {

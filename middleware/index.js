@@ -1,6 +1,7 @@
 var User = require('../models/users');
 var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
+var Notification = require('../models/notification');
 var passport =require('passport');
 
 var middlewareObj = {
@@ -152,6 +153,40 @@ middlewareObj.checkIfMerchant = function (req, res, next) {
 
 
 
+            }
+        });
+    } else {
+        req.flash("error", "You need to login first.");
+        res.redirect("back");
+    }
+};
+
+
+middlewareObj.notifyReview = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        Product.findById(req.params.id).populate("Creator").exec(function (err, foundProduct) {
+            if (err || !foundProduct) {
+                console.log(err)
+                req.flash("error", err);
+                res.redirect("back");
+            } else {
+             User.findById(foundProduct.creator.id, function (err, user){
+                if (err || !foundProduct) {
+                    req.flash("error", "User not found.");
+                    res.redirect("back");
+                } else {
+                    let newNotification = {
+                        username: req.user.username,
+                        productId: foundProduct.id
+                      }
+                      Notification.create(newNotification, function(err,notification){
+                        user.notifications.push(notification)
+                        user.save()
+                      next();
+                      });
+                     
+                }
+             });
             }
         });
     } else {

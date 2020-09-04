@@ -87,6 +87,7 @@ router.post('/register', function (req, res) {
 										return res.redirect('/login')
 									});
 								});
+								newUser.user_id = req.user._id;
 								newUser.followers = [];
 								newUser.notifications = [];
 								newUser.user.id = req.user._id;
