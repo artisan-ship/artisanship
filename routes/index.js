@@ -190,12 +190,12 @@ router.get('/users/:id', async function(req, res) {
   });
   
   // handle notification
-  router.get('admin/:userid/notifications/:id', isLoggedIn, async function(req, res) {
+  router.get('/admin/:userid/notifications/:id', isLoggedIn, async function(req, res) {
 	try {
 	  let notification = await Notification.findById(req.params.id);
 	  notification.isRead = true;
 	  notification.save();
-	  res.redirect(`/products/${notification.productId}`);
+	  res.redirect(`back`);
 	} catch(err) {
 	  req.flash('error', err.message);
 	  res.redirect('back');

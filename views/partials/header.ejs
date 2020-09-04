@@ -92,21 +92,42 @@
 					</a>
 				<div class="ui pointing dropdown link item">
 					<i  class="icon bell"></i> 
-					<div style="margin-left:2px;" class=" ui red label"><%= notifications.length %></div>
+					<% if(notifications.length > 0) { %>
+						<div style="margin-left:2px;" class=" ui red label"><%= notifications.length %></div>
+						<% }else { %>
+
+						<% } %>
+			
 					<span class="text"></span>
 			
 					<div class="menu">
 						<div class="header">New Notifications</div>
+					
+						<% notifications.forEach(function(notification) { %>                          
+							<div class="item">
+								<% if(userInfo.type == "creator") { %>
+								
+									 <a href="/products/<%= notification.productId %>">You got a new review, from <b><%= notification.username %></b> 
+									
+									</a>
+									<a href="/admin/<%= currentUser.id %>/notifications/<%= notification._id %>">
+										<i class="ui close icon" ></i>
+									</a>
+							
+								<% 	}else{  %>     
+									<a href="/products/<%= notification.productId %>"><b><%= notification.username %> </b> created a new product</b> 
+									
+									</a>
+									<a href="/admin/<%= currentUser.id %>/notifications/<%= notification._id %>">
+										<i class="ui close icon" ></i>
+									</a>
+									
+						<%	} %>     
+							</div>
+						<% }); %>
 						<div class="item">
 							<a href="/admin/<%= currentUser.id %>/notifications">View past notifications</a>
 						</div>
-						<% notifications.forEach(function(notification) { %>                          
-							<div class="item">
-								<a href="/admin/<%= currentUser.id %>/notifications/<%= notification.id %>">
-									<%= notification.username %> created a new product
-								</a>
-							</div>
-						<% }); %>
 					</div>
 				</div>
 
