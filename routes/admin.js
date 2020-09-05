@@ -247,7 +247,12 @@ router.get('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
-				Product.find({}, function (err, foundProducts) {
+				var perPage = 16;
+				var pageQuery = parseInt(req.query.page);
+				var pageNumber = pageQuery ? pageQuery : 1;
+		
+				Product.find({}).skip((perPage * pageNumber)- perPage).limit(perPage).exec(function (err, foundProducts) {
+					Product.count().exec(function (err, count) {
 					if (err) {
 						console.log(err);
 					} else {
@@ -257,9 +262,13 @@ router.get('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 							userInfo: foundUser[0],
 							products: foundProducts,
 							merchantProducts: products,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage)
+							
 						});
 					}
 				});
+			});
 			}
 		});
 });
@@ -288,6 +297,8 @@ router.post('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 		}
 	});
 });
+
+
 
 router.get('/admin/:id/search/:term', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.user._id;

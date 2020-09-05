@@ -225,3 +225,59 @@ input#image{
 	margin: 0 auto;
 	 width: 30%;
 }
+
+.ui.pagination.menu {
+    margin: 0;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+	vertical-align: middle;
+	background-color: orange;
+}
+
+.ui.pagination.menu .ui.menu  .ui.menu .item.disabled {
+    cursor: default!important;
+    background-color: transparent!important;
+    color: rgba(255,255,255,.7)!important;
+}
+.ui.pagination.menu .ui.menu .ui.menu .item.disabled:hover {
+    cursor: default!important;
+    background-color: transparent!important;
+	color: rgba(255,255,255)!important;
+	font-weight: bold;;
+}
+
+.ui.pagination.menu .ui.menu .ui.menu .item:hover {
+    cursor: default!important;
+    background-color: transparent!important;
+	color: rgba(255,255,255)!important;
+	font-weight: bold;;
+}
+
+.ui.pagination.menu .ui.menu .item.active:hover {
+    cursor: default!important;
+    background-color: transparent!important;
+	color: rgba(255,255,255)!important;
+	font-weight: bold;;
+}
+
+.ui.pagination.menu  .ui.menu .item.active {
+    cursor: default!important;
+    background-color: transparent!important;
+	color: rgba(255,255,255)!important;
+	font-weight: bold;;
+	font-size: 1.2em;
+}
+
+.ui.pagination.menu  .item.active {
+    cursor: default!important;
+    background-color: transparent!important;
+	color: rgba(255,255,255)!important;
+	font-weight: bold;;
+	font-size: 1.2em;
+}
+
+.ui.pagination.menu .item:focus {
+border-bottom-color: white;
+}
+
