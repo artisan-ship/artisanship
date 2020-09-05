@@ -21,6 +21,8 @@ var collectionRoutes = require('./routes/collections');
 var productRoutes = require('./routes/products');
 var reviewRoutes = require('./routes/reviews')
 var UserInfo = require('./models/user_info');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const app = express();
 
 app.use(cookieParser('secretString'));
@@ -77,7 +79,29 @@ app.use(reviewRoutes);
 app.use(collectionRoutes);
 app.use(merchantRoutes);
 
+const calculateOrderAmount = items => {
+	// Replace this constant with a calculation of the order's amount
+	// Calculate the order total on the server to prevent
+	// people from directly manipulating the amount on the client
+	return 1400;
+  };
 
+
+app.get('/checkout', async (req, res) => {
+	const intent = await stripe.paymentIntents.create({
+		amount: 1099,
+		currency: 'usd',
+		// Verify your integration in this guide by including this parameter
+		metadata: {integration_check: 'accept_a_payment'},
+	  });
+
+	res.render('checkout', { client_secret: intent.client_secret, public_key: process.env.STRIPE_PUBLISHABLE_KEY });
+  });
+  
+
+
+
+  
 app.use(function(req, res, next) {
     res.status(404);
     res.render('404-page');
