@@ -87,7 +87,8 @@ const calculateOrderAmount = items => {
   };
 
 
-app.get('/checkout', async (req, res) => {
+
+  app.get('/checkout', async (req, res) => {
 	const intent = await stripe.paymentIntents.create({
 		amount: 1099,
 		currency: 'usd',
@@ -98,6 +99,38 @@ app.get('/checkout', async (req, res) => {
 	res.render('checkout', { client_secret: intent.client_secret, public_key: process.env.STRIPE_PUBLISHABLE_KEY });
   });
   
+  
+  app.post('/checkout', async (req, res) => {	
+	  
+
+	function createCustomerAndSubscription(requestBody) {
+		console.log(requestBody)
+		return stripe.customers.create({
+		  source: requestBody.stripeToken,
+		  email: requestBody.email
+		}).then(customer => {
+		  stripe.subscriptions.create({
+			customer: customer.id,
+			items: [
+			  {
+				price: "price_1HOJRpK9O2eoAUrKu2RZeOEV"
+			  }
+			]
+		  });
+		});
+	  }
+	
+
+   createCustomerAndSubscription(req.body).then(() => {
+	   req.flash("success","Sign up sucessful please login and verify your email");
+	  res.redirect('/login');
+	}).catch(err => {
+		console.log(err);
+		req.flash("error","Something went wrong please try again or contact support");
+		res.redirect('/register');
+	
+	});
+  });
 
 
 

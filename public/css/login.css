@@ -21,3 +21,75 @@ body > .grid {
 	color: #414241 !important;
 	padding: 20px;
 }
+
+.form .subscription-section {
+    padding: 20px 0
+}
+.subscription-section .card{
+    border: 1px solid orange;
+    border-radius: 3px;
+    padding: 10px;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */      
+}
+
+.subscription-section .header{
+    font-size: 1.5em;
+    
+    color:#f65e09;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */      
+}
+
+.subscription-section .card:hover  {
+    border: 1px solid orange;
+    border-radius: 3px;
+    padding: 10px;
+    background-color: #f65e09;
+    color:white !important;
+    cursor: pointer;
+}
+
+
+.subscription-section .card:hover .header {
+    cursor: pointer;
+    color:white !important;
+}
+
+
+.subscription-section .card:hover  {
+    border: 1px solid orange;
+    border-radius: 3px;
+    padding: 10px;
+    background-color: #f65e09;
+    color:white !important;
+    cursor: pointer;
+}
+
+
+.subscription-section .card:hover .header {
+    cursor: pointer;
+    color:white !important;
+}
+
+.subscription-section .card.active  {
+    border: 1px solid orange;
+    border-radius: 3px;
+    padding: 10px;
+    background-color: #f65e09;
+    color:white !important;
+    cursor: pointer;
+}
+
+
+.subscription-section .card.active .header {
+    cursor: pointer;
+    color:white !important;
+}
+
+
+

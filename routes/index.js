@@ -84,7 +84,7 @@ router.post('/register', function (req, res) {
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
 										req.flash('success',"A verification email has been sent to " + newUser.email)
-										return res.redirect('/login')
+										
 									});
 								});
 								newUser.user_id = req.user._id;
@@ -93,6 +93,16 @@ router.post('/register', function (req, res) {
 								newUser.user.id = req.user._id;
 								newUser.user.username = req.user.username;
 								newUser.save();
+
+								if(req.body.register.plan != "starter"){
+									return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY  })
+
+								}
+								else{
+									return res.redirect('/login')
+								}
+						
+								  
 
 								
 							}

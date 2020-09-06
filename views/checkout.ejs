@@ -7,7 +7,7 @@
     
     <div class="column">
   
-      <form id="payment-form"   class="ui large  form">
+      <form id="payment-form"  action="/checkout" method="POST" class="ui large  form">
     
         <div class="ui stacked segment">
               <h2 class="ui orange image header">
@@ -54,7 +54,7 @@ $('.message .close')
 
 
 
-  var stripe = Stripe('<%= public_key %>');
+var stripe = Stripe('<%= public_key %>');
 
   // Set up Stripe.js and Elements to use in checkout form
 var elements = stripe.elements();
@@ -76,36 +76,43 @@ card.on('change', ({error}) => {
   }
 });
 
+function stripeTokenHandler(token) {
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
+  var hiddenInputEmail = document.createElement('input');
+  hiddenInputEmail.setAttribute('type', 'hidden');
+  hiddenInputEmail.setAttribute('name', 'email');
+  hiddenInputEmail.setAttribute('value', "<%= email %>");
+  form.appendChild(hiddenInputEmail);
+  form.submit();
+}
+
+
+
+/* Create a token when the form is submitted */
 var form = document.getElementById('payment-form');
 
-form.addEventListener('submit', function(ev) {
-  $('#payment-form').addClass("loading");
-  ev.preventDefault();
-  stripe.confirmCardPayment("<%= client_secret%>", {
-    payment_method: {
-      card: card,
-      billing_details: {
-        name: 'Jenny Rosen'
-      }
-    }
-  }).then(function(result) {
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createToken(card).then(function(result) {
     if (result.error) {
-      // Show error to your customer (e.g., insufficient funds)
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
       console.log(result.error.message);
     } else {
-      // The payment has been processed!
-      if (result.paymentIntent.status === 'succeeded') {
-        $('#payment-form').removeClass("loading");
-        $('#button-text').html("Payment Complete");
-        // Show a success message to your customer
-        // There's a risk of the customer closing the window before callback
-        // execution. Set up a webhook or plugin to listen for the
-        // payment_intent.succeeded event that handles any business critical
-        // post-payment actions.
-      }
+      console.log(result.token);
+      stripeTokenHandler(result.token);
     }
-  });
+  })
 });
+
+
+
 </script>
 
   </body>
