@@ -1,274 +1,300 @@
 <%- include('../../partials/header') %>
 
-	<script type='text/javascript'>
-		function preview_image(event) {
-			$("#uploadHolder").hide()
-			$("#imageHolder").show()
-			var reader = new FileReader();
-			reader.onload = function() {
-				var output = document.getElementById('output_image');
-				output.src = reader.result;
-			}
-			reader.readAsDataURL(event.target.files[0]);
+<script type='text/javascript'>
+	function preview_image(event) {
+		$("#uploadHolder").hide()
+		$("#imageHolder").show()
+		var reader = new FileReader();
+		reader.onload = function () {
+			var output = document.getElementById('output_image');
+			output.src = reader.result;
 		}
-	</script>
+		reader.readAsDataURL(event.target.files[0]);
+	}
+</script>
 
 
 
 
-	<div class="ui container">
-		<form class="ui form" action="/admin/<%= currentUser.id %>/products" method="POST" enctype='multipart/form-data'>
+<div class="ui container">
+	<form class="ui form" action="/admin/<%= currentUser.id %>/products" method="POST" enctype='multipart/form-data'>
 
-			<div class="ui two column centered  grid">
+		<div class="ui two column centered  grid">
 
-				<div class="ten wide column">
-					<div class="ui main text container segment">
+			<div class="ten wide column">
+				<div class="ui main text container segment">
+					<div class="field">
+						<label>Product Image</label>
+
+						<div id="uploadHolder" class="ui placeholder segment">
+							<div class="ui icon header">
+								<i class="image  icon"></i>
+								Add Product Image
+							</div>
+
+							<input type="file" onchange="preview_image(event)" id="image" name="image" accept="image/*"
+								required>
+
+
+						</div>
+						<div id="imageHolder" style="display:none;" class="ui placeholder segment">
+							<img id="output_image" />
+						</div>
+
+					</div>
+					<div class="ui small header"> Product Info</div>
+
+					<div class=" field">
+						<input type="text" name="title" placeholder="title">
+						<input type="hidden" name="vendor" value="<%= userInfo.company_title%>">
+					</div>
+					<div class="three fields">
+						<div class="six wide field">
+							<label>Price</label>
+
+							<input type="number" name="price" placeholder="Unit Price">
+						</div>
+						<div class="six wide field">
+							<br>
+
+							<input type="number" name="retail_price" placeholder="Recommended Retail Price">
+						</div>
+						<div class="six wide field">
+							<br>
+
+							<select name="currency">
+								<option value="dollar">$</option>
+								<option value="pound"> £ </option>
+								<option value="euro"> € </option>
+							</select>
+						</div>
+
+					</div>
+					<div class="field">
+
 						<div class="field">
-							<label>Product Image</label>
-
-							<div id="uploadHolder" class="ui placeholder segment">
-								<div class="ui icon header">
-									<i class="image  icon"></i>
-									Add Product Image
-								</div>
-							
-									<input type="file" onchange="preview_image(event)" id="image" name="image" accept="image/*" required>
-							
-
+							<label>Description</label>
+							<input name="body" type="hidden">
+							<div id="editor-container">
+								<p>A robot who has developed sentience, and is the only robot of his kind shown to be
+									still functioning on Earth.</p>
 							</div>
-							<div id="imageHolder" style="display:none;" class="ui placeholder segment">
-								<img id="output_image" />
-							</div>
+						</div>
+
+					</div>
+					<input id="showPrice" name="totalprice" type="hidden">
+
+					<button class="ui orange  button" type="submit">
+						<i class="edit icon"></i>Create New Product </button>
+
+				</div>
+
+			</div>
+
+			<div class="five wide column">
+				<div class="ui raised segment">
+
+					<div class="field">
+						<label>Collection</label>
+						<select name="collection" class="ui fluid dropdown">
+							<% collections.collections.forEach(function(collection){ %>
+							<option value="<%= collection %>">
+								<%= collection %>
+							</option>
+							<% }) %>
+
+						</select>
+
+					</div>
+
+
+				</div>
+
+				<div class="ui raised segment">
+					<i class="tag icon"></i>Tags
+					<div class="ui form">
+
+						<div class="ui action input">
+
+							<input id="tagInput" type="text" name="tags" placeholder="tags">
+
+							<div id="tagButton" class="ui button" style="border-radius: 0;">Add</div>
+						</div>
+
+						<div id="addedTags" class="ui horizontal list">
 
 						</div>
-						<div class="ui small header"> Product Info</div>
 
-						<div class=" field">
-							<input type="text" name="title" placeholder="title">
-                            <input type="hidden" name="vendor" value="<%= userInfo.company_title%>">
-						</div>
-						<div class="three fields">
-							<div class="six wide field">
-								<label>Price</label>
+					</div>
+				</div>
 
-								<input type="number" name="price" placeholder="Unit Price">
+				<div class="ui raised segment">
+
+					<div class="ui form">
+						<h4 class="ui horizontal divider header">
+
+							Weight & Dimensions
+						</h4>
+						<div class="two fields ">
+							<div class=" six wide field">
+								<label>Weight</label>
+								<input type="text" name="tags" placeholder="">
 							</div>
-							<div class="six wide field">
-								<br>
-
-								<input type="number" name="retail_price" placeholder="Recommended Retail Price">
-							</div>
-							<div class="six wide field">
-								<br>
-
-								<select name="currency">
-									<option value="dollar">$</option>
-									<option value="pound"> £ </option>
-									<option value="euro"> € </option>
+							<div class=" eight wide field">
+								<label>Unit</label>
+								<select name="weightunit">
+									<option value="kg">kg</option>
+									<option value="grams"> grams </option>
+									<option value="pounds"> lbs </option>
+									<option value="ounce"> oz </option>
 								</select>
 							</div>
 
 						</div>
-						<div class="field">
-
-							<div class="field">
-								<label>Description</label>
-								<textarea name="body" required></textarea>
+						<hr>
+						<div class="four fields ">
+							<div class=" four wide field">
+								<label>Length</label>
+								<input type="number" name="length" placeholder="0">
+							</div>
+							<div class=" four wide field">
+								<label>Width</label>
+								<input type="number" name="width" placeholder="0">
+							</div>
+							<div class=" four wide field">
+								<label>Height</label>
+								<input type="number" name="height" placeholder="0">
+							</div>
+							<div class=" five wide field">
+								<label>Unit</label>
+								<select name="dimensionunit">
+									<option value="cm">cm</option>
+									<option value="mm"> mm </option>
+									<option value="inch"> inch </option>
+									<option value="feet"> feet </option>
+								</select>
 							</div>
 
 						</div>
-						<input id="showPrice" name="totalprice" type="hidden">
+						<hr>
+						<h4 class="ui horizontal divider header">
 
-						<button class="ui orange  button" type="submit">
-							<i class="edit icon"></i>Create New Product </button>
+							Shipping & Production
+						</h4>
+						<h4>
 
-					</div>
+						</h4>
+						<div class="Two fields ">
 
-				</div>
+							<div class=" fourteen wide field">
+								<label>
+									Shipping Cost
+								</label>
+								<div class="ui labeled input">
+									<div class="ui label">
+										<select class="ui compact selection dropdown">
 
-				<div class="five wide column">
-					<div class="ui raised segment">
-
-						<div class="field">
-							<label>Collection</label>
-							<select name="collection" class="ui fluid dropdown">
-								<% collections.collections.forEach(function(collection){ %>
-									<option value="<%= collection %>">
-										<%= collection %>
-									</option>
-									<% }) %>
-
-							</select>
-
-						</div>
-			
-
-					</div>
-
-					<div class="ui raised segment">
-						<i class="tag icon"></i>Tags
-						<div class="ui form">
-
-							<div class="ui action input">
-
-								<input id="tagInput" type="text" name="tags" placeholder="tags">
-
-								<div id="tagButton" class="ui button" style="border-radius: 0;">Add</div>
-							</div>
-
-							<div id="addedTags" class="ui horizontal list">
-
-							</div>
-
-						</div>
-					</div>
-
-					<div class="ui raised segment">
-
-						<div class="ui form">
-							<h4 class="ui horizontal divider header">
-
-								Weight & Dimensions
-							</h4>
-							<div class="two fields ">
-								<div class=" six wide field">
-									<label>Weight</label>
-									<input type="text" name="tags" placeholder="">
-								</div>
-								<div class=" eight wide field">
-									<label>Unit</label>
-									<select name="weightunit">
-										<option value="kg">kg</option>
-										<option value="grams"> grams </option>
-										<option value="pounds"> lbs </option>
-										<option value="ounce"> oz </option>
-									</select>
-								</div>
-
-							</div>
-							<hr>
-							<div class="four fields ">
-								<div class=" four wide field">
-									<label>Length</label>
+											<option value="dollar">$</option>
+											<option value="pound"> £ </option>
+											<option value="euro"> € </option>
+										</select>
+									</div>
 									<input type="number" name="length" placeholder="0">
 								</div>
-								<div class=" four wide field">
-									<label>Width</label>
-									<input type="number" name="width" placeholder="0">
-								</div>
-								<div class=" four wide field">
-									<label>Height</label>
-									<input type="number" name="height" placeholder="0">
-								</div>
-								<div class=" five wide field">
-									<label>Unit</label>
-									<select name="dimensionunit">
-										<option value="cm">cm</option>
-										<option value="mm"> mm </option>
-										<option value="inch"> inch </option>
-										<option value="feet"> feet </option>
+
+							</div>
+
+
+						</div>
+
+						<div class=" fourteen wide field">
+							<label>
+								Shipping Time
+							</label>
+							<div class="ui labeled input">
+
+								<input type="number" name="length" placeholder="0">
+								<div class="ui label">
+									<select class="ui compact selection dropdown">
+
+										<option value="dollar">days</option>
+										<option value="pound"> weeks </option>
+
 									</select>
 								</div>
-
 							</div>
-							<hr>
-							<h4 class="ui horizontal divider header">
 
-								Shipping & Production
-							</h4>
-							<h4>
+						</div>
+						<div class=" fourteen wide field">
+							<label>
+								Production Time
+							</label>
+							<div class="ui labeled input">
 
-							</h4>
-							<div class="Two fields ">
+								<input type="number" name="length" placeholder="0">
+								<div class="ui label">
+									<select class="ui compact selection dropdown">
+										<option value="dollar">Hours</option>
 
-								<div class=" fourteen wide field">
-									<label>
-										Shipping Cost
-									</label>
-									<div class="ui labeled input">
-										<div class="ui label">
-											<select class="ui compact selection dropdown">
+										<option value="dollar">Days</option>
+										<option value="pound"> Weeks </option>
 
-												<option value="dollar">$</option>
-												<option value="pound"> £ </option>
-												<option value="euro"> € </option>
-											</select>
-										</div>
-										<input type="number" name="length" placeholder="0">
-									</div>
-
+									</select>
 								</div>
-								
-
-								</div>
-							
-								<div class=" fourteen wide field">
-									<label>
-										Shipping Time 
-									</label>
-									<div class="ui labeled input">
-									
-										<input type="number" name="length" placeholder="0">
-											<div class="ui label">
-											<select class="ui compact selection dropdown">
-
-												<option value="dollar">days</option>
-												<option value="pound"> weeks </option>
-												
-											</select>
-										</div>
-									</div>
-
 							</div>
-								<div class=" fourteen wide field">
-									<label>
-										Production Time 
-									</label>
-									<div class="ui labeled input">
-									
-										<input type="number" name="length" placeholder="0">
-											<div class="ui label">
-											<select class="ui compact selection dropdown">
-												<option value="dollar">Hours</option>
-
-												<option value="dollar">Days</option>
-												<option value="pound"> Weeks </option>
-												
-											</select>
-										</div>
-									</div>
 
 						</div>
 					</div>
 
 				</div>
-				</div>
-
 			</div>
-		</form>
-	</div>
-	<div class="ui modal">
-		<i class="close icon"></i>
-		<div class="ui container">
-			<div class="ui segment">
-				<%- include('../../partials/new-customer-form') %>
 
-			</div>
 		</div>
+	</form>
+</div>
+<div class="ui modal">
+	<i class="close icon"></i>
+	<div class="ui container">
+		<div class="ui segment">
+			<%- include('../../partials/new-customer-form') %>
 
+		</div>
 	</div>
 
-	<script>
-		var orderProducts = [];
-		var totalPrice = 0;
-		var productAdded = false;
-		$("#newCustomer").click(function() {
-			$('.ui.modal')
-				.modal('show');
-		})
-		$("#tagButton").click(function() {
-			var tag = $("#tagInput").val();
-			var tagValue = "'" + tag + "'";
-			$("#addedTags").prepend("<div class='item'> <div class='content'><a class='ui tag label'>" + tag + "</a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
-		})
-	</script>
+</div>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+
+	var quill = new Quill('#editor-container', {
+		modules: {
+			toolbar: [
+			[{ 'header': [1, 2, 3, 4, 5, 6, false] }], 
+				['bold', 'italic', 'underline', 'strike'],
+				['link', 'blockquote', 'code-block'],
+				[{ list: 'ordered' }, { list: 'bullet' }]
+			]
+		},
+		placeholder: 'Compose an epic...',
+		theme: 'snow'
+	});
+	var orderProducts = [];
+	var totalPrice = 0;
+	var productAdded = false;
+	$("#newCustomer").click(function () {
+		$('.ui.modal')
+			.modal('show');
+	})
+	$("#tagButton").click(function () {
+		var tag = $("#tagInput").val();
+		var tagValue = "'" + tag + "'";
+		$("#addedTags").prepend("<div class='item'> <div class='content'><a class='ui tag label'>" + tag + "</a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
+	})
+
+	var form = document.querySelector('form');
+	form.onsubmit = function () {
+		// Populate hidden form on submit
+		var body = document.querySelector('input[name=body]');
+		body.value = $(".ql-editor").html()
+		form.submit();
+	};
+</script>

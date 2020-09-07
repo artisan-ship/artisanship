@@ -8,7 +8,7 @@
 		<div class="ten wide column">
 			<div class="ui raised segment">
 				<div class="ui divided items" style="background-color: white;">
-					<% products.forEach(function(product,i){ %>
+					<% products.reverse().forEach(function(product,i){ %>
 					<div class="item product" id="productItem<%= i %>" data-number="<%= i %>">
 						<div class="image">
 							<img style="height: 150px; padding: 5px;" src="<%= product.image %>" />

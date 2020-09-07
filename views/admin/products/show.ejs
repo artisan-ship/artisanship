@@ -1,6 +1,5 @@
 <%- include('../../partials/header') %>
 
-<div class="pusher">
 	<div class="ui centered container">
 		<div class="ui centered raised segment product-page-segment" id="productPageSegment">
 			<div class="ui centered grid">
@@ -52,7 +51,7 @@
 
 							<h4 class="ui horizontal divider header"></h4>
 							<p>
-								<%= product.body %>
+								<%- product.body %>
 							</p>
 							<form action="/admin/<%= currentUser.id %>/products/<%= product._id %>" method="POST">
 									<button class="ui labeled icon orange button">

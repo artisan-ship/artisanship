@@ -4,6 +4,10 @@
 	margin: 50px;
 }
 
+
+#output_image {
+	height:400px;
+}
 #ProductDeleteFormBtn {
 	display: inline;
 }
