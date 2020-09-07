@@ -28,7 +28,11 @@
 <body>
 
 	<div class="ui secondary pointing menu" id="nav">
+		
 		<div class="ui container" style="margin-top: 0px;">
+			<a class="toc item">
+				<i class="sidebar icon"></i>
+			</a>
 			<% if(userInfo.type == "creator") { %>
 
 			<a href="/admin" class="item">
@@ -167,17 +171,121 @@
 		</div>
 	</div>
 	<% } %>
-	<% if (!customerplan) {%>
 
-		<% } else{ %>
-			<% if(customerplan.items.data[0].price.product == proPlan) {%>
-				Pro plan user
-			<% } %>
-			<% if(customerplan.items.data[0].price.product == basicPlan) {%>
-				Basic plan user
-			<% } %>
-			<%} %>
+  <!-- Sidebar Menu -->
+  <div class="ui vertical inverted sidebar menu">
+	<% if(userInfo.type == "creator") { %>
 
+		<a href="/admin" class="item">
+			<i class="ui chart line icon"></i>
+			Dashboard
+		</a>
+
+		<a href="/admin/<%= currentUser.id %>/products" class="item">
+			<i class="ui tag icon"></i>
+			My Products
+		</a>
+
+		<a href="/admin/<%= currentUser.id %>/orders" class="item">
+			<i class="ui clipboard list icon"></i>
+			My Orders
+		</a>
+		<a href="/merchants" class="item">
+
+		</a>
+		<% } else{%>
+		<a href="/admin" class="item">
+			<i class="ui chart line icon"></i>
+			Dashboard
+		</a>
+
+		<a href="/admin/<%= currentUser.id %>/search" class="item">
+			<i class="ui search icon"></i>
+			Search Products
+		</a>
+		<a href="/admin/<%= currentUser.id %>/export" class="item">
+			<i class="ui tag icon"></i>
+			Export Products
+		</a>
+
+		<a href="/admin/<%= currentUser.id %>/products" class="item">
+			<i class="ui tag icon"></i>
+			My Products
+		</a>
+
+		<a href="/admin/<%= currentUser.id %>/orders" class="item">
+			<i class="ui clipboard list icon"></i>
+			My Orders
+		</a>
+		<a href="/creators" class="item">
+
+		</a>
+		<% } %>
+		<div class="right menu">
+		
+
+			<% if(!currentUser){ %>
+			<a href="/login" class="ui inverted button">Login</a>
+			<a href="/register" class="ui inverted button">Sign Up</a>
+
+			<%} else { %>
+				<a class="item">
+					<strong>
+						<i class="user  icon"></i>
+						<%= currentUser.username %>
+					</strong>
+				</a>
+			<div class="ui pointing dropdown link item">
+				<i  class="icon bell"></i> 
+				<% if(notifications.length > 0) { %>
+					<div style="margin-left:2px;" class=" ui red label"><%= notifications.length %></div>
+					<% }else { %>
+
+					<% } %>
+		
+				<span class="text"></span>
+		
+				<div class="menu">
+					<div class="header">New Notifications</div>
+				
+					<% notifications.forEach(function(notification) { %>                          
+						<div class="item">
+							<% if(userInfo.type == "creator") { %>
+							
+								 <a href="/products/<%= notification.productId %>">You got a new review, from <b><%= notification.username %></b> 
+								
+								</a>
+								<a href="/admin/<%= currentUser.id %>/notifications/<%= notification._id %>">
+									<i class="ui close icon" ></i>
+								</a>
+						
+							<% 	}else{  %>     
+								<a href="/products/<%= notification.productId %>"><b><%= notification.username %> </b> created a new product</b> 
+								
+								</a>
+								<a href="/admin/<%= currentUser.id %>/notifications/<%= notification._id %>">
+									<i class="ui close icon" ></i>
+								</a>
+								
+					<%	} %>     
+						</div>
+					<% }); %>
+					<div class="item">
+						<a href="/admin/<%= currentUser.id %>/notifications">View past notifications</a>
+					</div>
+				</div>
+			</div>
+
+
+			<a href="/logout" class="item">
+				<strong>
+					<i class="sign-out  icon"></i> Logout
+				</strong>
+			</a>
+			<% } %>
+		</div>
+
+</div>
 
 	<script>
 		$('.ui.dropdown').dropdown('');
