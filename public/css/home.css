@@ -24,6 +24,7 @@ body {
 }
 
 .ui.inverted.segment.masthead {
+	
 	width: 100%;
 
 	background: rgb(255, 255, 255);
@@ -32,6 +33,7 @@ body {
 .ui.text.container {
 	top: -100px;
 	font-size: 1.14285714rem;
+	padding: 3em;
 }
 
 .masthead.segment {
@@ -46,9 +48,9 @@ body {
 }
 .masthead h1.ui.header {
 	font-family: 'Josefin Sans', sans-serif;
-	margin-top: 3em;
+	margin-top: 1em;
 	margin-bottom: 0em;
-	font-size: 4em;
+	font-size: 8em;
 	font-weight: normal;
 }
 .masthead h2 {
@@ -125,46 +127,6 @@ body {
 	border: none;
 }
 
-.triangle {
-	position: absolute;
-	top: 200px;
-	left: 250px;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 100px 173.2px 100px;
-	opacity: 0.3;
-	border-color: transparent transparent #e37b7b transparent;
-}
-
-.circle {
-	position: absolute;
-	top: 200px;
-	left: 20px;
-	width: 150px;
-	height: 150px;
-	opacity: 0.4;
-	background: linear-gradient(
-		86deg,
-		rgba(78, 78, 78, 0.9581972437412465) 0%,
-		rgba(145, 0, 255, 0.890970352984944) 100%
-	);
-	border-radius: 50%;
-}
-
-.square {
-	position: absolute;
-	top: 120px;
-	left: 150px;
-	width: 150px;
-	height: 150px;
-	opacity: 0.2;
-	background: linear-gradient(
-		86deg,
-		rgba(0, 217, 225, 1) 0%,
-		rgba(4, 93, 97, 0.7144997647496498) 100%
-	);
-}
 
 html {
 	box-sizing: border-box;
@@ -211,7 +173,7 @@ body {
 }
 
 #textSection {
-	background-color: #273036;
+	background-color: #ff8800;
 	color: white;
 }
 
@@ -291,22 +253,22 @@ a[href="/register"]:hover{
 }
 
 .slideshow li:nth-child(1) {
-	background-image: url(https://lh3.googleusercontent.com/proxy/7GjVWDfUTI-Zsasbw_b5DwIpStXbTZW-YOB4DLnkCY8I5Cvap7YZA3-cMHL5XrtuDo1RFPy7f3Znj1b_Wru_hNMToeEn-6RX-QgsZONvgk1KKz0Z7VR2qA);
+	background-image: url(../img/hero-image-0.jpg);
 }
 .slideshow li:nth-child(2) {
-	background-image: url(https://www.foundrycollective.co.nz/images/hero.jpg?1503461927858);
-	animation-delay: 1s;
+	background-image: url(../img/hero-image-1.jpg);
+	animation-delay: 10s;
 }
 .slideshow li:nth-child(3) {
-	background-image: url(https://www.cheshirequality.co.uk/wp-content/uploads/2019/12/home-ban-1-1200x800.jpg);
+	background-image: url(../img/hero-image-2.jpg);
 	animation-delay: 20s;
 }
 .slideshow li:nth-child(4) {
-	background-image: url(https://lh3.googleusercontent.com/proxy/1SBAfpsfGgK4_ohvaLUWraA7QcbcbkYDqaSzLY7mQNMfvTKvQFuJyxqWc6Tr_ALffkS1ko8M6xHEZjQhGTsdixq_haRek8fdIPcbysuxu4WjCua0TZJNMnb9tYerlvix46i5dr01g74eTMo);
+	background-image: url(../img/hero-image-3.jpg);
 	animation-delay: 30s;
 }
 .slideshow li:nth-child(5) {
-	background-image: url(https://images.ctfassets.net/l6o0o2yu98mw/7CgZaMjgf1adv3mO6LDDjb/d360c4c6ce0975d954c40061e26ca22f/GettyImages-1053904602.jpg?w=1200&h=800&q=90&fit=fill);
+	background-image: url(../img/hero-image-4.jpg);
 	animation-delay: 40s;
 }
 

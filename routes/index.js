@@ -95,7 +95,29 @@ router.post('/register', function (req, res) {
 								newUser.save();
 
 								if(req.body.register.plan != "starter"){
-									return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY  })
+
+									if(req.body.register.plan == "basic"){
+										var basicPlan = {
+											name:"Basic Plan",
+											price: 10,
+											priceId :"price_1HOJRpK9O2eoAUrKu2RZeOEV"
+
+										}
+										return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY,selectedPlan : basicPlan   })
+										
+									}
+
+									else{
+
+										var proPlan = {
+											name:"Pro Plan",
+											price: 20,
+											priceId :"price_1HOJS6K9O2eoAUrKIDT3bTWP"
+
+										}
+										return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY,selectedPlan : proPlan })
+
+									}
 
 								}
 								else{

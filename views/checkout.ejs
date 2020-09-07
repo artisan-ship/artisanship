@@ -15,9 +15,11 @@
         <div class="content">
           Payment
         </div>
+        
       </h2>
           <div class="field">
-         
+            <h2><%= selectedPlan.name %></h2>
+            <p>  $(USD)<%= selectedPlan.price %> charged every month </p> 
               <div id="card-element">
                 
               </div>
@@ -88,6 +90,11 @@ function stripeTokenHandler(token) {
   hiddenInputEmail.setAttribute('name', 'email');
   hiddenInputEmail.setAttribute('value', "<%= email %>");
   form.appendChild(hiddenInputEmail);
+  var hiddenInputPrice = document.createElement('input');
+  hiddenInputEmail.setAttribute('type', 'hidden');
+  hiddenInputPrice.setAttribute('name', 'priceId');
+  hiddenInputPrice.setAttribute('value', "<%= selectedPlan.priceId %>");
+  form.appendChild(hiddenInputPrice);
   form.submit();
 }
 

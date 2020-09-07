@@ -98,6 +98,7 @@ const tokenSchema = new mongoose.Schema({
 
 var userInfoSchema = new mongoose.Schema({
 	user_id: String,
+	customer_id: String,
 	company_title: String,
 	company_logo: String,
 	tags: String,

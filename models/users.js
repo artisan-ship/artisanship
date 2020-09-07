@@ -5,6 +5,7 @@ var userSchema = new mongoose.Schema({
 	username: String,
 	email: String,
 	password: String,
+	customer_id : String,
 	notifications: [
     	{
     	   type: mongoose.Schema.Types.ObjectId,

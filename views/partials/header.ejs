@@ -167,6 +167,17 @@
 		</div>
 	</div>
 	<% } %>
+	<% if (!customerplan) {%>
+
+		<% } else{ %>
+			<% if(customerplan.items.data[0].price.product == proPlan) {%>
+				Pro plan user
+			<% } %>
+			<% if(customerplan.items.data[0].price.product == basicPlan) {%>
+				Basic plan user
+			<% } %>
+			<%} %>
+
 
 	<script>
 		$('.ui.dropdown').dropdown('');

@@ -62,12 +62,20 @@ app.use(async function(req, res, next){
 	 try {
 	   let user = await User.findById( req.user._id).populate('notifications', null, { isRead: false }).exec();
 	   res.locals.notifications = user.notifications.reverse();
+	   console.log(user);
+	   const customer = await stripe.subscriptions.retrieve(
+		user.customer_id
+	  );
+	  res.locals.customerplan = customer;
 	 } catch(err) {
+		console.log("----------------")
 	   console.log(err.message);
 	 }
 	}
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
+	res.locals.proPlan = "prod_HyFyvT1iy6BjgB";
+	res.locals.basicPlan = "prod_HyFxPWyEYmknSi";
 	next();
  });
 //seedDB()
@@ -89,12 +97,7 @@ const calculateOrderAmount = items => {
 
 
   app.get('/checkout', async (req, res) => {
-	const intent = await stripe.paymentIntents.create({
-		amount: 1099,
-		currency: 'usd',
-		// Verify your integration in this guide by including this parameter
-		metadata: {integration_check: 'accept_a_payment'},
-	  });
+
 
 	res.render('checkout', { client_secret: intent.client_secret, public_key: process.env.STRIPE_PUBLISHABLE_KEY });
   });
@@ -104,7 +107,7 @@ const calculateOrderAmount = items => {
 	  
 
 	function createCustomerAndSubscription(requestBody) {
-		console.log(requestBody)
+
 		return stripe.customers.create({
 		  source: requestBody.stripeToken,
 		  email: requestBody.email
@@ -113,9 +116,14 @@ const calculateOrderAmount = items => {
 			customer: customer.id,
 			items: [
 			  {
-				price: "price_1HOJRpK9O2eoAUrKu2RZeOEV"
+				price: requestBody.priceId
 			  }
 			]
+		  }).then(customer =>{
+			  User.findById(req.user._id,function(err, foundUser){
+				  foundUser.customer_id = customer.id
+				  foundUser.save();
+			  })
 		  });
 		});
 	  }
