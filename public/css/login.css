@@ -2,9 +2,10 @@
 
 body {
     font-family: 'Josefin Sans', sans-serif;
-    background: rgb(255,255,255);
-background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,136,0,1) 100%);
+    background: rgb(234, 126, 26);
 }
+
+
 body > .grid {
     height: 100%;
 }

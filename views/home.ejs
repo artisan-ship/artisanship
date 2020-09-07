@@ -141,7 +141,28 @@
 
 <body>
 
+  <div class="ui vertical inverted sidebar menu">
 
+    <div class="right item">
+      <a href="/" class="active item">Home</a>
+      <a href="#start" class="item">Get Started</a>
+      <a href="#howItWorks" class="item">How it Works</a>
+      <a href="#pricing" class="item">Pricing</a>
+      <% if(!currentUser){ %>
+      <a href="/login" class="ui inverted button">Login</a>
+      <a href="/register" class="ui inverted button">Sign Up</a>
+
+      <%} else { %>
+      <a class="item" href="/admin">
+        <strong>
+          <i class="user  icon"></i>
+          <%= currentUser.username %> </strong>
+      </a>
+      <a href="/logout" class="item"><strong><i class="sign-out  icon"></i></strong></a>
+      <% } %>
+
+    </div>
+  </div>
 
 
   <!-- Page Contents -->
@@ -184,7 +205,7 @@
         </path>
       </svg>
     </div>
-    <div class="ui vertical stripe segment" style="border-bottom: none;">
+    <div class="ui vertical stripe segment" style="border-bottom: none;" id="start">
       <div class="ui middle aligned stackable centered grid container">
         <div class="row">
           <div class="six wide column">
@@ -195,16 +216,13 @@
             <h3 class="ui header">Quality over Quantity</h3>
             <p>Instead of selling questionable and meaningless products from far away countries, sell high quality items
               locally made.</p>
+            <a href="/register" class="ui huge inverted orange button">Get Started Now</a>
           </div>
           <div class="six wide right floated column" style="margin:1em">
             <img src="/img/home-page-image-0.png" class="ui huge  rounded image">
           </div>
         </div>
-        <div class="row">
-          <div class="center aligned column">
-            <a href="/register" class="ui huge inverted orange button">Get Started Now</a>
-          </div>
-        </div>
+
       </div>
     </div>
 
@@ -400,6 +418,7 @@
               <a href="#" class="item">About Us</a>
               <a href="#" class="item">Contact Us</a>
               <a href="#" class="item">Changelog</a>
+              <a href="/privacy" class="item">Privacy Policy</a>
             </div>
           </div>
           <div class="three wide column">

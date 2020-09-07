@@ -152,6 +152,16 @@ router.get("/confirmation/:token",function(req,res){
 	res.render('confirmation');
 
 })
+
+
+router.get("/privacy",function(req,res){
+
+
+	res.render('privacy');
+
+})
+
+
 router.post("/confirmation/", function (req, res) {
 
  
