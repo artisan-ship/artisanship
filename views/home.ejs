@@ -1,7 +1,148 @@
 <%- include('partials/home-header') %>
 
+  <style type="text/css">
+
+    .hidden.menu {
+      display: none;
+    }
+
+    .masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+    }
+    .masthead .logo.item img {
+      margin-right: 0.5em;
+    }
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+    .masthead h1.ui.header {
+      margin-top: 3em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
+
+    .ui.vertical.stripe {
+      padding: 8em 0em;
+    }
+
+    .ui.vertical.stripe .button + h3,
+    .ui.vertical.stripe p + h3 {
+      margin-top: 3em;
+    }
+    .ui.vertical.stripe .floated.image {
+      clear: both;
+    }
+    .ui.vertical.stripe p {
+      font-size: 1.33em;
+    }
+    .ui.vertical.stripe .horizontal.divider {
+      margin: 2em 0em;
+    }
+
+    .quote.stripe.segment {
+      padding: 0em;
+    }
+    .quote.stripe.segment .grid .column {
+      padding-top: 5em;
+      padding-bottom: 5em;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .secondary.pointing.menu .toc.item {
+      display: none;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .ui.fixed.menu {
+        display: none !important;
+      }
+      .secondary.pointing.menu .item,
+      .secondary.pointing.menu .menu {
+        display: none;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: block;
+      }
+      .masthead.segment {
+        min-height: 350px;
+      }
+      .masthead h1.ui.header {
+        font-size: 4em;
+        margin-top: 1.5em;
+      }
+      .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+      }
+      .masthead .white.button{
+        display: none;
+      }
+      .right.floated.column img{
+        display: none;
+      }
+
+
+    }
+
+
+  </style>
+
+  <script src="assets/library/jquery.min.js"></script>
+  <script src="../dist/components/visibility.js"></script>
+  <script src="../dist/components/sidebar.js"></script>
+  <script src="../dist/components/transition.js"></script>
+  <script>
+  $(document)
+    .ready(function() {
+
+      // fix menu when passed
+      $('.masthead')
+        .visibility({
+          once: false,
+          onBottomPassed: function() {
+            $('.fixed.menu').transition('fade in');
+          },
+          onBottomPassedReverse: function() {
+            $('.fixed.menu').transition('fade out');
+          }
+        })
+      ;
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item')
+      ;
+
+    })
+  ;
+  </script>
+</head>
+<body>
+
+
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+  <a class="active item">Home</a>
+  <a class="item">Work</a>
+  <a class="item">Company</a>
+  <a class="item">Careers</a>
+  <a class="item">Login</a>
+  <a class="item">Signup</a>
+</div>
+
+
+<!-- Page Contents -->
 <div class="pusher">
-	<div class="wave-container">
+  <div class="wave-container">
 		<div class="ui inverted vertical masthead center aligned segment" style="padding-bottom: 300px;">
 			<ul class="slideshow">
 				<li></li>
@@ -18,7 +159,7 @@
 							Artisanship
 						</h1>
 				
-						<div class="ui huge  white button">
+						<div class="ui huge  white button ">
 							<i class="down arrow icon"></i>
 							Read more
 					
@@ -34,225 +175,242 @@
 		</div>
 
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" id="wave1">
-			<path fill="#ff8800" fill-opacity="1"
+			<path fill="#ffffff" fill-opacity="1"
 				d="M0,256L60,240C120,224,240,192,360,197.3C480,203,600,245,720,256C840,267,960,245,1080,229.3C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
 			</path>
 		</svg>
 	</div>
-	<div class="background-white">
-		<div class="wave-container">
-			<div class="ui vertical stripe segment" id="textSection">
-				<div class="ui stackable centered grid container" id="start">
-					<div class="row">
-						<div class="sixteen wide column">
-							<h3 class="ui header">A New Way Of E-commerce</h3>
-							<h2 class="">
-								Connect with hunderds of creators all over the world. Discover a whole
-								new way of sourcing your products and start selling unique and
-								meaningful products to your customers.
-							</h2>
-							<p>
-								We believe that ecommerce can be sustainable and support local
-								buisnesses. We created an ecosystem where merchant and creator work
-								together. .
-							</p>
-							<div class="ui section divider"></div>
-
-							<h3 class="ui header">Unique Products, Made Locally</h3>
-							<p>
-								Find hand made artisanal products that are made close to where the
-								customer lives. No need to ship it all over the world.
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="center aligned column">
-							<a class="ui huge inverted button">Learn more</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		
-		</div>
-		<div class="wave-container how-it-works-container" id="howItWorks">
-			<div style="padding-bottom: 200px;" class="ui container">
-
-				<h1 class="ui center aligned centered mega huge header " style="font-size: 5em; padding:1em;">How It Works</h1>
-				<div class="ui   centered   grid">
-					<div class="row how-it-works-section">
-
-					
-					<div class=" four wide center aligned column">
-						<i class="search icon"></i>
-					
-							<div class="title">1. Browse</div>
-							<div class="description">
-								Use our collection of artisanal and custom made products and find amazing products that will make you stand out of the crowd.
-
-							</div>
-							
-						</div>
-						<div class=" center aligned  four wide column">
-							<i class="plus icon"></i>
-						
-								<div class="title">2. Transfer Products</div>
-								<div class="description">
-									Once you have found your products you can easily import them to your desired e-commerce platform.
-
-								</div>
-
-							
-						</div>
-						<div class="center aligned  four wide column">
-							<i class="dollar icon"></i>
-					
-								<div class="title">3. Sell Your Product</div>
-								<div class="description">
-									Sell the product on your store once you made the sale, you order the product on Artisanship.
-								</div>
-							
-						</div>
-						<div class="center aligned four wide column">
-							<i class="truck icon"></i>
-						
-								<div class="title">4. Fulfilment</div>
-								<div class="description">
-									When the order is placed with the creator they will ship the product to the customer for you.
-
-								</div>
-							
-							
-						</div>
-					</div>
-					</div>
-
-				</div>
-				<svg style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-					<path fill="#273036" fill-opacity="1"
-						d="M0,256L60,240C120,224,240,192,360,197.3C480,203,600,245,720,256C840,267,960,245,1080,229.3C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
-					</path>
-				</svg>
-			</div>
-			<div class="wave-container">
-				<div class="ui vertical stripe segment" id="textSection">
-					<div class="ui middle aligned stackable grid container">
-						<div class="ui equal width centered grid">
-							<div class="row">
-								<div class="column" id="pricing">
-									<div class="ui card">
-										<div class="ui center aligned content">
-											<div class="header">Free</div>
-										</div>
-										<div class="ui center aligned content">
-											<h4 class="ui large header">Starter</h4>
-											<div class="ui small feed">
-												<div class="event">
-													<div class="ui center aligned content">
-														<div class="ui center aligned summary">
-															<h1 class="ui huge header" style="font-size: 70px;">
-																5
-															</h1>
-
-															<p>
-																Unique Products
-															</p>
-															<div class="meta">
-																$1.00 For each additional product
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="extra center aligned content">
-											<button class="ui inverted orange button">
-												Sign Up Now
-											</button>
-										</div>
-									</div>
-								</div>
-								<div class="column">
-									<div class="ui card">
-										<div class="ui center aligned content">
-											<div class="header">$10.00 /mo</div>
-										</div>
-										<div class="ui center aligned content">
-											<h4 class="ui large header">Basic</h4>
-											<div class="ui small feed">
-												<div class="event">
-													<div class="ui center aligned content">
-														<div class="ui center aligned summary">
-															<h1 class="ui huge header" style="font-size: 70px;">
-																30
-															</h1>
-
-															<p>
-																Unique Products
-															</p>
-															<div class="meta">
-																$0.50 For each additional product
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="extra center aligned content">
-											<button class="ui inverted orange button">
-												Sign Up Now
-											</button>
-										</div>
-									</div>
-								</div>
-								<div class="column">
-									<div class="ui card">
-										<div class="ui center aligned content">
-											<div class="header">$20.00 /mo</div>
-										</div>
-										<div class="ui center aligned content">
-											<h4 class="ui large header">Unlimited</h4>
-											<div class="ui small feed">
-												<div class="event">
-													<div class="ui center aligned content">
-														<div class="ui center aligned summary">
-															<h1 class="ui huge header" style="font-size: 70px;">
-																∞
-															</h1>
-
-															<p>
-																Unique Products
-															</p>
-															<div class="meta">
-																<a>No restrictions</a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="extra center aligned content">
-											<button class="ui inverted orange button">
-												Sign Up Now
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<svg id="bottomSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-					<path fill="#273036" fill-opacity="1"
-						d="M0,160L80,138.7C160,117,320,75,480,80C640,85,800,139,960,149.3C1120,160,1280,128,1360,112L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
-					</path>
-				</svg>
-			</div>
+  <div class="ui vertical stripe segment" style="border-bottom: none;">
+    <div class="ui middle aligned stackable centered grid container">
+      <div class="row">
+        <div class="six wide column">
+          <h3 class="ui header">Work Together</h3>
+          <p>Connect with hunderds of creators all over the world. Discover a whole
+            new way of sourcing your products and start selling unique and
+            meaningful products to your customers.</p>
+          <h3 class="ui header">Quality over Quantity</h3>
+          <p>Instead of selling questionable and meaningless products from far away countries, sell high quality items locally made.</p>
+        </div>
+        <div class="six wide right floated column" style="margin:1em">
+          <img src="/img/home-page-image-0.png" class="ui huge  rounded image">
+        </div>
+      </div>
+      <div class="row">
+        <div class="center aligned column">
+          <a href="/register" class="ui huge inverted orange button">Get Started Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
+  <div class="ui container" id="howItWorks">
+    <h3 class="ui center aligned centered mega huge header " style="font-size: 4em; padding:1em; color: #f2711c">How It Works</h3>
+    <div class="ui four column doubling grid container">
+      <div class="row how-it-works-section">
 
-		</div>
-	</div>
+      
+      <div class="center aligned column">
+        <i class="search icon"></i>
+      
+          <div class="title">1. Browse</div>
+          <div class="description">
+            Use our collection of artisanal and custom made products and find amazing products that will make you stand out of the crowd.
 
-	<%- include('partials/footer') %>
+          </div>
+          
+        </div>
+        <div class=" center aligned column ">
+          <i class="plus icon"></i>
+        
+            <div class="title">2. Transfer Products</div>
+            <div class="description">
+              Once you have found your products you can easily import them to your desired e-commerce platform.
 
-	<script></script>
+            </div>
+
+          
+        </div>
+        <div class="center aligned  column">
+          <i class="dollar icon"></i>
+      
+            <div class="title">3. Sell Your Product</div>
+            <div class="description">
+              Sell the product on your store once you made the sale, you order the product on Artisanship.
+            </div>
+          
+        </div>
+        <div class="center aligned column">
+          <i class="truck icon"></i>
+        
+            <div class="title">4. Fulfilment</div>
+            <div class="description">
+              When the order is placed with the creator they will ship the product to the customer for you.
+
+            </div>
+          
+          
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="ui vertical stripe segment text-section" id="pricing">
+    <h1 class="ui center aligned centered mega huge header " style="font-size: 5em; padding:1em;  color: #f2711c">Pricing</h1>
+
+    <div class="ui middle aligned  container">
+      <div class="ui three column doubling grid container">
+
+        <div class="row">
+          <div class="column" id="pricing">
+            <div class="ui card">
+              <div class="ui center aligned content">
+                <div class="header">Free</div>
+              </div>
+              <div class="ui center aligned content">
+                <h4 class="ui large header">Starter</h4>
+                <div class="ui small feed">
+                  <div class="event">
+                    <div class="ui center aligned content">
+                      <div class="ui center aligned summary">
+                        <h1 class="ui huge header" style="font-size: 70px;">
+                          5
+                        </h1>
+
+                        <p>
+                          Unique Products
+                        </p>
+                        <div class="meta">
+                          $1.00 For each additional product
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra center aligned content">
+                <button class="ui inverted orange button">
+                  Sign Up Now
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui card">
+              <div class="ui center aligned content">
+                <div class="header">$10.00 /mo</div>
+              </div>
+              <div class="ui center aligned content">
+                <h4 class="ui large header">Basic</h4>
+                <div class="ui small feed">
+                  <div class="event">
+                    <div class="ui center aligned content">
+                      <div class="ui center aligned summary">
+                        <h1 class="ui huge header" style="font-size: 70px;">
+                          30
+                        </h1>
+
+                        <p>
+                          Unique Products
+                        </p>
+                        <div class="meta">
+                          $0.50 For each additional product
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra center aligned content">
+                <button class="ui inverted orange button">
+                  Sign Up Now
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui card">
+              <div class="ui center aligned content">
+                <div class="header">$20.00 /mo</div>
+              </div>
+              <div class="ui center aligned content">
+                <h4 class="ui large header">Unlimited</h4>
+                <div class="ui small feed">
+                  <div class="event">
+                    <div class="ui center aligned content">
+                      <div class="ui center aligned summary">
+                        <h1 class="ui huge header" style="font-size: 70px;">
+                          ∞
+                        </h1>
+
+                        <p>
+                          Unique Products
+                        </p>
+                        <div class="meta">
+                          <a>No restrictions</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra center aligned content">
+                <button class="ui inverted orange button">
+                  Sign Up Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  
+  <div class="ui vertical stripe segment">
+    <div class="ui text container">
+      <h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
+      <p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your attention.</p>
+      <a class="ui large button">Read More</a>
+      <h4 class="ui horizontal header divider">
+        <a href="#">Case Studies</a>
+      </h4>
+      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
+      <p>Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
+      <a class="ui large button">I'm Still Quite Interested</a>
+    </div>
+  </div>
+
+-->
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">About</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Sitemap</a>
+            <a href="#" class="item">Contact Us</a>
+            <a href="#" class="item">Religious Ceremonies</a>
+            <a href="#" class="item">Gazebo Plans</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Services</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Banana Pre-Order</a>
+            <a href="#" class="item">DNA FAQ</a>
+            <a href="#" class="item">How To Access</a>
+            <a href="#" class="item">Favorite X-Men</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Footer Header</h4>
+          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>
