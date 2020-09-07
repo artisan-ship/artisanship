@@ -149,6 +149,10 @@
     $('.ui.radio.checkbox')
         .checkbox();
 
+        $("form").submit(function(){
+            $("form").eq(0).addClass("loading");
+
+        });
     var cards = $(".subscription-section .card").toArray();
     cards.forEach(function (card, i) {
         $(card).click(function () {
@@ -169,5 +173,7 @@
             }
         })
     });
+
+
 
 </script>

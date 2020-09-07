@@ -43,8 +43,7 @@
   <script>
     // testing card 4000 0025 0000 3155
 
-    // Set your publishable key: remember to change this to your live publishable key in production
-// See your keys here: https://dashboard.stripe.com/account/apikeys
+
 $('.message .close')
     .on('click', function() {
       $(this)
@@ -110,9 +109,9 @@ form.addEventListener('submit', function(event) {
     if (result.error) {
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
-      console.log(result.error.message);
+
     } else {
-      console.log(result.token);
+    
       stripeTokenHandler(result.token);
     }
   })

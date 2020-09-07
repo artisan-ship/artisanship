@@ -37,6 +37,10 @@
   </div>
 </div>
 <script>
+        $("form").submit(function(){
+            $("form").eq(0).addClass("loading");
+
+        });
   $('.message .close')
   .on('click', function() {
     $(this)
