@@ -166,8 +166,9 @@ router.post("/reset/:token",function(req,res){
         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
         UserInfo.findOne({ "_id": token._userId }).populate("Creator").exec( function (err, foundUser) {
-			if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+			if (!foundUser) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
 			User.findOne({"_id" : foundUser.creator.id},function(err,user){
+				if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token. ' + err });
 				user.setPassword(req.body.password,function(err){
 					if(err){
 						console.log(err);
