@@ -151,43 +151,7 @@ router.get("/confirmation/:token",function(req,res){
 })
 
 
-router.get("/reset/:token",function(req,res){
 
-
-	passToken = req.params.token;
-	res.render('reset-token',{token:req.params.token} );
-
-})
-
-router.post("/reset/:token",function(req,res){
-    // Find a matching token
-    Token.findOne({ token: req.params.token}, function (err, token) {
-		if(err){
-			return res.status(400).send({ msg: err });
-		}
-
-        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
-
-        UserInfo.findOne({ "_id": token._userId }).populate("Creator").exec( function (err, foundUser) {
-			if (!foundUser) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
-			User.findOne({"_id" : foundUser.creator.id},function(err,user){
-				if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token. ' + err });
-				user.setPassword(req.body.password,function(err){
-					if(err){
-						console.log(err);
-						res.redirect("/login");
-					}else{
-						req.flash("success","Account verified please login")
-						res.redirect("/login");
-					}
-				})
-			})
-        
-        });
-    });
-
-
-})
 
 router.get("/reset",function(req,res){
 
@@ -198,28 +162,43 @@ router.get("/reset",function(req,res){
 
 router.post("/reset",function(req,res){
 
-	UserInfo.findOne({"email": req.body.email}, function (err, foundUser) {
+	
+
+	UserInfo.findOne({"email": req.body.email}).populate("User").exec(function (err, foundUser) {
 		if (err) {
 			console.log('break down');
 		} else {
 
-			var token = new Token({ _userId: foundUser._id, token: crypto.randomBytes(16).toString('hex') });
 
-			// Save the verification token
-			token.save(function (err) {
-				if (err) { return console.log(err); }
 
-				// Send the email
+			console.log("--------------")
+			console.log(foundUser);
+			newpass = crypto.randomBytes(12).toString('hex');
+			User.findOne({"_id" : foundUser.user.id},function(err,user){
+				if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token. ' + err });
+				user.setPassword(newpass,function(err){
+					if(err){
+						console.log(err);
+						res.redirect("/login");
+					}else{
+						user.save()
+								// Send the email
 				var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
-				var mailOptions = { from: 'leon@theartisanship.com', to: foundUser.email, subject: 'Password reset', text: 'Hello,\n\n' + 'Please reset your password by clicking the link: \nhttps:\/\/' + req.headers.host + '\/reset\/' + token.token + '.\n' };
+				var mailOptions = { from: 'leon@theartisanship.com', to: foundUser.email, subject: 'Password reset', text: 'Hello '+user.username+ ' ,\n\n' + 'new password: ' + newpass + ' Please login and change your password by clicking the link: \nhttps:\/\/' + req.headers.host + '\/login\/\n' };
 				transporter.sendMail(mailOptions, function (err) {
 					if (err) { return res.status(500).send({ msg: err.message }); }
 					req.flash('success',"A reset email has been sent to " + foundUser.email)
 					return res.redirect('/login')
 				});
-			});
+						
+					}
+				})
+			})
 
-		}
+		
+			};
+
+		
 	});
 
 })
