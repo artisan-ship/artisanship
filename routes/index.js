@@ -155,7 +155,7 @@ router.get("/reset/:token",function(req,res){
 
 
 	passToken = req.params.token;
-	res.render('confirmation');
+	res.render('reset-token');
 
 })
 
@@ -164,8 +164,7 @@ router.post("/reset/:token",function(req,res){
     Token.findOne({ token: passToken}, function (err, token) {
 
         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
- 
-        // If we found a token, find a matching user
+
         UserInfo.findOne({ "_id": token._userId }).populate("Creator").exec( function (err, foundUser) {
 			if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
 			User.findOne({"_id" : foundUser.creator.id},function(err,user){
