@@ -4,7 +4,9 @@
 	margin: 50px;
 }
 
-
+.ui.dashboard.card{
+	height: auto !important;
+}
 #output_image {
 	height:400px;
 }
