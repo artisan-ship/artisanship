@@ -71,6 +71,20 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 });
 
 
+router.get('/admin/:id/settings', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
+	var userId = req.params.id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if (err) {
+			console.log('err');
+		} else {
+
+
+			res.render('admin/settings', { userInfo: foundUser[0] });
+		}
+	});
+});
+
+
 
 
 // --------------------------------order routes -----------------------------
@@ -250,25 +264,25 @@ router.get('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 				var perPage = 16;
 				var pageQuery = parseInt(req.query.page);
 				var pageNumber = pageQuery ? pageQuery : 1;
-		
-				Product.find({}).skip((perPage * pageNumber)- perPage).limit(perPage).exec(function (err, foundProducts) {
+
+				Product.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, foundProducts) {
 					Product.count().exec(function (err, count) {
-					if (err) {
-						console.log(err);
-					} else {
-						
-						var products = foundUser[0].products;
-						res.render('merchant/search/index', {
-							userInfo: foundUser[0],
-							products: foundProducts,
-							merchantProducts: products,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage)
-							
-						});
-					}
+						if (err) {
+							console.log(err);
+						} else {
+
+							var products = foundUser[0].products;
+							res.render('merchant/search/index', {
+								userInfo: foundUser[0],
+								products: foundProducts,
+								merchantProducts: products,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage)
+
+							});
+						}
+					});
 				});
-			});
 			}
 		});
 });
@@ -282,7 +296,7 @@ router.post('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 		} else {
 			Product.findById(req.body.id).populate("Creator").exec(function (err, foundProduct) {
 				if (err) {
-					
+
 					req.flash("error", "Oh no! Something went wrong...")
 					res.redirect('/admin');
 				} else {
@@ -357,7 +371,7 @@ router.get('/admin/:id/export', middleware.isLoggedIn, middleware.checkUserOwner
 				req.flash('error', 'There was a problem...');
 				res.redirect('/admin');
 			} else {
-				
+
 				var products = foundUser[0].products;
 				console.log(products)
 				res.render('merchant/export/index', { products: products, userInfo: foundUser[0] });
@@ -410,3 +424,28 @@ function isLoggedIn(req, res, next) {
 }
 
 module.exports = router;
+
+
+
+router.post('/admin/:id/change', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
+	User.findById(req.user._id, function (err, foundUser) {
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}
+		else{
+			console.log(foundUser);
+			foundUser.changePassword(req.body.oldPassword, req.body.newPassword, function(err,){
+				if(err){
+					console.log(err);
+					req.flash("error", err);
+					res.redirect("back");
+				}else{
+					req.flash("success", "You have successfully changed your password");
+					res.redirect("back");
+				}
+			});
+		}
+
+	})
+});

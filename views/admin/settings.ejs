@@ -1,0 +1,89 @@
+<%- include('../partials/header') %>
+
+
+
+
+
+<div class="ui container">
+	<form class="ui form" action="/admin/<%= currentUser.id %>/change" method="POST" id="password-form">
+
+		<div class="ui two column centered  grid">
+
+			<div class="ten wide column">
+				<div class="ui main text container segment">
+                    <div class="three fields">
+						<div class="six wide field">
+							<label>Change Password</label>
+
+							<input type="password" name="oldPassword" placeholder="Old Password" required>
+						</div>
+						<div class="six wide field">
+							<br>
+
+							<input type="password" name="newPassword" id="newPassword" placeholder="New Password"required>
+						</div>
+						<div class="six wide field">
+							<br>
+
+                            <input type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="Confirm New Password" required>
+                        </div>
+             
+
+                    </div>
+                    <div class="ui error message" id="passwordNotEqual" style="display: none;">
+                        <div class="header">Password error</div>
+                        <p>Please make sure your new passwords match</p>
+                      </div>
+                     
+                    <button class="ui orange  button" type="submit">
+                        <i class="edit icon"></i>Change Password </button>
+                        
+
+
+				</div>
+
+			</div>
+
+			<div class="five wide column">
+	
+
+			
+
+				<div class="ui raised segment">
+
+					<div class="ui form">
+				
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>
+<div class="ui modal">
+	<i class="close icon"></i>
+	<div class="ui container">
+		<div class="ui segment">
+
+
+		</div>
+	</div>
+
+</div>
+<script>
+    var form = document.getElementById('password-form');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  if($("#newPassword").html() == $("#newPasswordConfirm").html()){
+    form.submit();
+  }
+  else{
+      $("#passwordNotEqual").show()
+  }
+
+
+});
+</script>

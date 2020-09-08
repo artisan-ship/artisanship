@@ -14,6 +14,15 @@
 	display: inline;
 }
 
+
+.ui.statistic .value{
+	color: white;;
+}
+
+.ui.statistic .label{
+	color: white;
+	padding:0.5em;
+}
 .ui.rating .active.icon {
     background: 0 0;
     color: rgba(220, 176, 0, 0.87);

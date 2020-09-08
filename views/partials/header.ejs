@@ -86,7 +86,12 @@
 			</a>
 			<% } %>
 			<div class="right menu">
-			
+				<a href="/admin/<%= currentUser.id %>/settings" class="item">
+					<strong>
+						<i class="cog  icon"></i>
+						
+					</strong>
+				</a>
 
 				<% if(!currentUser){ %>
 				<a href="/login" class="ui inverted button">Login</a>

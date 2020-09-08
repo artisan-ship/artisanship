@@ -79,8 +79,8 @@ router.post('/register', function (req, res) {
 									if (err) { return console.log(err); }
 
 									// Send the email
-									var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: 'leon@theartisanship.com', pass: "nfdwyxajzpymajqb" } });
-									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+									var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
+									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account verification email', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
 										req.flash('success',"A verification email has been sent to " + newUser.email)
@@ -123,10 +123,7 @@ router.post('/register', function (req, res) {
 								else{
 									return res.redirect('/login')
 								}
-						
-								  
 
-								
 							}
 						});
 
@@ -152,6 +149,78 @@ router.get("/confirmation/:token",function(req,res){
 	res.render('confirmation');
 
 })
+
+
+router.get("/reset/:token",function(req,res){
+
+
+	passToken = req.params.token;
+	res.render('confirmation');
+
+})
+
+router.post("/reset/:token",function(req,res){
+    // Find a matching token
+    Token.findOne({ token: passToken}, function (err, token) {
+
+        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+ 
+        // If we found a token, find a matching user
+        UserInfo.findOne({ "_id": token._userId }).populate("Creator").exec( function (err, foundUser) {
+			if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+			User.findOne({"_id" : foundUser.creator.id},function(err,user){
+				user.setPassword(req.body.password,function(err){
+					if(err){
+						console.log(err);
+						res.redirect("/login");
+					}else{
+						req.flash("success","Account verified please login")
+						res.redirect("/login");
+					}
+				})
+			})
+        
+        });
+    });
+
+
+})
+
+router.get("/reset",function(req,res){
+
+	res.render('reset');
+
+})
+
+
+router.post("/reset",function(req,res){
+
+	UserInfo.findOne({"email": req.body.email}, function (err, foundUser) {
+		if (err) {
+			console.log('break down');
+		} else {
+
+			var token = new Token({ _userId: foundUser._id, token: crypto.randomBytes(16).toString('hex') });
+
+			// Save the verification token
+			token.save(function (err) {
+				if (err) { return console.log(err); }
+
+				// Send the email
+				var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
+				var mailOptions = { from: 'leon@theartisanship.com', to: foundUser.email, subject: 'Password reset', text: 'Hello,\n\n' + 'Please reset your password by clicking the link: \nhttps:\/\/' + req.headers.host + '\/reset\/' + token.token + '.\n' };
+				transporter.sendMail(mailOptions, function (err) {
+					if (err) { return res.status(500).send({ msg: err.message }); }
+					req.flash('success',"A reset email has been sent to " + foundUser.email)
+					return res.redirect('/login')
+				});
+			});
+
+		}
+	});
+
+})
+
 
 
 router.get("/privacy",function(req,res){
