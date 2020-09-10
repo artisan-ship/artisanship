@@ -1,0 +1,112 @@
+<%- include('../partials/super-user-header') %>
+<div class="ui container">
+
+
+<div class="ui raised segment">
+    <table class="ui celled table">
+        <thead>
+            <th>Product title</th>
+            <th>Price</th>
+            <th>Retail Price</th>
+            <th>Vendor</th>
+            <th>Tags</th>
+            <th>collection</th>
+        </thead>
+        <tbody>
+            <% products.forEach(function(product, i){ %>
+            <tr>
+                <td>
+                    <h4 class="ui image header">
+                        <img src="<%= product.image %>" class="ui medium rounded image" />
+                        <div class="content">
+                            <a href="/products/<%=product._id %>"><%= product.title %></a>
+                        </div>
+                    </h4>
+                </td>
+                <td>
+                    <%= product.price %>
+                </td>
+                <td>
+                    <%= product.retail_price %>
+                </td>
+
+                <td>
+                    <%= product.vendor %>
+                </td>
+
+                <td>
+                    <%= product.tags %>
+                </td>
+
+                <td>
+                    <%= product.collections %>
+                </td>
+
+                <td>
+                    <button onclick="showDeleteModal(<%= i %>)" class="ui right floated red inverted button">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <div class="ui basic modal" id="deleteModal<%= i%>">
+                <div class="ui icon header">
+                  <i class="trash alternate icon"></i>
+                  Delete This Product?
+                </div>
+                <div class="content">
+                  <p>This will remove the product from your product list!</p>
+                </div>
+                <div class="actions">
+                         <form action="/superuser/<%=currentUser.id %>/products/<%=product._id %>?_method=DELETE" method="POST">
+                  <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    No
+                  </div>
+                   
+                  <button class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                  </button>
+                        </form>
+                </div>
+              </div>
+
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+	<%- include('../partials/search-pagination') %>
+
+
+	
+</div>
+</div>
+<script>
+
+function showDeleteModal(i){
+				$('#deleteModal' + i)
+  .modal('show')
+;
+		}
+	$('.ui.rating').rating();
+
+	function hideForm(i) {
+		$('#importForm' + i).hide();
+	}
+	var term = $('#searchbar').val();
+	console.log(term);
+	$('#search').click(function () {
+		term = $('#searchbar').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 10);
+	});
+	$('#filter').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 4000);
+	});
+	$('.ui.dropdown').dropdown();
+</script>

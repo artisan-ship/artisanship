@@ -1,0 +1,113 @@
+<%- include('../partials/super-user-header') %>
+<div class="ui container">
+
+
+<div class="ui raised segment">
+    <table class="ui celled table">
+        <thead>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>type</th>
+            <th>email</th>
+            <th>created</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <% users.forEach(function(user, i){ %>
+            <tr>
+                <td>
+                    <h4 class="ui image header">
+                    
+                        <div class="content">
+                            <a href=""><%= user.user.username %></a>
+                        </div>
+                    </h4>
+                </td>
+                <td>
+                    <%= user.first_name %>
+                </td>
+                <td>
+                    <%= user.last_name %>
+                </td>
+
+                <td>
+                    <%= user.type %>
+                </td>
+
+                <td>
+                    <%= user.email %>
+                </td>
+
+                <td>
+                    <%= user.created %>
+                </td>
+
+                <td>
+                    <button onclick="showDeleteModal(<%= i %>)" class="ui right floated red inverted button">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <div class="ui basic modal" id="deleteModal<%= i%>">
+                <div class="ui icon header">
+                  <i class="trash alternate icon"></i>
+                  Delete This User?
+                </div>
+                <div class="content">
+                  <p>This will completely remove the user from our database!!!</p>
+                </div>
+                <div class="actions">
+                         <form action="/superuser/<%=currentUser.id %>/users/<%=user.user.id %>?_method=DELETE" method="POST">
+                  <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    No
+                  </div>
+                   
+                  <button class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                  </button>
+                        </form>
+                </div>
+              </div>
+
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+	<%- include('../partials/search-pagination') %>
+
+
+	
+</div>
+</div>
+<script>
+
+function showDeleteModal(i){
+				$('#deleteModal' + i)
+  .modal('show')
+;
+		}
+	$('.ui.rating').rating();
+
+	function hideForm(i) {
+		$('#importForm' + i).hide();
+	}
+	var term = $('#searchbar').val();
+	console.log(term);
+	$('#search').click(function () {
+		term = $('#searchbar').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 10);
+	});
+	$('#filter').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 4000);
+	});
+	$('.ui.dropdown').dropdown();
+</script>

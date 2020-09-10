@@ -1,0 +1,19 @@
+<%- include('../partials/super-user-header') %>
+
+<div class="ui container">
+    <div class="ui segment">
+        <ul class="ui list">
+            <li><a href="/superuser/<%=currentUser.id%>/products">Products</a></li>
+                <li><a href="/superuser/<%=currentUser.id%>/users">Users</a></li>
+              <ul>
+                <li>User index</li>
+                <li>Create new User</li>
+              </ul>
+            </li>
+            <li>Orders</li>
+            <li>Reviews</li>
+            <li>Notifications</li>
+          </ul>
+    </div>
+
+</div>

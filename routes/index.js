@@ -87,11 +87,18 @@ router.post('/register', function (req, res) {
 										
 									});
 								});
+
+								if(req.body.register.type == "creator"){
+									newUser.type = "creator";
+								}else{
+									newUser.type = "merchant";
+								}
 								newUser.user_id = req.user._id;
 								newUser.followers = [];
 								newUser.notifications = [];
 								newUser.user.id = req.user._id;
 								newUser.user.username = req.user.username;
+							
 								newUser.save();
 
 								if(req.body.register.plan != "starter"){

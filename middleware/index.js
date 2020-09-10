@@ -88,6 +88,34 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect('/login');
 }
 
+
+
+middlewareObj.checkIfSuperUser = function(req, res, next) {
+ if (req.isAuthenticated()) {
+        UserInfo.findOne({ 'user.id': req.user._id },function(err, foundUser) {
+            if (err) {
+						req.flash("error", "user not found");
+
+                res.redirect('back');
+            } else {
+                
+                if (foundUser.type == "super_user") {
+                    next();
+                } else {
+							req.flash("error", "You don't have permission to do that");
+
+                    res.redirect('back');
+                }
+            }
+        });
+    } else {
+				req.flash("error", "Please login first");
+
+        res.redirect('back');
+    }
+};
+
+
 middlewareObj.checkReviewOwnership = function(req, res, next) {
     if(req.isAuthenticated()){
         Review.findById(req.params.review_id, function(err, foundReview){

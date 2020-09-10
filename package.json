@@ -22,6 +22,7 @@
     "faker": "^4.1.0",
     "fuse.js": "^6.4.1",
     "hipster-product-creator": "^1.0.4",
+    "imap": "^0.8.19",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.4",
     "multer": "^1.4.2",

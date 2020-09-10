@@ -45,6 +45,7 @@ router.get('/admin', middleware.isLoggedIn, function (req, res) {
 	if (!userId) {
 		res.redirect('/register');
 	} else {
+		
 
 
 		res.redirect('/admin/' + userId);
@@ -63,6 +64,10 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 			}
 			else {
 				msg = "Welcome back " + foundUser[0].first_name;
+			}
+
+			if(foundUser[0].type == "super_user"){
+				res.redirect("/superuser/" + userId);
 			}
 
 			res.render('admin/index', { userInfo: foundUser[0], success: msg });
