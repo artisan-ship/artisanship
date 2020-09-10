@@ -9,6 +9,7 @@ var User = require("./models/users");
 var Creator = require("./models/creators")
 var localStrategy = require('passport-local');
 var methodOverride = require('method-override');
+var Order = require("./models/orders");
 var Product   = require("./models/products");
 var Merchant   = require("./models/merchants");
 var passportLocalMongoose = require('passport-local-mongoose');
@@ -20,6 +21,7 @@ var merchantRoutes = require('./routes/merchants');
 var collectionRoutes = require('./routes/collections');
 var productRoutes = require('./routes/products');
 var superUserRoutes = require('./routes/superuser');
+
 var reviewRoutes = require('./routes/reviews')
 var UserInfo = require('./models/user_info');
 const { json } = require('body-parser');
@@ -37,7 +39,7 @@ app.use(flash());
 mongoose.connect('mongodb://localhost/artisanship', {useNewUrlParser: true,  useUnifiedTopology : true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs")
-
+app.use(bodyParser.json())
 
 app.use(express.static(__dirname + "/public"))
 app.use(methodOverride("_method"));
@@ -100,8 +102,29 @@ const calculateOrderAmount = items => {
   };
 var emails = "";
   app.post("/payload", (req, res) => {
-	emails = req.body;
-	res.status(200).send("message"+ JSON.stringify(req.body)) // Responding is important
+	res.status(200).end();
+	console.log(req.body);
+	var newOrder = { 
+		order_number: req.body.please_fulfill_order,
+		total_number_of_items: req.body.total_number_of_items,
+		unique_items: req.body.unique_items,
+		title:  req.body.variant_title,
+		sku: req.body.sku,
+		quantity: req.body.quantity,
+		vendor: req.body.vendor,
+		shipping_method: req.body.shipping_method,
+		tracking_number: req.body.tracking_number,
+		customer_email: req.body.customer_email,
+		shipping_address: req.body.shipping_address,
+		order_id: req.body.id,
+	}
+	Order.create(newOrder,function(err,createdOrder){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("created a new order from shopify")
+		}
+	})
 
   })
 

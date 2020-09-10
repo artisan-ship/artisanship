@@ -1,0 +1,112 @@
+<%- include('../partials/super-user-header') %>
+<div class="ui container">
+
+
+<div class="ui raised segment">
+    <table class="ui celled table">
+        <thead>
+            <th>order number</th>
+            <th>product title</th>
+            <th>Quantity</th>
+            <th>Vendor</th>
+            <th>created at</th>
+            <th>customer email</th>
+        </thead>
+        <tbody>
+            <% orders.forEach(function(order, i){ %>
+            <tr>
+                <td>
+                    <h4 class="ui image header">
+                    
+                        <div class="content">
+                            <a href=""><%= order.order_number %></a>
+                        </div>
+                    </h4>
+                </td>
+                <td>
+                    <%= order.title %>
+                </td>
+                <td>
+                    <%= order.quantity %>
+                </td>
+
+                <td>
+                    <%= order.vendor %>
+                </td>
+
+                <td>
+                    <%= order.created %>
+                </td>
+
+                <td>
+                    <%= order.customer_email %>
+                </td>
+
+                <td>
+                    <button onclick="showDeleteModal(<%= i %>)" class="ui right floated red inverted button">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <div class="ui basic modal" id="deleteModal<%= i%>">
+                <div class="ui icon header">
+                  <i class="trash alternate icon"></i>
+                  Delete This order?
+                </div>
+                <div class="content">
+                  <p>This will remove the orders from your orders list!</p>
+                </div>
+                <div class="actions">
+                         <form action="/superuser/<%=currentUser.id %>/orders/<%=order._id %>?_method=DELETE" method="POST">
+                  <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    No
+                  </div>
+                   
+                  <button class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                  </button>
+                        </form>
+                </div>
+              </div>
+
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+	<%- include('../partials/search-pagination') %>
+
+
+	
+</div>
+</div>
+<script>
+
+function showDeleteModal(i){
+				$('#deleteModal' + i)
+  .modal('show')
+;
+		}
+	$('.ui.rating').rating();
+
+	function hideForm(i) {
+		$('#importForm' + i).hide();
+	}
+	var term = $('#searchbar').val();
+	console.log(term);
+	$('#search').click(function () {
+		term = $('#searchbar').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 10);
+	});
+	$('#filter').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 4000);
+	});
+	$('.ui.dropdown').dropdown();
+</script>

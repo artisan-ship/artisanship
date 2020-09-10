@@ -117,6 +117,32 @@ router.delete('/superuser/:id/users/:userid', middleware.isLoggedIn, middleware.
 });
 
 
+router.get('/superuser/:id/orders', middleware.isLoggedIn, middleware.checkUserOwnership,middleware.checkIfSuperUser, (req, res) => {
+	var userId = req.user._id;
+	var perPage = 16;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+
+	Order.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, foundOrders) {
+		Order.count().exec(function (err, count) {
+			if (err) {
+				console.log(err);
+			} else {
+
+			
+				res.render('superuser/orders', {
+					orders: foundOrders,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage)
+
+				});
+			}
+		});
+	});
+}
+
+);
+
 
 
 
