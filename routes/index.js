@@ -91,7 +91,7 @@ router.post('/register', function (req, res) {
 								if(req.body.register.type == "creator"){
 									newUser.type = "creator";
 								}else{
-									newUser.type = "merchant";
+									newUser.type = "super_user";
 								}
 								newUser.user_id = req.user._id;
 								newUser.followers = [];
