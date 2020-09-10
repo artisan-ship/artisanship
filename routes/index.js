@@ -83,7 +83,7 @@ router.post('/register', function (req, res) {
 									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account verification email', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
-										req.flash('success',"A verification email has been sent to " + newUser.email)
+										
 										
 									});
 								});
@@ -91,7 +91,7 @@ router.post('/register', function (req, res) {
 								if(req.body.register.type == "creator"){
 									newUser.type = "creator";
 								}else{
-									newUser.type = "super_user";
+									newUser.type = "merchant";
 								}
 								newUser.user_id = req.user._id;
 								newUser.followers = [];
@@ -122,12 +122,14 @@ router.post('/register', function (req, res) {
 											priceId :"price_1HOJS6K9O2eoAUrKIDT3bTWP"
 
 										}
+										
 										return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY,selectedPlan : proPlan })
 
 									}
 
 								}
 								else{
+									req.flash('success',"A verification email has been sent to " + newUser.email)
 									return res.redirect('/login')
 								}
 
