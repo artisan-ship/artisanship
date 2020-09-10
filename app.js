@@ -105,7 +105,7 @@ var emails = "";
 		emails = element.vendor;
 		
 	});
-	res.status(200).send("message"+ JSON.stringify(req.body) // Responding is important
+	res.status(200).send("message"+ JSON.stringify(req.body)) // Responding is important
 
   })
 
