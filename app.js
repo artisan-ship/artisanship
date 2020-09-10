@@ -22,6 +22,7 @@ var productRoutes = require('./routes/products');
 var superUserRoutes = require('./routes/superuser');
 var reviewRoutes = require('./routes/reviews')
 var UserInfo = require('./models/user_info');
+const { json } = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
@@ -104,7 +105,7 @@ var emails = "";
 		emails = element.vendor;
 		
 	});
-	res.status(200).send("message"+ emails) // Responding is important
+	res.status(200).send("message"+ JSON.stringify(req.body) // Responding is important
 
   })
 
