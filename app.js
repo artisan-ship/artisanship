@@ -100,7 +100,11 @@ const calculateOrderAmount = items => {
 var emails = "";
   app.post("/payload", (req, res) => {
 	emails = req.body;
-	res.status(200).send("message"+ req.body.stringify()) // Responding is important
+	req.body.forEach(element => {
+		emails = element.vendor;
+		
+	});
+	res.status(200).send("message"+ emails) // Responding is important
 
   })
 
