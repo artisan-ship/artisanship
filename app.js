@@ -97,10 +97,10 @@ const calculateOrderAmount = items => {
 	// people from directly manipulating the amount on the client
 	return 1400;
   };
-
+var emails = "";
   app.post("/payload", (req, res) => {
-	console.log(req.body) // Call your action on the request here
-	res.status(200).send("message"+ req.body) // Responding is important
+	emails = req.body;
+	res.status(200).send("message"+ req.body[0]) // Responding is important
 
   })
 
