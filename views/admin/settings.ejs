@@ -5,13 +5,14 @@
 
 
 <div class="ui container">
-	<form class="ui form" action="/admin/<%= currentUser.id %>/change" method="POST" id="password-form">
 
-		<div class="ui two column centered  grid">
 
-			<div class="ten wide column">
+	<div class="ui two column centered  grid">
+
+		<div class="ten wide column">
+			<form class="ui form" action="/admin/<%= currentUser.id %>/change" method="POST" id="password-form">
 				<div class="ui main text container segment">
-                    <div class="three fields">
+					<div class="three fields">
 						<div class="six wide field">
 							<label>Change Password</label>
 
@@ -20,46 +21,93 @@
 						<div class="six wide field">
 							<br>
 
-							<input type="password" name="newPassword" id="newPassword" placeholder="New Password"required>
+							<input type="password" name="newPassword" id="newPassword" placeholder="New Password"
+								required>
 						</div>
 						<div class="six wide field">
 							<br>
 
-                            <input type="password" name="newPasswordConfirm" id="newPasswordConfirm" placeholder="Confirm New Password" required>
-                        </div>
-             
-
-                    </div>
-                    <div class="ui error message" id="passwordNotEqual" style="display: none;">
-                        <div class="header">Password error</div>
-                        <p>Please make sure your new passwords match</p>
-                      </div>
-                     
-                    <button class="ui orange  button" type="submit">
-                        <i class="edit icon"></i>Change Password </button>
-                        
+							<input type="password" name="newPasswordConfirm" id="newPasswordConfirm"
+								placeholder="Confirm New Password" required>
+						</div>
 
 
-				</div>
-
-			</div>
-
-			<div class="five wide column">
-	
-
-			
-
-				<div class="ui raised segment">
-
-					<div class="ui form">
-				
+					</div>
+					<div class="ui error message" id="passwordNotEqual" style="display: none;">
+						<div class="header">Password error</div>
+						<p>Please make sure your new passwords match</p>
 					</div>
 
+					<button class="ui orange  button" type="submit">
+						<i class="edit icon"></i>Change Password </button>
 				</div>
+	
+		</form>
+
+
+
+		<div class="ui main text container segment">
+			<form class="ui form" action="/admin/<%= currentUser.id %>?_method=update" method="POST">
+			<div class="three fields">
+				<div class="six wide field">
+					<label>Company Information</label>
+
+					<input type="url" name="companyImage" placeholder="Company logo url">
+				</div>
+				<div class="six wide field">
+					<br>
+
+					<input type="url" name="companyTitle" placeholder="Company name">
+				</div>
+		
 			</div>
+	
+			<button class="ui orange  button" type="submit">
+				<i class="edit icon"></i>Update information </button>
+
+	</form>
+</div>
+
+
+<div class="ui main text container segment">
+	<form class="ui form" action="/admin/<%= currentUser.id %>?_method=update" method="POST">
+	<div class="three fields">
+		<div class="six wide field">
+			<label>User Information</label>
+
+			<input type="url" name="userAvatar" placeholder="User avatar url">
+		</div>
+		<div class="six wide field">
+			<br>
+
+			<input type="url" name="role" placeholder="role">
+		</div>
+
+	</div>
+
+	<button class="ui orange  button" type="submit">
+		<i class="edit icon"></i>Update information </button>
+
+</form>
+</div>
+</div>
+
+<div class="five wide column">
+
+
+
+
+	<div class="ui raised segment">
+
+		<div class="ui form">
 
 		</div>
-	</form>
+
+	</div>
+</div>
+
+</div>
+
 </div>
 <div class="ui modal">
 	<i class="close icon"></i>
@@ -72,18 +120,18 @@
 
 </div>
 <script>
-    var form = document.getElementById('password-form');
+	var form = document.getElementById('password-form');
 
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
+	form.addEventListener('submit', function (event) {
+		event.preventDefault();
 
-  if($("#newPassword").html() == $("#newPasswordConfirm").html()){
-    form.submit();
-  }
-  else{
-      $("#passwordNotEqual").show()
-  }
+		if ($("#newPassword").html() == $("#newPasswordConfirm").html()) {
+			form.submit();
+		}
+		else {
+			$("#passwordNotEqual").show()
+		}
 
 
-});
+	});
 </script>

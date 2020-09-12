@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,500,600,700&display=swap');
 
+body.pushable>.pusher {
+    background: #dedede;
+}
 #indexContainer {
 	margin: 50px;
 }

@@ -428,7 +428,7 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/login');
 }
 
-module.exports = router;
+
 
 
 
@@ -454,3 +454,38 @@ router.post('/admin/:id/change', middleware.isLoggedIn, middleware.checkUserOwne
 
 	})
 });
+
+
+router.get('/admin/:id/notifications', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
+	var userId = req.user._id;
+
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if (err) {
+			console.log('err');
+		} else {
+
+			User.findById(userId)
+			.populate({
+				path: 'notifications',
+				options: { sort: { "_id": -1 } }
+			})
+			.exec(function (err, user) {
+				if (err) {
+					console.log(err);
+					req.flash('error', 'There was a problem...' + err.message);
+					res.redirect('/admin');
+				} else {
+
+					res.render('admin/notifications', {  userInfo: foundUser[0], notifications: user.notifications });
+				}
+			});
+
+		
+		}
+	});
+
+});
+
+
+
+module.exports = router;

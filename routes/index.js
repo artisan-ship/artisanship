@@ -286,20 +286,7 @@ router.get('/users/:id', async function(req, res) {
 	}
   });
   
-  // view all notifications
-  router.get('/admin/:id/notifications', isLoggedIn, async function(req, res) {
-	try {
-	  let user = await UserInfo.findOne({"user.id":req.params.userid}).populate({
-		path: 'notifications',
-		options: { sort: { "_id": -1 } }
-	  }).exec();
-	  let allNotifications = user.notifications;
-	  res.render('notifications/index', { allNotifications });
-	} catch(err) {
-	  req.flash('error', err.message);
-	  res.redirect('back');
-	}
-  });
+
   
   // handle notification
   router.get('/admin/:userid/notifications/:id', isLoggedIn, async function(req, res) {

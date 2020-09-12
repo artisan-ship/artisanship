@@ -24,7 +24,7 @@
 							<h4 class="ui image header">
 								<img src="<%= product.image %>" class="ui mini rounded image">
 								<div class="content">
-									<%= product.title %>
+									<a href="/products/<%=product.id %>"><%= product.title %></a>
 								
 									</div>
 								</div>
@@ -121,15 +121,35 @@
 					</div>
 					<div class="title">
 						<i class="dropdown icon"></i>
-						Additional actions
+						Tags
 					</div>
 					<div class="content">
-						<p>
-				
-						</p>
-						<p>
 					
-						</p>
+				
+				
+								<form action="/admin/<%= currentUser.id%>/products/<%=product.id%>/tags" method="post">
+									<div class="ui labeled action input">
+
+										<input id="tagInput" type="text" name="tags" placeholder="tags">
+			
+										<div id="tagButton" class="ui orange label" style="border-radius: 0;">Add</div>
+									</div>
+			
+									<div id="addedTags" class="ui horizontal list">
+			
+									</div>
+							
+							</form>
+							<div class="ui tag labels">
+								<% product.tags.forEach(function(tag){ %>
+									<a class="ui label">
+										<%= tag %>
+									  </a>
+									<% }) %>
+						
+				
+							  </div>
+
 					</div>
 					<div class="ui segments">
 						<div class="ui segment">
@@ -147,7 +167,7 @@
 						
 						</div>
 						<div class="ui secondary segment">
-							<p>Secondary Content</p>
+							<p><%= product.title %>></p>
 						</div>
 					</div>
 				</div>
@@ -201,6 +221,18 @@
 	<% } %>
 
 	<script>
+			$("#tagButton").click(function () {
+		var tag = $("#tagInput").val();
+		var tagValue = "'" + tag + "'";
+	
+		if(tag == ""){
+			return 
+		}else{
+			$("#addedTags").prepend("<div class='item' id='tag"+ tagCount +"'> <div class='content'><a class='ui tag label'>" + tag +   "<i class='delete icon tag' onclick='deleteTag("+ tagCount +")''></i></a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
+		 tagCount = tagCount + 1;
+		}
+	})
+
 
 $("form").submit(function(){
             $("form").addClass("loading");

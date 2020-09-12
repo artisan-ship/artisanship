@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+
+
+
+
+<div class="ui container">
+
+    <div class="ui two column centered  grid">
+
+        <div class="ten wide column">
+            <div class="ui main text container segment">
+                <div class="ui feed">
+                    <% notifications.forEach(function(not){ %>
+
+                    <div class="event">
+                        <div class="label">
+                            <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+                        </div>
+
+                        <div class="content">
+                            <div class="summary">
+                                <p class="user">
+                                    <%= not.username %>
+                                </p> created a new <a href="/products/<%=not.producId %>"> product</a>
+                                <div class="date time-ago">
+                                    <%= not.created %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <%	}) %>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<script>
+    var datesToChange = $(".time-ago").toArray()
+    datesToChange.forEach(function (date) {
+        var dateString = $(date).html();
+        $(date).html(timeago.format(dateString));
+    })
+
+</script>
