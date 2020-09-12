@@ -6,43 +6,47 @@
 
 	<div class="ui two column centered grid">
 		<div class="ten wide column">
-			<div class="ui raised segment">
-				<div class="ui divided items" style="background-color: white;">
-					<% products.reverse().forEach(function(product,i){ %>
-					<div class="item product" id="productItem<%= i %>" data-number="<%= i %>">
-						<div class="image">
-							<img style="height: 150px; padding: 5px;" src="<%= product.image %>" />
-						</div>
-						<div class="content">
-							<a href="/products/<%= product._id %>" class="header">
-								<%= product.title %>
-							</a>
-									<hr>
-							<div class="meta">
+				<table class="ui  selectable striped table">
+					<thead class="product-table">
+					  <tr>
+				
+					   <th>Title</th>
+					  <th>price</th>
+					  <th>category</th>
+					  <th>inventory</th>
+					  <th>Created at</th>
+					</tr></thead><tbody>
+						<% products.reverse().forEach(function(product,i){ %>
+					  <tr class="product" id="productItem<%= i %>" data-number="<%= i %>">
+						<td>
 						
-									<strong>$</strong><%= product.price %> 
-								/ <strong>$</strong><%= product.retail_price %>
-							</div>
 						
-								<div class="meta">
-										<%= product.vendor %>
-						
-							</div>
-							
-							<div class="description">
-								<p></p>
-							</div>
-							<div class="extra">
-								<div class="ui orange label"><%= product.collections %></div>
-								<div class="ui label">
-									<i class="tag icon"></i> <%= product.tags[0] %>
+							<h4 class="ui image header">
+								<img src="<%= product.image %>" class="ui mini rounded image">
+								<div class="content">
+									<%= product.title %>
+								
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-					<% }) %>
-				</div>
-			</div>
+							</h4>
+						</td>
+				
+						<td>$ <%= product.price %></td>
+						<td><%= product.collections %></td>
+						<td>
+							<%if(typeof product.inventory == "undefined"){ %>  Out of stock
+								<% }else{  %>
+									<%= product.inventory %>
+								<% }  %>
+						</td>
+						<td><%= product.created.toDateString() %></td>
+					  </tr>
+					  <% }) %> 
+		
+					</tbody>
+				  </table>
+			
+		
 		</div>
 				
 		<div class="six wide column">
@@ -73,34 +77,58 @@
 						<strong>Product Details</strong>
 					</div>
 					<div id="" class="active content">
-						<%= product.body %>
+						<%- product.body %>
 					</div>
 					<div class="title">
 						<i class="dropdown icon"></i>
-						What kinds of dogs are there?
+						Inventory
 					</div>
 					<div class="content">
-						<p>
-							There are many breeds of dogs. Each breed varies in size and
-							temperament. Owners often select a breed of dog that they find to be
-							compatible with their own lifestyle and desires from a companion.
-						</p>
+						<table class="ui celled table">
+							<thead>
+							  <tr><th>Current inventory</th>
+							  <th>Updated inventory</th>
+						
+							</tr></thead>
+							<tbody>
+							  <tr>
+								<td data-label="">
+								<%if(typeof product.inventory == "undefined"){ %>  Out of stock
+										<% }else{  %>
+											<%= product.inventory %>
+										<% }  %>
+								</td>
+								<form action="/admin/<%= currentUser.id%>/products/<%=product.id%>/inventory" method="post">
+								<td data-label="">
+									<div class="ui action fluid input">
+										<input class="" type="number" name="inventory" value="<%= product.inventory %>" placeholder="<%= product.inventory %>">
+										<button class="ui orange icon button ">
+											<i class="check icon"></i>
+										</button>
+									</div>
+								
+								</td>
+							
+							</form>
+
+							  </tr>
+						
+							</tbody>
+						  </table>
+				<p>
+			
+				</p>
 					</div>
 					<div class="title">
 						<i class="dropdown icon"></i>
-						How do you acquire a dog?
+						Additional actions
 					</div>
 					<div class="content">
 						<p>
-							Three common ways for a prospective owner to acquire a dog is from pet
-							shops, private owners, or shelters.
+				
 						</p>
 						<p>
-							A pet shop may be the most convenient way to buy a dog. Buying a dog
-							from a private owner allows you to assess the pedigree and upbringing of
-							your dog before choosing to take it home. Lastly, finding your dog from
-							a shelter, helps give a good home to a dog who may not find one so
-							readily.
+					
 						</p>
 					</div>
 					<div class="ui segments">
@@ -173,6 +201,11 @@
 	<% } %>
 
 	<script>
+
+$("form").submit(function(){
+            $("form").addClass("loading");
+
+        });
 		
 		function showDeleteModal(i){
 				$('#deleteModal' + i)
@@ -193,15 +226,31 @@
 <script>
 	var allItems = document.querySelectorAll('.product');
 	allItems.forEach(function (item, index) {
-		item.addEventListener('click', function () {
+		$(item).click(function () {
 			$('.product').css('box-shadow', 'none');
 			$('#details').show();
 			$('.accordion').hide();
-			$('#productItem' + index).css('box-shadow', '0px 0px 10px 0.2px orange');
-			$('#productItem' + index).css('back', '#eaeaea85');
+	
+		
 			$('#productDetails' + index).show();
-		});
-	});
+
+			var activeProduct = $(" .product.active").toArray();
+            if (activeProduct.length > 0) {
+                if (!$(item).hasClass("active")) {
+                    activeProduct.forEach(function (activeCard) {
+                        $(activeCard).removeClass("active");
+                    })
+                    $(this).toggleClass("active");
+                }
+            }
+            else {
+                $(this).toggleClass("active");
+                $("#selectedPlan").val($(this).data("plan"))
+
+            }
+		})
+	}
+);
 
 	$('.ui.accordion').accordion();
 </script>

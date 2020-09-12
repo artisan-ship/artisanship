@@ -229,4 +229,28 @@ router.post('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.
 	});
 });
 
+
+// update inventory 
+
+router.post('/admin/:id/products/:productid/inventory', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
+
+			Product.findById(req.params.productid, function (err, foundProduct) {
+				if (err) {
+					console.log(err);
+					res.redirect('/admin');
+				} else {
+					//add user name
+					foundProduct.inventory = req.body.inventory;
+					foundProduct.save();
+
+					req.flash("success", "Updated the inventory for " + foundProduct.title)
+			
+					res.redirect('/admin/' + req.user._id + '/products');
+				}
+			});
+
+});
+
+
+
 module.exports = router;

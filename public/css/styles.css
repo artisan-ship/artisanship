@@ -316,3 +316,26 @@ border-bottom-color: white;
 
 
   }
+
+  #tagButton:hover { 
+	  cursor: pointer;
+  }
+  .ui.table td.active, .ui.table tr.active {
+    background: #f2711c!important;
+    color: white !important;
+}
+
+
+
+
+.product:hover{
+	cursor: pointer;
+}
+.ui.striped.selectable.selectable.selectable.table tbody tr.active:hover {
+    background: #f2711c!important;
+	color: white !important;
+}
+
+.product-table tr th {
+	color: #121212 !important;
+}

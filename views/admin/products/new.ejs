@@ -45,24 +45,24 @@
 					<div class="ui small header"> Product Info</div>
 
 					<div class=" field">
-						<input type="text" name="title" placeholder="title">
+						<input type="text" name="title" placeholder="title" required>
 						<input type="hidden" name="vendor" value="<%= userInfo.company_title%>">
 					</div>
 					<div class="three fields">
 						<div class="six wide field">
 							<label>Price</label>
 
-							<input type="number" name="price" placeholder="Unit Price">
+							<input type="number" name="price" placeholder="Unit Price" required>
 						</div>
 						<div class="six wide field">
 							<br>
 
-							<input type="number" name="retail_price" placeholder="Recommended Retail Price">
+							<input type="number" name="retail_price" placeholder="Recommended Retail Price" required>
 						</div>
 						<div class="six wide field">
 							<br>
 
-							<select name="currency">
+							<select name="currency" class="ui dropdown">
 								<option value="dollar">$</option>
 								<option value="pound"> £ </option>
 								<option value="euro"> € </option>
@@ -113,11 +113,11 @@
 					<i class="tag icon"></i>Tags
 					<div class="ui form">
 
-						<div class="ui action input">
+						<div class="ui labeled action input">
 
 							<input id="tagInput" type="text" name="tags" placeholder="tags">
 
-							<div id="tagButton" class="ui button" style="border-radius: 0;">Add</div>
+							<div id="tagButton" class="ui orange label" style="border-radius: 0;">Add</div>
 						</div>
 
 						<div id="addedTags" class="ui horizontal list">
@@ -283,11 +283,22 @@
 		$('.ui.modal')
 			.modal('show');
 	})
+	var tagCount = 0;
 	$("#tagButton").click(function () {
 		var tag = $("#tagInput").val();
 		var tagValue = "'" + tag + "'";
-		$("#addedTags").prepend("<div class='item'> <div class='content'><a class='ui tag label'>" + tag + "</a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
+	
+		if(tag == ""){
+			return 
+		}else{
+			$("#addedTags").prepend("<div class='item' id='tag"+ tagCount +"'> <div class='content'><a class='ui tag label'>" + tag +   "<i class='delete icon tag' onclick='deleteTag("+ tagCount +")''></i></a><input id='tagHidden' type='hidden' name='product[tag]' value=" + tagValue + "></div></div>")
+		 tagCount = tagCount + 1;
+		}
 	})
+
+	$('select.dropdown')
+  .dropdown()
+;
 
 	var form = document.querySelector('form');
 	form.onsubmit = function () {
@@ -296,4 +307,8 @@
 		body.value = $(".ql-editor").html()
 		form.submit();
 	};
+function deleteTag(i){
+	$("#tag" + i).remove();
+}
+
 </script>

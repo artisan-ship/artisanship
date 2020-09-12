@@ -52,45 +52,55 @@ router.post('/register', function (req, res) {
 		user
 	) {
 		if (err) {
-			console.log(err);
-			res.flash("error", err)
-			return res.render('register');
+			console.log(err.message);
+			req.flash("error", JSON.stringify(err.message))
+			return res.redirect('back');
 		}
 		passport.authenticate('local')(req, res, function () {
 			UserInfo.findOne({ "email": req.body.register.email }, function (err, user) {
 				if (err) {
 					console.log(err);
+
 				}
 				else {
 					if (user) {
-						return res.redirect("/register")
+						User.findByIdAndRemove(user._id, function (err) {
+							if (err) {
+							} else {
+								req.flash("error", "This email is already in use")
+								return res.redirect("/register")
+							}
+						})
+
 					}
 					else {
 
 						UserInfo.create(req.body.register, function (err, newUser) {
 							if (err) {
-								console.log('break down');
+								req.flash("error", JSON.stringify(err.message))
+			return res.redirect('back');
 							} else {
 
 								var token = new Token({ _userId: newUser._id, token: crypto.randomBytes(16).toString('hex') });
 
 								// Save the verification token
 								token.save(function (err) {
-									if (err) { return console.log(err); }
+									if (err) { req.flash("error", JSON.stringify(err.message))
+									return res.redirect('back');}
 
 									// Send the email
 									var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
 									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account verification email', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
-										
-										
+
+
 									});
 								});
 
-								if(req.body.register.type == "creator"){
+								if (req.body.register.type == "creator") {
 									newUser.type = "creator";
-								}else{
+								} else {
 									newUser.type = "merchant";
 								}
 								newUser.user_id = req.user._id;
@@ -98,38 +108,38 @@ router.post('/register', function (req, res) {
 								newUser.notifications = [];
 								newUser.user.id = req.user._id;
 								newUser.user.username = req.user.username;
-							
+
 								newUser.save();
 
-								if(req.body.register.plan != "starter"){
+								if (req.body.register.plan != "starter") {
 
-									if(req.body.register.plan == "basic"){
+									if (req.body.register.plan == "basic") {
 										var basicPlan = {
-											name:"Basic Plan",
+											name: "Basic Plan",
 											price: 10,
-											priceId :"price_1HOJRpK9O2eoAUrKu2RZeOEV"
+											priceId: "price_1HOJRpK9O2eoAUrKu2RZeOEV"
 
 										}
-										return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY,selectedPlan : basicPlan   })
-										
+										return res.render('checkout', { email: newUser.email, public_key: process.env.STRIPE_PUBLISHABLE_KEY, selectedPlan: basicPlan })
+
 									}
 
-									else{
+									else {
 
 										var proPlan = {
-											name:"Pro Plan",
+											name: "Pro Plan",
 											price: 20,
-											priceId :"price_1HOJS6K9O2eoAUrKIDT3bTWP"
+											priceId: "price_1HOJS6K9O2eoAUrKIDT3bTWP"
 
 										}
-										
-										return res.render('checkout',{email: newUser.email,public_key: process.env.STRIPE_PUBLISHABLE_KEY,selectedPlan : proPlan })
+
+										return res.render('checkout', { email: newUser.email, public_key: process.env.STRIPE_PUBLISHABLE_KEY, selectedPlan: proPlan })
 
 									}
 
 								}
-								else{
-									req.flash('success',"A verification email has been sent to " + newUser.email)
+								else {
+									req.flash('success', "A verification email has been sent to " + newUser.email)
 									return res.redirect('/login')
 								}
 

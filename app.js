@@ -72,7 +72,11 @@ app.use(async function(req, res, next){
 	   const customer = await stripe.subscriptions.retrieve(
 		user.customer_id
 	  );
+	  if(typeof customer == "undefined"){
+		res.locals.customerplan = 'free';
+	  }
 	  res.locals.customerplan = customer;
+	 
 	 } catch(err) {
 		console.log("----------------")
 	   console.log(err.message);
