@@ -8,6 +8,15 @@ var MerchantOrdersSchema = new mongoose.Schema({
 	total_price: String,
 	order_count: String,
 	order_number: String,
+	unique_items: String,
+	title:  String,
+	sku: String,
+	quantity: String,
+	vendor: String,
+	shipping_method: String,
+	tracking_number: String,
+	customer_email: String,
+	shipping_address: String,
 	created: { type: Date, default: Date.now },
 	customer: {
 		first_name: String,
@@ -42,7 +51,7 @@ var MerchantOrdersSchema = new mongoose.Schema({
 		production_time: String,
 		inventory: String,
 		delivery_time: String,
-		shipping: String,
+
 		created: { type: Date, default: Date.now },
 		creator: {
 			id: {
