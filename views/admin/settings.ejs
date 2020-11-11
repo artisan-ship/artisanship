@@ -1,9 +1,5 @@
 <%- include('../partials/header') %>
 
-
-
-
-
 <div class="ui container">
 
 
@@ -41,97 +37,113 @@
 					<button class="ui orange  button" type="submit">
 						<i class="edit icon"></i>Change Password </button>
 				</div>
-	
-		</form>
+
+			</form>
 
 
 
-		<div class="ui main text container segment">
-			<form class="ui form" action="/admin/<%= currentUser.id %>?_method=update" method="POST">
-			<div class="three fields">
-				<div class="six wide field">
-					<label>Company Information</label>
+			<div class="ui main text container segment">
+				<form class="ui form" action="/admin/<%= currentUser.id %>/company_update?_method=PUT" method="POST">
+					<div class="three fields">
+						<div class="six wide field">
+							<label>Company Information</label>
+							<label>Company Logo</label>
+							<input type="url" name="companyLogo" value="<%= userInfo.company_logo %> ">
+						</div>
+						<div class="six wide field">
+							<br>
+							<label>Company Name</label>
+							<input type="text" name="companyTitle" value="<%= userInfo.company_title %>">
+						</div>
 
-					<input type="url" name="companyImage" placeholder="Company logo url">
-				</div>
-				<div class="six wide field">
-					<br>
+					</div>
 
-					<input type="url" name="companyTitle" placeholder="Company name">
-				</div>
-		
+					<button class="ui orange  button" type="submit">
+						<i class="edit icon"></i>Update information </button>
+				</form>
 			</div>
-	
-			<button class="ui orange  button" type="submit">
-				<i class="edit icon"></i>Update information </button>
-
-	</form>
-</div>
 
 
-<div class="ui main text container segment">
-	<form class="ui form" action="/admin/<%= currentUser.id %>?_method=update" method="POST">
-	<div class="three fields">
-		<div class="six wide field">
-			<label>User Information</label>
+			<div class="ui main text container segment">
+				<form class="ui form" action="/admin/<%= currentUser.id %>/person_update?_method=PUT" method="POST">
+					<div class="three fields">
+						<div class="six wide field">
+							<label>User Information</label>
+							<label>Avatar</label>
+							<input type="url" name="userAvatar" value="<%= userInfo.avatar %>">
+						</div>
+						<div class="six wide field">
+							<br>
+							<label>Role</label>
+							<input type="text" name="role" value="<%= userInfo.role %>">
+						</div>
 
-			<input type="url" name="userAvatar" placeholder="User avatar url">
-		</div>
-		<div class="six wide field">
-			<br>
+					</div>
 
-			<input type="url" name="role" placeholder="role">
-		</div>
+					<button class="ui orange  button" type="submit">
+						<i class="edit icon"></i>Update information </button>
 
-	</div>
-
-	<button class="ui orange  button" type="submit">
-		<i class="edit icon"></i>Update information </button>
-
-</form>
-</div>
-</div>
-
-<div class="five wide column">
-
-
-
-
-	<div class="ui raised segment">
-
-		<div class="ui form">
-
+				</form>
+			</div>
 		</div>
 
-	</div>
-</div>
+		<div class="five wide column">
 
-</div>
+			<div class="ui raised segment">
 
-</div>
-<div class="ui modal">
-	<i class="close icon"></i>
-	<div class="ui container">
-		<div class="ui segment">
+				<div class="ui items">
+					<div class="item">
+						<div class="ui small image">
+							<img src="<%= userInfo.company_logo %>">
+						</div>
+						<div class="middle aligned content">
+							<a class="header"><%= userInfo.company_title %> </a>
+						</div>
+					</div>
 
+					<div class="item">
+						<div class="ui tiny image">
+							<img src="<%= userInfo.avatar %>">
+						</div>
+						<div class="content">
+							<div class="header"><%= userInfo.first_name + " " + userInfo.last_name %></div>
+							<div class="meta">
+								<span class="price"><%= userInfo.role %></span>
+								<span class="stay"><%= userInfo.email %></span>
+							</div>
+							<div class="description">
+								<p></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
 
 		</div>
-	</div>
-
-</div>
-<script>
-	var form = document.getElementById('password-form');
-
-	form.addEventListener('submit', function (event) {
-		event.preventDefault();
-
-		if ($("#newPassword").html() == $("#newPasswordConfirm").html()) {
-			form.submit();
-		}
-		else {
-			$("#passwordNotEqual").show()
-		}
+		<div class="ui modal">
+			<i class="close icon"></i>
+			<div class="ui container">
+				<div class="ui segment">
 
 
-	});
-</script>
+				</div>
+			</div>
+
+		</div>
+		<script>
+			var form = document.getElementById('password-form');
+
+			form.addEventListener('submit', function (event) {
+				event.preventDefault();
+
+				if ($("#newPassword").html() == $("#newPasswordConfirm").html()) {
+					form.submit();
+				}
+				else {
+					$("#passwordNotEqual").show()
+				}
+
+
+			});
+		</script>

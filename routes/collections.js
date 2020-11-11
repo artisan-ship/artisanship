@@ -4,8 +4,8 @@ var passport = require('passport');
 var User = require('../models/users');
 var Product = require('../models/products');
 var Creator = require('../models/creators');
-var Merchant = require('../models/merchants');
 var UserInfo = require('../models/user_info');
+
 router.get('/collections', function(req, res) {
     Creator.find({}, function(err, foundCreators) {
         if (err) {

@@ -103,6 +103,13 @@ router.post('/register', function (req, res) {
 								} else {
 									newUser.type = "merchant";
 								}
+								if(newUser.avatar.length == 0){
+									newUser.avatar = "https://semantic-ui.com/images/avatar/large/jenny.jpg"
+								}
+
+								if(newUser.company_logo.length == 0){
+									newUser.company_logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTEkYgCth5MCuFtmT_dV3T2erG1nLltT1A0Gg&usqp=CAU"
+								}
 								newUser.user_id = req.user._id;
 								newUser.followers = [];
 								newUser.notifications = [];

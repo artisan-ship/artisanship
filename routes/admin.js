@@ -56,9 +56,10 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
-			console.log('err');
+			req.flash("error",err);
+			res.redirect("back");
+			
 		} else {
-
 			if (!foundUser[0].isVerified) {
 				msg = "please verify your account";
 			}
@@ -75,23 +76,59 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 	});
 });
 
-
+// ---------------------------- settings ---------------------------
 router.get('/admin/:id/settings', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.params.id;
 	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
-
-
 			res.render('admin/settings', { userInfo: foundUser[0] });
 		}
 	});
 });
 
 
+router.put('/admin/:id/company_update',middleware.isLoggedIn, middleware.checkUserOwnership, function(req, res)  {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if(err){
+			console.log(err)
+			req.flash("error",err)
+			res.redirect('/admin');
+		}
+		else{
+				foundUser[0].company_title = req.body.companyTitle;
+				foundUser[0].company_logo = req.body.companyLogo;
+				foundUser[0].save()
+				res.redirect('/admin/'+ userId + "settings");
+			}
+		
+		}
+		
+	)
+})
 
 
+router.put('/admin/:id/person_update',middleware.isLoggedIn, middleware.checkUserOwnership, function(req, res)  {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if(err){
+			console.log(err)
+			req.flash("error",err)
+			res.redirect('/admin');
+		}
+		else{
+				foundUser[0].role = req.body.role;
+				foundUser[0].avatar = req.body.userAvatar;
+				foundUser[0].save()
+				res.redirect('/admin/'+ userId + "settings");
+			}
+		
+		}
+		
+	)
+})
 // --------------------------------order routes -----------------------------
 
 router.get('/admin/:id/orders', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {

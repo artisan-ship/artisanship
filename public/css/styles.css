@@ -342,3 +342,15 @@ border-bottom-color: white;
 .product-table tr th {
 	color: #121212 !important;
 }
+
+.pusher{ 
+	padding-bottom: 50px;
+}
+
+.ui.avatar.image, .ui.avatar.image img, .ui.avatar.image svg, .ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.images svg {
+    margin-right: .25em;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 500rem;
+}
