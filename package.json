@@ -33,6 +33,7 @@
     "passport-local-mongoose": "^6.0.1",
     "request": "^2.88.2",
     "stripe": "^8.92.0",
-    "timeago.js": "^4.0.2"
+    "timeago.js": "^4.0.2",
+    "winston": "^3.3.3"
   }
 }
