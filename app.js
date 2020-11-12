@@ -33,6 +33,7 @@ var Merchant = require("./models/merchants");
 
 //other
 var seed = require("./seeds");
+var port = process.env.PORT ;
 
 //init
 const { json } = require("body-parser");
@@ -109,6 +110,6 @@ app.use(function (req, res, next) {
   res.render("404-page");
 });
 
-app.listen(3000, function () {
-  console.log("The Artisanship server has started");
+app.listen(port || 3000, function () {
+  console.log("The Artisanship server has started on port: " + port);
 });

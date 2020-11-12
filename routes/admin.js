@@ -129,6 +129,25 @@ router.put('/admin/:id/person_update',middleware.isLoggedIn, middleware.checkUse
 		
 	)
 })
+
+router.put('/admin/:id/location_update',middleware.isLoggedIn, middleware.checkUserOwnership, function(req, res)  {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+		if(err){
+			console.log(err)
+			req.flash("error",err)
+			res.redirect('/admin');
+		}
+		else{
+				foundUser[0].location = req.body.companyLocation;
+				foundUser[0].save()
+				res.redirect('/admin/'+ userId + "settings");
+			}
+		
+		}
+		
+	)
+})
 // --------------------------------order routes -----------------------------
 
 router.get('/admin/:id/orders', middleware.isLoggedIn, middleware.checkUserOwnership, (req, res) => {
@@ -289,10 +308,44 @@ router.post('/admin/merchants', isLoggedIn, function (req, res) {
 		}
 	});
 });
+//------------------- review routes --------------------------
+router.get('/admin/:id/reviews', middleware.isLoggedIn, (req, res) => {
+	var userId = req.user._id;
+	UserInfo.find({ 'user.id': userId })
+		.populate('products')
+		.exec(function (err, foundUser) {
+			if (err) {
+				console.log(err);
+				req.flash('error', 'There was a problem...');
+				res.redirect('/admin');
+			} else {
+				var perPage = 16;
+				var pageQuery = parseInt(req.query.page);
+				var pageNumber = pageQuery ? pageQuery : 1;
 
+				Product.find({'creator.id': userId }).populate("reviews").skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, foundProducts) {
+					Product.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
 
+							var products = foundUser[0].products;
+							res.render('admin/reviews', {
+								userInfo: foundUser[0],
+								products: foundProducts,
+								merchantProducts: products,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage)
 
-// ---------------search routes
+							});
+						}
+					});
+				});
+			}
+		});
+});
+
+// ---------------search routes---------------------------
 router.get('/admin/:id/search', middleware.isLoggedIn, (req, res) => {
 	var userId = req.user._id;
 	UserInfo.find({ 'user.id': userId })

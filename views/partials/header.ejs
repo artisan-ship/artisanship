@@ -16,7 +16,12 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSZpT8fIMzLCxM0AFnhDk7zTGPEI-vynI&callback=initMap&libraries=places&v=weekly"
+      defer
+	></script>
+	
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="../../node_modules/timeago.js/dist/timeago.full.min.js"></script>
 	<script src="/js/lib/timeago.min.js"></script>
@@ -54,7 +59,11 @@
 				<i class="ui clipboard list icon"></i>
 				My Orders
 			</a>
-			<a href="/merchants" class="item">
+			<a href="/admin/<%= currentUser.id %>/reviews" class="item">
+				<i class="ui star icon"></i>
+				Reviews
+			</a>
+	
 
 			</a>
 			<% } else{%>

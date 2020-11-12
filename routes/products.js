@@ -212,7 +212,7 @@ router.post('/admin/:id/products/:productid', middleware.isLoggedIn, middleware.
 			console.log(err);
 			res.redirect('/admin');
 		} else {
-			Product.findById(req.body.productid, function (err, foundProduct) {
+			Product.findById(req.params.productid, function (err, foundProduct) {
 				if (err) {
 					console.log(err);
 					res.redirect('/admin');

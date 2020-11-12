@@ -1,8 +1,6 @@
 <%- include('../partials/header') %>
 
-<div class="ui container">
-
-
+<div class="ui container" style="padding: 0px;">
 	<div class="ui two column centered  grid">
 
 		<div class="ten wide column">
@@ -85,6 +83,23 @@
 
 				</form>
 			</div>
+
+			<div class="ui main text container segment">
+				<form class="ui form" action="/admin/<%= currentUser.id %>/location_update?_method=PUT" method="POST">
+					<div class="three fields">
+						<div class="ten wide field">
+							<label>Location Information</label>
+							<label>Company Location</label>
+							<div class="ui fluid action input">
+								<input type="text" name="companyLocation" value="<%= userInfo.city %> ,<%= userInfo.country_code %>">
+								<a class="ui button"  onclick="getLocation()"><i class="globe icon"></i>Get location</a>
+							  </div>
+						</div>
+					</div>
+					<button class="ui orange  button" type="submit">
+						<i class="edit icon"></i>Update Location </button>
+				</form>
+			</div>
 		</div>
 
 		<div class="five wide column">
@@ -109,7 +124,12 @@
 							<div class="header"><%= userInfo.first_name + " " + userInfo.last_name %></div>
 							<div class="meta">
 								<span class="price"><%= userInfo.role %></span>
-								<span class="stay"><%= userInfo.email %></span>
+								<% if(userInfo.country_code){ %>
+								<span class="stay"><%= userInfo.city + ", " + userInfo.country_code %> 
+									 <i class="<%= userInfo.country_code.toLowerCase() %> flag"></i>
+									<% } %>
+									</span>
+
 							</div>
 							<div class="description">
 								<p></p>
@@ -119,6 +139,8 @@
 				</div>
 
 			</div>
+
+			<div id="map"></div>
 
 		</div>
 		<div class="ui modal">
@@ -132,18 +154,81 @@
 
 		</div>
 		<script>
+			// geolocation 
+			var x = document.getElementById("demo");
+
+			function getLocation() {
+			  if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			  } else { 
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			  }
+			 
+			}
+			
+			function showPosition(position) {
+				console.log(position)
+			  $("input[name='companyLocation']").val(position.coords.latitude + "," + position.coords.longitude)
+			  initMap("",position.coords.latitude,position.coords.longitude)
+
+			
+			}
+
+			// form 
+
 			var form = document.getElementById('password-form');
 
-			form.addEventListener('submit', function (event) {
-				event.preventDefault();
+				form.addEventListener('submit', function (event) {
+					event.preventDefault();
 
-				if ($("#newPassword").html() == $("#newPasswordConfirm").html()) {
-					form.submit();
+					if ($("#newPassword").html() == $("#newPasswordConfirm").html()) {
+						form.submit();
+					}
+					else {
+						$("#passwordNotEqual").show()
+					}
+
+
+				});
+
+				// google map
+
+				let map;
+				let service;
+				let infowindow;
+				let locField = ("input[name='companyLocation']").val();
+				let curLoc = locField.split(",");
+
+				function initMap(location=locField,lat=curLoc[0],long=curLoc[1]) {
+					const loc = new google.maps.LatLng(lat, long);
+					infowindow = new google.maps.InfoWindow();
+					map = new google.maps.Map(document.getElementById("map"), {
+						center: loc,
+						zoom: 15,
+					});
+					const request = {
+						query: location,
+						fields: ["name", "geometry"],
+					};
+					service = new google.maps.places.PlacesService(map);
+					service.findPlaceFromQuery(request, (results, status) => {
+						if (status === google.maps.places.PlacesServiceStatus.OK) {
+							for (let i = 0; i < results.length; i++) {
+								createMarker(results[i]);
+							}
+							map.setCenter(results[0].geometry.location);
+						}
+					});
 				}
-				else {
-					$("#passwordNotEqual").show()
+
+				function createMarker(place) {
+					const marker = new google.maps.Marker({
+						map,
+						position: place.geometry.location,
+					});
+					google.maps.event.addListener(marker, "click", () => {
+						infowindow.setContent(place.name);
+						infowindow.open(map);
+					});
 				}
-
-
-			});
 		</script>

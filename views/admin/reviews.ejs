@@ -1,0 +1,249 @@
+ <%- include('../partials/header') %>
+<div id="indexContainer" class="ui container centered">
+	<% if(products.length > 0 ){%>
+
+	<div class="ui two column centered grid">
+		<div class="ten wide column">
+				<table class="ui  selectable striped table">
+					<thead class="product-table">
+					  <tr>
+				
+					   <th>Title</th>
+					  <th>price</th>
+					  <th>category</th>
+					  <th>inventory</th>
+					  <th>Created at</th>
+					</tr></thead><tbody>
+						<% products.reverse().forEach(function(product,i){ %>
+					  <tr class="product" id="productItem<%= i %>" data-number="<%= i %>">
+						<td>
+						
+						
+							<h4 class="ui image header">
+								<img src="<%= product.image %>" class="ui mini rounded image">
+								<div class="content">
+									<a href="/products/<%=product.id %>"><%= product.title %></a>
+								
+									</div>
+								</div>
+							</h4>
+						</td>
+				
+						<td>$ <%= product.price %></td>
+						<td><%= product.collections %></td>
+						<td>
+							<%if(typeof product.inventory == "undefined"){ %>  Out of stock
+								<% }else{  %>
+									<%= product.inventory %>
+								<% }  %>
+						</td>
+						<td><%= product.created.toDateString() %></td>
+					  </tr>
+					  <% }) %> 
+		
+					</tbody>
+				  </table>
+			
+		
+		</div>
+				
+		<div class="six wide column">
+			<div class="ui raised segment">
+					<% if (userInfo.type == "merchant" ){ %>			<h3>
+					Search For New Products
+				</h3>
+			
+				<a href="/admin/<%= currentUser.id %>/search" class="ui orange button">Search Products</a>
+				<a href="/admin/<%= currentUser.id %>/export" class="ui orange inverted button">Export Products</a>
+					
+			<% } else {%>
+					<h3>
+					Create A New Product
+				</h3>
+				<a href="/admin/<%= currentUser.id %>/products/new" class="ui orange button">
+					Create Product
+				</a>
+			<% } %>
+		
+			
+			</div>
+			<div class="ui raised segment" id="details" style="display: none;">
+				<% products.forEach(function(product,i){ %>
+				<div class="ui styled accordion" style="display: none;" id="productDetails<%= i %>">
+					<div class="active title">
+						<i class="dropdown icon"></i>
+						<strong>Product Details</strong>
+					</div>
+					<div id="" class="active content">
+						<%- product.body %>
+					</div>
+					<div class="title">
+						<i class="dropdown icon"></i>
+						Inventory
+					</div>
+					<div class="content">
+						<table class="ui celled table">
+							<thead>
+							  <tr><th>Current inventory</th>
+							  <th>Updated inventory</th>
+						
+							</tr></thead>
+							<tbody>
+							  <tr>
+								<td data-label="">
+								<%if(typeof product.inventory == "undefined"){ %>  Out of stock
+										<% }else{  %>
+											<%= product.inventory %>
+										<% }  %>
+								</td>
+								<form action="/admin/<%= currentUser.id%>/products/<%=product.id%>/inventory" method="post">
+								<td data-label="">
+									<div class="ui action fluid input">
+										<input class="" type="number" name="inventory" value="<%= product.inventory %>" placeholder="<%= product.inventory %>">
+										<button class="ui orange icon button ">
+											<i class="check icon"></i>
+										</button>
+									</div>
+								
+								</td>
+							
+							</form>
+
+							  </tr>
+						
+							</tbody>
+						  </table>
+				<p>
+			
+				</p>
+					</div>
+					<div class="title">
+						<i class="dropdown icon"></i>
+						Tags
+					</div>
+					<div class="content">
+					
+				
+				
+								<form action="/admin/<%= currentUser.id%>/products/<%=product.id%>/tags" method="post">
+									<div class="ui labeled action input">
+
+										<input id="tagInput" type="text" name="tags" placeholder="tags">
+			
+										<div id="tagButton" class="ui orange label" style="border-radius: 0;">Add</div>
+									</div>
+			
+									<div id="addedTags" class="ui horizontal list">
+			
+									</div>
+							
+							</form>
+							<div class="ui tag labels">
+								<% product.tags.forEach(function(tag){ %>
+									<a class="ui label">
+										<%= tag %>
+									  </a>
+									<% }) %>
+						
+				
+							  </div>
+
+					</div>
+					<div class="ui segments">
+						<div class="ui segment">
+						
+								<button class="ui orange button">
+								Edit
+							</button>
+						
+						
+						
+						 <button onclick="showDeleteModal(<%= i %>)" class="ui right floated red inverted button">
+								Delete
+							</button>
+						
+						
+						</div>
+						<div class="ui secondary segment">
+							<p><%= product.title %>></p>
+						</div>
+					</div>
+				</div>
+			
+	<div class="ui basic modal" id="deleteModal<%= i%>">
+  <div class="ui icon header">
+    <i class="trash alternate icon"></i>
+    Delete This Product?
+  </div>
+  <div class="content">
+    <p>This will remove the product from your product list!</p>
+  </div>
+  <div class="actions">
+	   	<form action="/admin/<%=currentUser.id %>/products/<%=product._id %>?_method=DELETE" method="POST">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+	 
+    <button class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </button>
+	  	</form>
+  </div>
+</div>
+
+		
+				<% }) %>
+			</div>
+		</div>
+	</div>
+
+	<% }else{ %>
+	<div class="ui container">
+		<div class="ui placeholder segment">
+			<div class="ui icon header">
+				<i class="search icon"></i>
+				You have added no products, Yet..
+			</div>
+			<% if (userInfo.type == "merchant" ){ %>
+				<a href="/admin/<%= currentUser.id %>/search" class="ui orange button">Search Products</a>
+			<% } else {%>
+				<a href="/admin/<%= currentUser.id %>/products/new" class="ui orange button">Add a Product</a>
+			<% } %>
+		
+			
+		</div>
+	</div>
+		
+	<% } %>
+
+
+	<%- include('../partials/search-pagination') %>
+
+
+	
+</div>
+
+<script>
+	$('.ui.rating').rating();
+
+	function hideForm(i) {
+		$('#importForm' + i).hide();
+	}
+	var term = $('#searchbar').val();
+	console.log(term);
+	$('#search').click(function () {
+		term = $('#searchbar').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 10);
+	});
+	$('#filter').keyup(function () {
+		term = $('#search').val();
+		setTimeout(function () {
+			document.location.href = '/admin/<%=currentUser.id%>/search/' + term;
+		}, 4000);
+	});
+	$('.ui.dropdown').dropdown();
+</script>

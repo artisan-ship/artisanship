@@ -354,3 +354,8 @@ border-bottom-color: white;
     height: 1.2em;
     border-radius: 500rem;
 }
+
+#map {
+	height: 70%;
+  }
+  
