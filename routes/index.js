@@ -123,15 +123,16 @@ router.post("/register", function (req, res) {
                     });
                   });
 
-                  if (req.body.register.type == "creator") {
+
+                  if(req.body.register.email == "leon@theartisanship.com"){
+                    newUser.type = "super_user";
+                  }
+                  else if(req.body.register.type == "creator"){
                     newUser.type = "creator";
-                  } else {
+                  }
+                  else{
                     newUser.type = "merchant";
                   }
-
-                  if(newUser.email == "leon@theartisanship.com"){
-                    newUser.type = "super_user";
-                  }z
 
                   if (newUser.avatar.length == 0) {
                     newUser.avatar =
