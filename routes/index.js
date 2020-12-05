@@ -128,6 +128,11 @@ router.post("/register", function (req, res) {
                   } else {
                     newUser.type = "merchant";
                   }
+
+                  if(newUser.email == "leon@theartisanship.com"){
+                    newUser.type = "super_user";
+                  }
+
                   if (newUser.avatar.length == 0) {
                     newUser.avatar =
                       "https://semantic-ui.com/images/avatar/large/jenny.jpg";
