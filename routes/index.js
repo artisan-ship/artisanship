@@ -149,7 +149,7 @@ router.post("/register", function (req, res) {
                   newUser.user.id = req.user._id;
                   newUser.user.username = req.user.username;
 
-                  let ip = request.connection.remoteAddress
+                  let ip = req.connection.remoteAddress
 
                   axios
                     .get("http://api.ipstack.com/" + ip + "?access_key=d81d98522abe9aac83817566d9aeabff&format=1")
