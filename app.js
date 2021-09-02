@@ -59,8 +59,9 @@ app.use(cookieParser('secretString'));
 
 app.use(flash());
 
-
-mongoose.connect('mongodb://localhost/artisanship', {useNewUrlParser: true,  useUnifiedTopology : true});
+mongoose.connect(
+	`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_KEY}@${process.env.MONGO_URL}`, { useNewUrlParser: true, useUnifiedTopology: true }
+  );
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs")
 app.use(bodyParser.json())
