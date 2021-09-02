@@ -49,7 +49,6 @@ router.get('/register', function (req, res) {
 router.post('/register', function (req, res) {
 	User.register(new User({ username: req.body.username }), req.body.password, function (
 		err,
-		user
 	) {
 		if (err) {
 			console.log(err.message);
@@ -108,7 +107,6 @@ router.post('/register', function (req, res) {
 								newUser.notifications = [];
 								newUser.user.id = req.user._id;
 								newUser.user.username = req.user.username;
-
 								newUser.save();
 
 								if (req.body.register.plan != "starter") {
