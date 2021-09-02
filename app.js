@@ -255,6 +255,6 @@ app.use(function(req, res, next) {
 });
 
 
-app.listen(3000, function(){
+app.listen(process.env.PORT , function(){
 	console.log("The Artisanship server has started");
 });
