@@ -75,7 +75,7 @@ router.post('/register', function (req, res) {
 					}
 					else {
 
-						UserInfo.create(req.body.register, function (err, newUser) {
+						User.create(req.body.register, function (err, newUser) {
 							if (err) {
 								req.flash("error", JSON.stringify(err.message))
 			return res.redirect('back');

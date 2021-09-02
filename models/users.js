@@ -12,6 +12,62 @@ var userSchema = new mongoose.Schema({
     	   ref: 'Notification'
     	}
     ],
+	user_id: String,
+	customer_id: String,
+	company_title: String,
+	company_logo: String,
+	tags: String,
+	type: String,
+	avatar: String,
+	location: String,
+	email: String,
+	isVerified: { type: Boolean, default: false },
+	created: { type: Date, default: Date.now },
+	first_name: String,
+	middle_name: String,
+	last_name: String,
+	gender: String,
+	birthdate: String,
+	motto: String,
+	title: String,
+	role: String,
+	body: String,
+
+	companies: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'company',
+		},
+	},
+
+	user: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		},
+		username: String,
+	},
+	comments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment',
+		},
+	],
+
+	products: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Product',
+		},
+	],
+
+
+    followers: [
+    	{
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User'
+    	}
+    ]
 })
 
 
