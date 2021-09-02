@@ -88,15 +88,15 @@ router.post('/register', function (req, res) {
 									if (err) { req.flash("error", JSON.stringify(err.message))
 									return res.redirect('back');}
 
-									// Send the email
-									var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
+									// Send the email remove 9/2/2021 until email provider service is setup 
+							/* 		var transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS } });
 									var mailOptions = { from: 'leon@theartisanship.com', to: newUser.email, subject: 'Account verification email', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
 									transporter.sendMail(mailOptions, function (err) {
 										if (err) { return res.status(500).send({ msg: err.message }); }
 
 
-									});
-								});
+									});*/
+								}); 
 
 								if (req.body.register.type == "creator") {
 									newUser.type = "creator";
