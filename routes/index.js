@@ -155,8 +155,6 @@ router.post('/register', function (req, res) {
 });
 
 
-
-
 /**
 * POST /confirmation
 */
