@@ -9,15 +9,9 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var Notification = require("../models/notification");
 const { route } = require('./admin');
-var users = "";
 
-const tokenSchema = new mongoose.Schema({
-    _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
-    token: { type: String, required: true },
-    createdAt: { type: Date, required: true, default: Date.now, expires: 43200 }
-});
 
-var Token = mongoose.model("Token", tokenSchema);
+
 
 router.get('/users', function (req, res) {
     User.findById(req.params.id, function (err, foundUser) {
