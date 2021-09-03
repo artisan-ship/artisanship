@@ -10,7 +10,7 @@ var Collection = require('../models/collections');
 var CollectionList = require('../models/collectionslist');
 var collectionsId = '5e7dad0b38af5e0f7dfe1d82';
 var Notification = require("../models/notification");
-var UserInfo = require('../models/user_info');
+var User = require('../models/users');
 var Order = require('../models/orders');
 var Review = require("../models/reviews");
 var middleware = require('../middleware/index');
@@ -18,7 +18,7 @@ var middleware = require('../middleware/index');
 
 router.get('/superuser/:id', middleware.isLoggedIn, middleware.checkUserOwnership,middleware.checkIfSuperUser, function (req, res) {
 	var userId = req.params.id;
-	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+	User.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
