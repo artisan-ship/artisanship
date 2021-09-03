@@ -7,8 +7,9 @@ var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
 var crypto = require('crypto');
 const { route } = require('./admin');
-
-router.get('/users', function (req, res) {
+const { nextTick } = require('process');
+const middleware = require('../middleware/users');
+router.get('/users',middleware.checkSecret, function (req, res) {
  
     User.findById(req.query.id, function (err, foundUser) {
     
@@ -16,31 +17,16 @@ router.get('/users', function (req, res) {
             res.status(400);
             res.send(err);
         }
-        console.log(foundUser);
-        console.log(req.query);
-        console.log(foundUser.secret);
-        console.log(req.query.secret);
-        if(foundUser.secret == req.query.secret){
-            if (foundUser.type === 'super_user') {
-                User.find({}, function (err, foundUsers) {
-                    if (err) {
-                        console.log(err);
-                        res.send(err);
-                    }
-                    res.status(200);
-                    res.send(foundUsers);
-                })
+        User.find({}, function (err, foundUsers) {
+            if (err) {
+                console.log(err);
+                res.send(err);
             }
-            else {
-                res.status(400)
-                res.send("bad request")
-            }
-        }
+            res.status(200);
+            res.send(foundUsers);
+            
+        })
     
-        else {
-            res.status(400)
-            res.send("bad request")
-        }
     })
 });
 
