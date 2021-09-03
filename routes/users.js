@@ -11,24 +11,30 @@ const { route } = require('./admin');
 router.get('/users', function (req, res) {
  
     User.findById(req.query.id, function (err, foundUser) {
-        
+    
         if(err){
             res.status(400);
             res.send(err);
         }
         console.log(foundUser);
         console.log(req.query);
-        
-        if (foundUser.type === 'super_user') {
-            User.find({}, function (err, foundUsers) {
-                if (err) {
-                    console.log(err);
-                    res.send(err);
-                }
-                res.status(200);
-                res.send(foundUsers);
-            })
+        if(foundUser.secret == req.query.secret){
+            if (foundUser.type === 'super_user') {
+                User.find({}, function (err, foundUsers) {
+                    if (err) {
+                        console.log(err);
+                        res.send(err);
+                    }
+                    res.status(200);
+                    res.send(foundUsers);
+                })
+            }
+            else {
+                res.status(400)
+                res.send("bad request")
+            }
         }
+    
         else {
             res.status(400)
             res.send("bad request")
@@ -38,8 +44,8 @@ router.get('/users', function (req, res) {
 
 
 router.post('/users', function (req, res) {
-    User.findById(req.params.id, function (err, foundUser) {
-        if (foundUser.secret === req.params.secret && foundUser.type === 'super_user') {
+    User.findById(req.query.id, function (err, foundUser) {
+        if (foundUser.secret === req.query.secret && foundUser.type === 'super_user') {
             User.register(new User({ username: req.body.username }), req.body.password, function (
                 err, user
             ) {
