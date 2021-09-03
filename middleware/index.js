@@ -47,7 +47,6 @@ middlewareObj.checkProductOwnership = function (req, req, next) {
 }
 
 middlewareObj.checkProductOwnershipforReview = function (req, req, next) {
-
     Product.findById(req.params.id, function (err, foundProduct) {
         if (err) {
             res.redirect('back');
