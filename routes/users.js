@@ -6,12 +6,7 @@ var User = require('../models/users');
 var Product = require('../models/products');
 var UserInfo = require('../models/user_info');
 var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var Notification = require("../models/notification");
 const { route } = require('./admin');
-
-
-
 
 router.get('/users', function (req, res) {
     User.findById(req.params.id, function (err, foundUser) {
