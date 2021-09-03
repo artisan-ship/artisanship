@@ -15,6 +15,18 @@ router.get('/users', middleware.checkSecret, function (req, res) {
     });
 });
 
+router.get('/users/:id', middleware.checkSecret, function (req, res) {
+    User.findById(req.params.id, function (err, foundUser) {
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.send(err);
+        }
+        res.status(200);
+        res.send(foundUser);
+    });
+});
+
 router.post('/users', middleware.checkSecret, function (req, res) {
     User.register(new User({ username: req.body.username }), req.body.password, function (
         err, user
