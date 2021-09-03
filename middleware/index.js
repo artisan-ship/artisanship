@@ -80,7 +80,7 @@ middlewareObj.isLoggedIn = function (req, res, next) {
 middlewareObj.checkIfSuperUser = function (req, res, next) {
     if (req.isAuthenticated()) {
         if (req.user.type == "super_user") {
-            req.flash("sucess", 'Welcome ' + user.first_name)
+            req.flash("sucess", 'Welcome ' + req.user.first_name)
             next();
         } else {
             req.flash("error", "You don't have permission to do that");
