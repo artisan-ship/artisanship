@@ -21,6 +21,8 @@ router.get('/superuser/:id', middleware.isLoggedIn, middleware.checkUserOwnershi
 	User.findById(userId, function (err, foundUser) {
 		if (err) {
 			console.log('err');
+			req.flash(err);
+			res.redirect('back')
 		} else {
 			res.render('superuser/index', { userInfo: foundUser, success: msg });
 		}
