@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
-var passport = require('passport');
 var User = require('../models/users');
 const middleware = require('../middleware/users');
+
 router.get('/users', middleware.checkSecret, function (req, res) {
     User.find({}, function (err, foundUsers) {
         if (err) {
@@ -13,13 +12,10 @@ router.get('/users', middleware.checkSecret, function (req, res) {
         }
         res.status(200);
         res.send(foundUsers);
-
-    })
-
+    });a
 });
 
 router.post('/users', middleware.checkSecret, function (req, res) {
-
     User.register(new User({ username: req.body.username }), req.body.password, function (
         err, user
     ) {
@@ -34,10 +30,7 @@ router.post('/users', middleware.checkSecret, function (req, res) {
             user.save();
             res.status(200).send('created new user');
         }
-
     })
-
 });
-
 
 module.exports = router;
