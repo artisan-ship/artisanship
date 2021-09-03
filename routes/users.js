@@ -12,7 +12,7 @@ router.get('/users', middleware.checkSecret, function (req, res) {
         }
         res.status(200);
         res.send(foundUsers);
-    });a
+    });
 });
 
 router.post('/users', middleware.checkSecret, function (req, res) {
