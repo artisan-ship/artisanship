@@ -32,6 +32,7 @@ var userSchema = new mongoose.Schema({
 	title: String,
 	role: String,
 	body: String,
+	secret: String,
 
 	companies: {
 		id: {
