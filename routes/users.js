@@ -3,11 +3,6 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('../models/users');
-var Product = require('../models/products');
-var UserInfo = require('../models/user_info');
-var crypto = require('crypto');
-const { route } = require('./admin');
-const { nextTick } = require('process');
 const middleware = require('../middleware/users');
 router.get('/users', middleware.checkSecret, function (req, res) {
     if (err) {
@@ -24,8 +19,7 @@ router.get('/users', middleware.checkSecret, function (req, res) {
 
     })
 
-})
-
+});
 
 router.post('/users', function (req, res) {
     User.findById(req.query.id, function (err, foundUser) {
