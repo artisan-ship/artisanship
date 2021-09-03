@@ -9,23 +9,22 @@ var crypto = require('crypto');
 const { route } = require('./admin');
 const { nextTick } = require('process');
 const middleware = require('../middleware/users');
-router.get('/users',middleware.checkSecret, function (req, res) {
-        if(err){
-            res.status(500);
+router.get('/users', middleware.checkSecret, function (req, res) {
+    if (err) {
+        res.status(500);
+        res.send(err);
+    }
+    User.find({}, function (err, foundUsers) {
+        if (err) {
+            console.log(err);
             res.send(err);
         }
-        User.find({}, function (err, foundUsers) {
-            if (err) {
-                console.log(err);
-                res.send(err);
-            }
-            res.status(200);
-            res.send(foundUsers);
-            
-        })
-    
+        res.status(200);
+        res.send(foundUsers);
+
     })
-});
+
+})
 
 
 router.post('/users', function (req, res) {
@@ -41,7 +40,7 @@ router.post('/users', function (req, res) {
                     user.type = req.body.type;
                     user.isVerified = false;
                     user.first_name = req.body.first_name;
-                    user.last_name =  req.body.last_name;
+                    user.last_name = req.body.last_name;
                     user.save();
                 }
 
