@@ -10,11 +10,8 @@ const { route } = require('./admin');
 const { nextTick } = require('process');
 const middleware = require('../middleware/users');
 router.get('/users',middleware.checkSecret, function (req, res) {
- 
-    User.findById(req.query.id, function (err, foundUser) {
-    
         if(err){
-            res.status(400);
+            res.status(500);
             res.send(err);
         }
         User.find({}, function (err, foundUsers) {
