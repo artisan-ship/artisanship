@@ -9,7 +9,9 @@ var crypto = require('crypto');
 const { route } = require('./admin');
 
 router.get('/users', function (req, res) {
+    console.log(req.params)
     User.findById(req.params.id, function (err, foundUser) {
+        
         if(err){
             res.status(400);
             res.send(err);
