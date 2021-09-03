@@ -55,17 +55,17 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 		if (err) {
 			console.log('err');
 		} else {
-			if (!foundUser[0].isVerified) {
+			if (!foundUser.isVerified) {
 				msg = "please verify your account";
 			}
 			else {
 				msg = "Welcome back " + foundUser[0].first_name;
 			}
-			if(foundUser[0].type == "super_user"){
+			if(foundUser.type == "super_user"){
 				res.redirect("/superuser/" + userId);
 			}
 
-			res.render('admin/index', { userInfo: foundUser[0], success: msg });
+			res.render('admin/index', { userInfo: foundUser, success: msg });
 		}
 	});
 });
