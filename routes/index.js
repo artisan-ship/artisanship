@@ -38,6 +38,7 @@ router.post(
 	passport.authenticate('local', {
 		successRedirect: '/admin',
 		failureRedirect: '/login',
+		failureFlash: 'Invalid username or password.',
 	}),
 	function (req, res) { }
 );
