@@ -18,30 +18,25 @@ router.get('/users', middleware.checkSecret, function (req, res) {
 
 });
 
-router.post('/users', function (req, res) {
-    User.findById(req.query.id, function (err, foundUser) {
-        if (foundUser.secret === req.query.secret && foundUser.type === 'super_user') {
-            User.register(new User({ username: req.body.username }), req.body.password, function (
-                err, user
-            ) {
-                if (err) {
-                    console.log(err.message);
-                }
-                else {
-                    user.type = req.body.type;
-                    user.isVerified = false;
-                    user.first_name = req.body.first_name;
-                    user.last_name = req.body.last_name;
-                    user.save();
-                }
+router.post('/users', middleware.checkSecret, function (req, res) {
 
-            })
+    User.register(new User({ username: req.body.username }), req.body.password, function (
+        err, user
+    ) {
+        if (err) {
+            console.log(err.message);
         }
         else {
-            res.status(400)
-            res.send("bad request")
+            user.type = req.body.type;
+            user.isVerified = false;
+            user.first_name = req.body.first_name;
+            user.last_name = req.body.last_name;
+            user.save();
+            res.status(200).send('created new user');
         }
+
     })
+
 });
 
 
