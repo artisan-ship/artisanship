@@ -51,18 +51,16 @@ router.get('/admin', middleware.isLoggedIn, function (req, res) {
 
 router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.params.id;
-	User.find({ 'user.id': userId }, function (err, foundUser) {
+	User.findById(req.params.id, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
-
 			if (!foundUser[0].isVerified) {
 				msg = "please verify your account";
 			}
 			else {
 				msg = "Welcome back " + foundUser[0].first_name;
 			}
-
 			if(foundUser[0].type == "super_user"){
 				res.redirect("/superuser/" + userId);
 			}
