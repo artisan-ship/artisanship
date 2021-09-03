@@ -10,10 +10,15 @@ const { route } = require('./admin');
 
 router.get('/users', function (req, res) {
     User.findById(req.params.id, function (err, foundUser) {
+        if(err){
+            res.status(400);
+            res.send(err);
+        }
         if (foundUser.secret === req.params.secret && foundUser.type === 'super_user') {
             User.find({}, function (err, foundUsers) {
                 if (err) {
                     console.log(err);
+                    res.send(err);
                 }
                 res.status(200);
                 res.send(foundUsers);
