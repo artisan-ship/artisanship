@@ -15,6 +15,8 @@ var Merchant   = require("./models/merchants");
 var passportLocalMongoose = require('passport-local-mongoose');
 var mongoose =require('mongoose');
 var seed = require('./seeds');
+
+var userAPI = require('./routes/users');
 var indexRoutes = require('./routes/index');
 var adminRoutes = require('./routes/admin');
 var merchantRoutes = require('./routes/merchants');
@@ -114,7 +116,7 @@ app.use(async function(req, res, next){
 	next();
  });
 //seedDB()
-
+app.use(userAPI);
 app.use(indexRoutes);
 app.use(adminRoutes);
 app.use(productRoutes);
