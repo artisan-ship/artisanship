@@ -9,15 +9,15 @@ var crypto = require('crypto');
 const { route } = require('./admin');
 
 router.get('/users', function (req, res) {
-    console.log(req.params)
-    User.findById(req.params.id, function (err, foundUser) {
+ 
+    User.findById(req.query.id, function (err, foundUser) {
         
         if(err){
             res.status(400);
             res.send(err);
         }
         console.log(foundUser);
-        if (foundUser.secret === req.params.secret && foundUser.type === 'super_user') {
+        if (foundUser.secret === req.query.secret && foundUser.type === 'super_user') {
             User.find({}, function (err, foundUsers) {
                 if (err) {
                     console.log(err);
