@@ -45,16 +45,13 @@ router.get('/admin', middleware.isLoggedIn, function (req, res) {
 	if (!userId) {
 		res.redirect('/register');
 	} else {
-		
-
-
 		res.redirect('/admin/' + userId);
 	}
 });
 
 router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
 	var userId = req.params.id;
-	UserInfo.find({ 'user.id': userId }, function (err, foundUser) {
+	User.find({ 'user.id': userId }, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
