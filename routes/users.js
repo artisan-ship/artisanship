@@ -14,6 +14,7 @@ router.get('/users', function (req, res) {
             res.status(400);
             res.send(err);
         }
+        console.log(foundUser);
         if (foundUser.secret === req.params.secret && foundUser.type === 'super_user') {
             User.find({}, function (err, foundUsers) {
                 if (err) {
