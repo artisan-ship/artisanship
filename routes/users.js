@@ -5,13 +5,10 @@ var passport = require('passport');
 var User = require('../models/users');
 const middleware = require('../middleware/users');
 router.get('/users', middleware.checkSecret, function (req, res) {
-    if (err) {
-        res.status(500);
-        res.send(err);
-    }
     User.find({}, function (err, foundUsers) {
         if (err) {
             console.log(err);
+            res.status(500);
             res.send(err);
         }
         res.status(200);
