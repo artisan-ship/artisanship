@@ -38,9 +38,10 @@ router.post(
 	passport.authenticate('local', {
 		successRedirect: '/admin',
 		failureRedirect: '/login',
-		failureFlash: 'Invalid username or password.',
+		failureFlash: true,
 	}),
-	function (req, res) { }
+	function (req, res) {
+	 }
 );
 
 router.get('/register', function (req, res) {
