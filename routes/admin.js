@@ -59,7 +59,7 @@ router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, f
 				msg = "please verify your account";
 			}
 			else {
-				msg = "Welcome back " + foundUser[0].first_name;
+				msg = "Welcome back " + foundUser.first_name;
 			}
 			if(foundUser.type == "super_user"){
 				res.redirect("/superuser/" + userId);

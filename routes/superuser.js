@@ -18,11 +18,11 @@ var middleware = require('../middleware/index');
 
 router.get('/superuser/:id', middleware.isLoggedIn, middleware.checkUserOwnership,middleware.checkIfSuperUser, function (req, res) {
 	var userId = req.params.id;
-	User.find({ 'user.id': userId }, function (err, foundUser) {
+	User.findById(userId, function (err, foundUser) {
 		if (err) {
 			console.log('err');
 		} else {
-			res.render('superuser/index', { userInfo: foundUser[0], success: msg });
+			res.render('superuser/index', { userInfo: foundUser, success: msg });
 		}
 	});
 });
