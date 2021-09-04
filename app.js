@@ -88,7 +88,9 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 // Error Handling Helper Function
 
-
+app.get('/express_backend', (req, res) => { //Line 9
+  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT',user: req.user }); //Line 10
+}); //Line 11
 app.use(async function(req, res, next){
 	res.locals.currentUser = req.user;
 	if(req.user) {
@@ -249,7 +251,9 @@ var emails = "";
 	});
   });
 
-
+  app.get('/express_backend', (req, res) => { //Line 9
+	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
+  }); //Line 11
 
 app.use(function(req, res, next) {
     res.status(404);
