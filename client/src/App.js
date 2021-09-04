@@ -10,6 +10,7 @@ import {
   Link
 } from "react-router-dom";
 import LoginForm from "./Components/Login/LoginForm";
+import Admin from './Components/Admin';
 
 class App extends Component {
   state = {
@@ -46,6 +47,9 @@ class App extends Component {
             <Route path="/login">
               <LoginForm />
             </Route>
+            <Route path="/admin">
+              <Admin />
+            </Route>
             <Route path="/">
               <Container>
                 <p>
@@ -72,6 +76,7 @@ class App extends Component {
                 </div>
               </Container>
             </Route>
+
           </Switch>
         </Router>
       </div>

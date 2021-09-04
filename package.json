@@ -35,6 +35,7 @@
     "request": "^2.88.2",
     "stripe": "^8.92.0",
     "timeago.js": "^4.0.2",
+    "validator": "^13.6.0",
     "winston": "^3.3.3"
   }
 }

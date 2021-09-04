@@ -19,6 +19,7 @@ var userSchema = new mongoose.Schema({
 	tags: String,
 	type: String,
 	avatar: String,
+	token: String,
 	location: String,
 	email: String,
 	isVerified: { type: Boolean, default: false },

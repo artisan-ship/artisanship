@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import requests from '../../scripts/requests';
+import Auth from '../../modules/auth';
 class LoginForm extends React.Component {
 
   constructor(props) {
@@ -26,6 +27,11 @@ class LoginForm extends React.Component {
     requests.post('/login', {
       username: this.state.valueUsername,
       password: this.state.valuePwd
+    }).then(({success,token}) => {
+      if(success) {
+        Auth.authenticateUser(token);
+        window.location.href = "/admin";
+      }
     })
     event.preventDefault();
   }

@@ -24,6 +24,7 @@ var collectionRoutes = require('./routes/collections');
 var productRoutes = require('./routes/products');
 var superUserRoutes = require('./routes/superuser');
 var nodemailer = require('nodemailer');
+const authAPI = require("./routes/auth");
 var reviewRoutes = require('./routes/reviews')
 var UserInfo = require('./models/user_info');
 const { json } = require('body-parser');
@@ -119,7 +120,7 @@ app.use(async function(req, res, next){
  });
 //seedDB()
 app.use(userAPI);
-app.use(indexRoutes);
+app.use(authAPI);
 app.use(adminRoutes);
 app.use(productRoutes);
 app.use(reviewRoutes);
