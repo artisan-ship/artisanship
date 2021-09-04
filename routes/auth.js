@@ -133,7 +133,7 @@ router.post('/login', (req, res, next) => {
         success: true,
         message: 'You have successfully logged in!',
         user: user,
-        token: user.token
+        token: foundUser.token
 
       });
 

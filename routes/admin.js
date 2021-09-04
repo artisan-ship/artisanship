@@ -49,25 +49,21 @@ router.get('/admin', middleware.isLoggedIn, function (req, res) {
 	}
 });
 
-router.get('/admin/:id', middleware.isLoggedIn, middleware.checkUserOwnership, function (req, res) {
-	var userId = req.params.id;
+router.get('/admin/:id', function (req, res) {
 	User.findById(req.params.id, function (err, foundUser) {
-		if (err) {
-			console.log('err');
-		} else {
-			if (!foundUser.isVerified) {
-				msg = "please verify your account";
-			}
-			else {
-				msg = "Welcome back " + foundUser.first_name;
-			}
-			if(foundUser.type == "super_user"){
-				res.redirect("/superuser/" + userId);
-			}
-
-			res.render('admin/index', { userInfo: foundUser, success: msg });
+		if(err){
+			res.status(400).json({err: err.message})
 		}
-	});
+		if (req.query.token === foundUser.token) {
+			res.status(200).json({
+				user: foundUser
+			})
+		} else{
+			console.log(foundUser.token);
+			console.log(req.query.token);
+			res.status(403).json({err: 'invalid token'})
+		}
+	})
 });
 
 

@@ -27,10 +27,10 @@ class LoginForm extends React.Component {
     requests.post('/login', {
       username: this.state.valueUsername,
       password: this.state.valuePwd
-    }).then(({success,token}) => {
+    }).then(({success,token,user}) => {
       if(success) {
         Auth.authenticateUser(token);
-        window.location.href = "/admin";
+        window.location.href = "/admin/" + user._id;
       }
     })
     event.preventDefault();

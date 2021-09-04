@@ -42,12 +42,12 @@ class App extends Component {
 
       <div>
         <Router>
-          <Nav />
+    
           <Switch>
             <Route path="/login">
               <LoginForm />
             </Route>
-            <Route path="/admin">
+            <Route path="/admin/:id">
               <Admin />
             </Route>
             <Route path="/">

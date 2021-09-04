@@ -1,32 +1,52 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import LoginForm from "../Login/LoginForm";
+import React, { Component } from 'react'
+import { Menu, Segment } from 'semantic-ui-react'
+class Nav extends Component {
+    constructor(props){
+        super(props);
+    }
+  state = { activeItem: 'home' }
 
-function Nav() {
-  return (
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
+  render() {
+    const { activeItem } = this.state
+
+    return (
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </ul>
-        </nav>
+        <Menu pointing secondary>
+          <Menu.Item
+            name='home'
+            active={activeItem === 'home'}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name='messages'
+            active={activeItem === 'messages'}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name='friends'
+            active={activeItem === 'friends'}
+            onClick={this.handleItemClick}
+          />
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+          
+          <Menu.Menu position='right'>
+            <Menu.Item
+              name={this.props.username}
+              active={activeItem === this.props.username}
+              onClick={this.handleItemClick}
+            />
+                      <Menu.Item
+              name='logout'
+              active={activeItem === 'logout'}
+              onClick={this.handleItemClick}
+            />
+          </Menu.Menu>
+        </Menu>
       </div>
-
-  );
+    )
+  }
 }
 
 export default Nav;
